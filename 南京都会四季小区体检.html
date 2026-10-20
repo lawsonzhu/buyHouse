@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南京都会四季 · 单小区体检</title>
+<style>
+  :root{
+    --ink:#1c1c1a; --ink-2:#4a4a46; --muted:#7a7a74; --line:#e4e2dc;
+    --bg:#faf9f6; --card:#ffffff;
+    --blue:#185FA5; --blue-bg:#E6F1FB;
+    --green:#3B6D11; --green-bg:#EAF3DE;
+    --red:#A32D2D; --red-bg:#FCEBEB;
+    --amber:#854F0B; --amber-bg:#FAEEDA;
+    --gray-bg:#f4f2ec;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.72;font-size:15px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:56px 28px 80px;}
+
+  header{border-bottom:2px solid var(--ink);padding-bottom:28px;margin-bottom:36px;}
+  .kicker{font-size:12px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-bottom:14px;}
+  h1{font-size:30px;font-weight:600;letter-spacing:-.01em;line-height:1.35;margin-bottom:14px;}
+  .sub{font-size:15px;color:var(--ink-2);max-width:780px;}
+  .meta{margin-top:20px;font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:18px;}
+
+  .verdict{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:2px;padding:24px 26px;margin-bottom:26px;}
+  .verdict h2{font-size:13px;letter-spacing:.1em;color:var(--blue);margin-bottom:12px;font-weight:600;}
+  .verdict p{font-size:15.5px;margin-bottom:10px;}
+  .verdict p:last-child{margin-bottom:0;}
+  .verdict strong{background:linear-gradient(transparent 62%,#d8e6f4 62%);font-weight:600;}
+
+  .fix{background:#fffdf6;border:1px solid #e8dfc4;border-left:3px solid var(--amber);border-radius:2px;padding:22px 24px;margin-bottom:44px;}
+  .fix h2{font-size:13px;letter-spacing:.1em;color:var(--amber);margin-bottom:12px;font-weight:600;}
+  .fix p{font-size:14.5px;color:var(--ink-2);margin-bottom:10px;}
+  .fix p:last-child{margin-bottom:0;}
+  .fix b{color:var(--ink);font-weight:600;}
+
+  section{margin-bottom:50px;}
+  h2.sec{font-size:20px;font-weight:600;margin-bottom:8px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:12px;}
+  h2.sec span.num{font-size:12px;color:var(--muted);font-weight:400;letter-spacing:.1em;}
+  .lead{font-size:14.5px;color:var(--ink-2);margin:14px 0 20px;}
+  h3.sub-h{font-size:15px;font-weight:600;margin:26px 0 6px;}
+
+  .tbl-wrap{overflow-x:auto;margin:18px 0 10px;border:1px solid var(--line);border-radius:3px;background:var(--card);}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:760px;}
+  th{text-align:left;padding:11px 13px;background:var(--gray-bg);font-weight:600;font-size:12px;color:var(--ink-2);border-bottom:1px solid var(--line);white-space:nowrap;}
+  td{padding:11px 13px;border-bottom:1px solid #f0eee8;vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  td.n{font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .big{font-weight:600;}
+  .ok{color:var(--green);font-weight:600;}
+  .warn{color:var(--amber);font-weight:600;}
+  .bad{color:var(--red);font-weight:600;}
+  .flat{color:var(--muted);font-weight:400;font-size:12px;}
+
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:2px;font-weight:500;white-space:nowrap;}
+  .b-green{background:var(--green-bg);color:var(--green);}
+  .b-amber{background:var(--amber-bg);color:var(--amber);}
+  .b-red{background:var(--red-bg);color:var(--red);}
+  .b-gray{background:var(--gray-bg);color:var(--muted);}
+  .b-blue{background:var(--blue-bg);color:var(--blue);}
+
+  .note{font-size:12.5px;color:var(--muted);line-height:1.7;padding:14px 16px;background:var(--gray-bg);border-radius:3px;margin:14px 0;}
+  .note b{color:var(--ink-2);font-weight:600;}
+
+  .callout{border-left:3px solid var(--red);background:var(--red-bg);padding:16px 20px;border-radius:2px;font-size:13.5px;color:#5c2222;line-height:1.72;margin:18px 0;}
+  .callout b{font-weight:600;}
+  .callout.amber{border-left-color:var(--amber);background:var(--amber-bg);color:#5a3a10;}
+  .callout.blue{border-left-color:var(--blue);background:var(--blue-bg);color:#123a63;}
+  .callout.green{border-left-color:var(--green);background:var(--green-bg);color:#2a4d0d;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:3px;margin-bottom:20px;overflow:hidden;}
+  .card-head{padding:16px 22px 13px;border-bottom:1px solid var(--line);}
+  .card-head .row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .card-head h3{font-size:16.5px;font-weight:600;}
+  .rank{font-size:11.5px;color:#fff;background:var(--ink);padding:3px 10px;border-radius:2px;letter-spacing:.06em;white-space:nowrap;}
+  .rank.alt{background:#8a8880;}
+  .card-body{padding:16px 22px 18px;}
+  .card-body p{font-size:14px;color:var(--ink-2);margin-bottom:9px;}
+  .card-body p:last-child{margin-bottom:0;}
+  .card-body b{color:var(--ink);font-weight:600;}
+
+  .kv{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-bottom:1px solid var(--line);}
+  .kv .c{background:var(--card);padding:11px 15px;}
+  .kv .k{font-size:11.5px;color:var(--muted);margin-bottom:2px;}
+  .kv .v{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;}
+  .kv .v small{font-size:11.5px;font-weight:400;color:var(--muted);}
+
+  .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);}
+  .pros-cons > div{background:var(--card);padding:16px 22px;}
+  .pros-cons h4{font-size:12px;letter-spacing:.08em;margin-bottom:10px;font-weight:600;}
+  .pros-cons .p h4{color:var(--green);}
+  .pros-cons .c h4{color:var(--red);}
+  .pros-cons ul{list-style:none;}
+  .pros-cons li{font-size:13.5px;color:var(--ink-2);padding-left:14px;position:relative;margin-bottom:7px;line-height:1.65;}
+  .pros-cons li::before{content:"·";position:absolute;left:3px;top:0;font-weight:700;}
+  .pros-cons .p li::before{color:var(--green);}
+  .pros-cons .c li::before{color:var(--red);}
+
+  ol.steps{list-style:none;counter-reset:s;}
+  ol.steps li{counter-increment:s;position:relative;padding-left:40px;margin-bottom:14px;font-size:14px;color:var(--ink-2);}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:24px;height:24px;background:var(--blue-bg);color:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;}
+  ol.steps li b{color:var(--ink);font-weight:600;}
+
+  .tree{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:8px 0;margin:18px 0;}
+  .tree .node{display:grid;grid-template-columns:190px 1fr;gap:14px;padding:14px 22px;border-bottom:1px solid #f0eee8;align-items:start;}
+  .tree .node:last-child{border-bottom:none;}
+  .tree .cond{font-size:13px;color:var(--muted);}
+  .tree .res{font-size:14px;}
+  .tree .res b{font-weight:600;}
+
+  footer{border-top:1px solid var(--line);padding-top:22px;margin-top:50px;font-size:12px;color:var(--muted);line-height:1.8;}
+
+  @media (max-width:720px){
+    .wrap{padding:36px 18px 60px;}
+    h1{font-size:24px;}
+    .kv{grid-template-columns:repeat(2,1fr);}
+    .card-body,.card-head{padding-left:18px;padding-right:18px;}
+    .pros-cons{grid-template-columns:1fr;}
+    .tree .node{grid-template-columns:1fr;gap:4px;}
+    .pros-cons > div{padding:16px 18px;}
+  }
+  @media print{body{background:#fff;font-size:12px;}.wrap{max-width:100%;padding:0;}.card,section{page-break-inside:avoid;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">南京 · 单小区体检 · 200 万 / 80㎡+</div>
+  <h1>都会四季：房子是五个里最新的，位置是五个里最普通的</h1>
+  <p class="sub">江宁科学园，备案名云逸都荟花园，2022 年交付，东区（万科仁恒）与西区（金地华发）两个独立产品。这份体检按同一套口径，横向对照明都雅苑、保利堂悦、万科金域蓝湾、水月秦淮。</p>
+  <div class="meta">
+    <span>预算上限 200 万</span>
+    <span>面积 ≥ 80㎡</span>
+    <span>取数：2026-10-20</span>
+    <span>价格口径：贝壳小区页 / 链家 / 挂牌样本</span>
+  </div>
+</header>
+
+<div class="verdict">
+  <h2>结论先说</h2>
+  <p><strong>200 万在都会四季只能买西区 94㎡ 三房一卫（180–205 万），而且是低楼层或简装那一档。</strong>东区同面积要 228–248 万，溢出预算 30–50 万。</p>
+  <p><strong>它的真实定位是「产品最强、位置最弱」。</strong>房龄 4 年、精装带新风地暖中央空调、人车分流、万科物业 9.4 分——这四项它赢过全部四个对照小区。但地铁 999 米起步、学区江宁中游、价格从 3.0 万销许价破到 2.4 万、76 套在售对 107 套历史成交，卖压明显。</p>
+  <p>所以它不是一个「更值得买」的答案，而是一个<strong>「如果你认房子本身、且十年内不打算换手」的答案</strong>。同样 200 万，明都雅苑给你的是套内 75㎡、地铁 294 米、三甲 350 米；都会四季给你的是新 9 年、精装三大件、套内约 73㎡。</p>
+</div>
+
+<div class="fix">
+  <h2>这个小区有五个坑，先立口径</h2>
+  <p><b>1. 「都会四季」不是一个小区，是两个。</b>东区万科仁恒（15 栋 1,465 户，物业费 2.7–3.6 元）、西区金地华发（19 栋 1,880 户，1.9–5.7 元）。同面积价差 30 万以上，看房第一句要问「东区还是西区」。</p>
+  <p><b>2. 中介标的「彤天路 733 米 地铁 13 号线」是规划线。</b>13 号线 2023 年未列入第三期建设规划，2026 年 2 月地铁集团明确回复「正开展前期方案研究」，终点站即彤天路。这条线现在不能计入通勤。</p>
+  <p><b>3. 「上月成交 76 套」是数据错误，76 是<u>在售套数</u>。</b>贝壳小区页写得很清楚：76 套在售、107 套历史成交（含 2022 年交付至今全部）。别把卖压当成流动性。</p>
+  <p><b>4. 链家把「南京市江宁高级中学」列为中小学配套。</b>那是高中，要中考，不是学区。另一版页面写「力学小学分校、月华路小学」，与教育局公告的科学园小学又不一致。学区只认教育局公告。</p>
+  <p><b>5. 销许价 3.0–3.16 万是历史，现价 2.4–2.6 万是破发。</b>用「当年卖 3 万多」来论证便宜，是这类次新盘最常见的话术。</p>
+</div>
+
+<section>
+  <h2 class="sec">一个小区，两个产品 <span class="num">01</span></h2>
+  <p class="lead">东区和西区不是同一批人盖的，产品定位、物业费、价格都不一样。这是整个分析的前提。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>项目</th><th>东区（云逸都荟花园东园）</th><th>西区（云逸都荟花园西园）</th></tr>
+    <tr><td>开发商</td><td class="big">万科 + 仁恒</td><td>金地 + 华发</td></tr>
+    <tr><td>地址</td><td class="n">科建路 518 号</td><td class="n">科建路 456 号</td></tr>
+    <tr><td>楼栋 / 户数</td><td class="n">15 栋 / 1,465 户</td><td class="n">19 栋 / 1,880 户</td></tr>
+    <tr><td>物业费</td><td class="n">2.7–3.6 元</td><td class="n">1.9–5.7 元</td></tr>
+    <tr><td>参考均价</td><td class="n big">27,064</td><td class="n big">26,058</td></tr>
+    <tr><td>在售 / 历史成交</td><td class="n">44 套 / 未披露</td><td class="n">76 套 / <b>107 套</b></td></tr>
+    <tr><td>车位</td><td class="flat">未披露</td><td class="n">2,241 个（1:1.19）</td></tr>
+    <tr><td>T10 判断</td><td><span class="badge b-blue">产品更好，价格更高</span></td><td><span class="badge b-amber">200 万只能看这边</span></td></tr>
+  </table>
+  </div>
+  <p class="note">两区合计 <b>3,345 户</b>，是四个对照小区里体量第二大的（仅小于万科金域蓝湾）。物业都是万科物业，但费率不同——东区 2.7 元起，西区最低 1.9 元，同小区不同楼栋的服务强度可能不一样，这一点要向物业确认。</p>
+</section>
+
+<section>
+  <h2 class="sec">200 万能买什么 <span class="num">02</span></h2>
+  <p class="lead">筛完「80㎡ 以上 + 总价 ≤ 200 万」，全小区只有 3 套，全部集中在 94㎡ 这一档。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>区</th><th>建面</th><th>户型</th><th>总价</th><th>单价</th><th>楼层</th><th>判断</th></tr>
+    <tr><td>西区</td><td class="n big">94.56㎡</td><td>3室1厅1卫</td><td class="n big">180 万</td><td class="n">19,036</td><td>中/21，简装</td><td><span class="badge b-amber">单价异常，需先排雷</span></td></tr>
+    <tr><td>西区</td><td class="n big">94.31㎡</td><td>3室2厅1卫</td><td class="n big">185 万</td><td class="n">19,617</td><td>—</td><td><span class="badge b-amber">单价异常，需先排雷</span></td></tr>
+    <tr><td>东区</td><td class="n big">94.51㎡</td><td>3室2厅1卫</td><td class="n big">169 万</td><td class="n">17,882</td><td>高/21，前排</td><td><span class="badge b-red">低于均价 34%，高度疑似引流</span></td></tr>
+    <tr><td>西区</td><td class="n">94.31㎡</td><td>3室1厅1卫</td><td class="n">205 万</td><td class="n">21,737</td><td>高/26，精装</td><td><span class="badge b-blue">超 5 万，可谈</span></td></tr>
+    <tr><td>西区</td><td class="n">94.31㎡</td><td>3室2厅1卫</td><td class="n">216 万</td><td class="n">22,904</td><td>—</td><td><span class="badge b-gray">超 16 万</span></td></tr>
+    <tr><td>东区</td><td class="n">94.51㎡</td><td>3室2厅1卫</td><td class="n">228 万</td><td class="n">24,125</td><td>中/21，二次装修</td><td><span class="badge b-gray">超 28 万</span></td></tr>
+    <tr><td>东区</td><td class="n">94.70㎡</td><td>3室1厅</td><td class="n">238 万</td><td class="n">25,132</td><td>带车位</td><td><span class="badge b-gray">超 38 万</span></td></tr>
+    <tr><td>东区</td><td class="n">115.31㎡</td><td>3室</td><td class="n">260 万</td><td class="n">22,548</td><td>—</td><td><span class="badge b-gray">超 60 万</span></td></tr>
+    <tr><td>西区</td><td class="n">113.53㎡</td><td>3室1厅2卫</td><td class="n">280 万</td><td class="n">24,664</td><td>高/24，两梯两户</td><td><span class="badge b-gray">超 80 万</span></td></tr>
+  </table>
+  </div>
+  <div class="callout">
+    <b>三套「200 万内」的房子，全部低于同面积段挂牌中位（约 23,900）15%–34%。</b>这个偏离幅度不可能用「业主急售」单独解释。看房前必须做三件事：要求出示房本与不动产登记簿、确认挂牌真实存在（不是已成交未下架的引流房源）、到现场核楼层采光与临路噪音。价格好到不合理的房子，通常有一个没写出来的原因。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">成交价与卖压 <span class="num">03</span></h2>
+  <p class="lead">这个小区没有足够多的成交样本支撑一个精确的成交中位数。所以这里给的是「挂牌分布 + 卖压结构」，并且标清楚置信度。</p>
+
+  <h3 class="sub-h">价格结构</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>指标</th><th>数值</th><th>含义</th><th>置信度</th></tr>
+    <tr><td>新房销许价</td><td class="n">30,000–31,600</td><td>2019–2021 年销售期</td><td><span class="badge b-green">高</span></td></tr>
+    <tr><td>当前参考均价（西区）</td><td class="n">26,058</td><td>贝壳 9 月口径，含挂牌</td><td><span class="badge b-amber">中</span></td></tr>
+    <tr><td>本周挂牌均价（西区）</td><td class="n">25,862</td><td>周报口径</td><td><span class="badge b-amber">中</span></td></tr>
+    <tr><td>94㎡ 段挂牌区间</td><td class="n">17,882–26,241</td><td>同面积离散 46%</td><td><span class="badge b-amber">中</span></td></tr>
+    <tr><td>94㎡ 段挂牌中位</td><td class="n">约 23,900</td><td>12 套样本</td><td><span class="badge b-amber">中</span></td></tr>
+    <tr><td>较销许价</td><td class="n bad">−15% ~ −20%</td><td>已破发，不是「还在高位」</td><td><span class="badge b-green">高</span></td></tr>
+  </table>
+  </div>
+
+  <h3 class="sub-h">卖压：这个小区最重要的一个数字</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>指标</th><th>数值</th><th>解读</th></tr>
+    <tr><td>西区在售</td><td class="n big">76 套</td><td>挂牌率 76 ÷ 1,880 = <b>4.0%</b></td></tr>
+    <tr><td>西区历史成交（累计）</td><td class="n big">107 套</td><td>2022 年交付至今，年均约 27 套</td></tr>
+    <tr><td>按历史速度消化在售</td><td class="n bad">约 34 个月</td><td>典型买方市场，压价空间在你这一侧</td></tr>
+    <tr><td>东区在售</td><td class="n">44 套</td><td>挂牌率 3.0%，比西区略好</td></tr>
+  </table>
+  </div>
+  <p class="note">这组数字有两个方向的含义。<b>对买家是好消息</b>：76 套竞品摆在那里，业主之间会互相压价，你没有必要按挂牌价签。<b>对卖家是坏消息</b>：你买入后要卖的时候，同样面对这 76 个对手，而历史年均成交只有 27 套。所以「次新」在这里不是流动性，是库存。</p>
+
+  <div class="callout amber">
+    <b>为什么成交这么慢？大概率是税费。</b>房子 2022 年交付、产证多在 2022–2023 年，意味着大量房源「未满两年」——增值税 5.3% 加个税，200 万的房子多出 10 万以上。看房时「满两年 / 未满两年」这一项，比房价谈判更值钱。东区 113.47㎡ 那套就是未满两年，且上次交易记录为 2026 年 9 月 8 日，属于短期内二次转手，务必问清原因。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">户型与得房率 <span class="num">04</span></h2>
+  <p class="lead">得房率官方未披露，贝壳对 113.53㎡ 那套标注「套内面积：暂无」。所以下面按同年代塔楼区间估算，并明确标为估算值。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>建面</th><th>户型</th><th>梯户比</th><th>得房率</th><th>套内（估）</th><th>对照</th></tr>
+    <tr><td class="n big">94.31㎡</td><td>3室2厅1卫</td><td>两梯四户</td><td class="n">76–79%（估）</td><td class="n">约 72–74㎡</td><td>万科 87.97㎡ 套内 68.53㎡</td></tr>
+    <tr><td class="n">94.56㎡</td><td>3室1厅1卫</td><td>两梯四户</td><td class="n">76–79%（估）</td><td class="n">约 72–74㎡</td><td>比万科多约 4㎡</td></tr>
+    <tr><td class="n">113.53㎡</td><td>3室1厅2卫</td><td class="big">两梯两户</td><td class="n">78–81%（估）</td><td class="n">约 89–92㎡</td><td>水月 115.68㎡ 套内约 91㎡</td></tr>
+  </table>
+  </div>
+  <p class="note"><b>真实可用面积对比：</b>都会四季 94.56㎡ 套内约 73㎡，万科金域蓝湾 87.97㎡ 套内 68.53㎡（实测），明都雅苑 87.5㎡ 套内约 75㎡（实测 88.5% 得房率推算）。<b>也就是说，200 万在都会四季买到的套内，和明都雅苑差不多，比万科多 4㎡，但比保利堂悦 89.8㎡ 的 65.9㎡ 多 7㎡。</b>多层板楼的效率优势，仍然不是 2022 年的高层塔楼能追上的。</p>
+  <div class="callout green">
+    <b>它真正的产品优势不在面积，在交付标准。</b>多套房源描述一致写「精装修交付，新风地暖空调有配有，用的都是大品牌，厨房卫浴也是一线品牌」。南京带地暖的住宅不多，这一项对冬季体感的影响，是面积数字体现不出来的。<b>代价是供暖费另计</b>——贝壳标注「供暖费用 3.5 元/㎡」，签约前必须向物业问清是按月还是按采暖季、是否可单独报停。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">地铁：两条真线，一条不能算 <span class="num">05</span></h2>
+  <p class="lead">这是这个小区最容易被话术修饰的地方。把规划线和运营线分开列，差距就出来了。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>站点</th><th>线路</th><th>状态</th><th>西区距离</th><th>东区距离</th><th>能否计入通勤</th></tr>
+    <tr><td>天印大道</td><td>1 号线</td><td><span class="badge b-green">已运营</span></td><td class="n big">999m</td><td class="n">1,039m</td><td class="ok">可以，步行 13–15 分钟</td></tr>
+    <tr><td>科宁路</td><td>5 号线</td><td><span class="badge b-green">已运营（2024-03-31 随南段开通）</span></td><td class="n">1,366m</td><td class="n">1,877m</td><td class="warn">勉强，需骑行或公交接驳</td></tr>
+    <tr><td>竹山路</td><td>1 号线</td><td><span class="badge b-green">已运营</span></td><td class="n">1,717m</td><td class="n">—</td><td class="bad">不算</td></tr>
+    <tr><td>彤天路</td><td><b>13 号线</b></td><td><span class="badge b-red">规划线，未开工</span></td><td class="n">733m</td><td class="n">859m</td><td class="bad">不能计入</td></tr>
+  </table>
+  </div>
+  <p class="note">5 号线已于 2025 年 8 月 6 日全线贯通（南段 2024 年 3 月 31 日开通，科宁路站随之启用），到主城确实多了一条路径。<b>但 13 号线是硬伤级的话术</b>：它 2023 年未被列入南京第三期轨道交通建设规划，2026 年 2 月地铁集团在领导留言板回复「13 号线、17 号线为规划线路，正开展前期方案研究」。作为对比，5 号线从开工到全线通车用了近 10 年。</p>
+  <div class="callout amber">
+    <b>把 13 号线算进去，都会四季就是「四线环绕、733 米到地铁」；不算，它就是「1 公里到 1 号线、1.4 公里到 5 号线」。</b>这两个描述的居住体验差的不是一点。你如果每天通勤，请按后者做决策。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">医疗 <span class="num">06</span></h2>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>医院</th><th>等级</th><th>距离</th><th>说明</th></tr>
+    <tr><td class="big">南京市江宁医院（湖山路 / 鼓山路院区）</td><td>三甲</td><td class="n warn">约 2.5–3.5km</td><td>2,600 张床位，南医大附属，驾车约 10 分钟</td></tr>
+    <tr><td>南京紫金医院</td><td>二级</td><td class="n">约 1.5–2km</td><td>日常门诊可用</td></tr>
+    <tr><td>鼓楼医院集团享悦医院</td><td>二级</td><td class="n">约 2km</td><td>—</td></tr>
+    <tr><td>方山社区卫生服务中心</td><td>社区</td><td class="n">约 1km</td><td>疫苗、常见病</td></tr>
+  </table>
+  </div>
+  <p class="note">这一项是都会四季的<b>明确短板</b>：最近三甲需驾车 10 分钟。作为对照，明都雅苑到南京市中医院 350 米、步行 5 分钟。如果家里有老人或孕产需求，这一项的权重应该被放大。</p>
+</section>
+
+<section>
+  <h2 class="sec">商圈与日常 <span class="num">07</span></h2>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>层级</th><th>项目</th><th>距离</th><th>评价</th></tr>
+    <tr><td rowspan="3">日常</td><td>小区底商、谊品生鲜</td><td class="n">楼下</td><td class="ok">基本生活可解决</td></tr>
+    <tr><td>苏果（天印大道）</td><td class="n">约 1km</td><td>—</td></tr>
+    <tr><td>天印山农贸市场</td><td class="n">约 2.2km</td><td>菜价好，但需开车</td></tr>
+    <tr><td rowspan="3">区域级</td><td>义乌小商品城</td><td class="n">约 1.7km</td><td class="warn">批发业态为主，不是品质商业</td></tr>
+    <tr><td>宜悦里 G66、天印大道站商贸中心</td><td class="n">约 1–1.5km</td><td>—</td></tr>
+    <tr><td>文鼎广场 / 大学城商业</td><td class="n">约 2.1km</td><td>平价餐饮为主</td></tr>
+    <tr><td rowspan="3">高能级</td><td>龙湖南京龙湾天街</td><td class="n">约 2.2km</td><td class="ok">业态最全，亲子友好</td></tr>
+    <tr><td>江宁万达广场</td><td class="n">约 2.6km</td><td class="ok">成熟综合体</td></tr>
+    <tr><td>百家湖商圈（景枫 / 金鹰）</td><td class="n">约 5km</td><td>需开车</td></tr>
+  </table>
+  </div>
+  <p class="note">日常够用，但没有「下楼就能逛」的品质商业——这一点不如万科金域蓝湾（自带近 2 万㎡ 商业街，太阳城 1km 含盒马）。<b>好处是这些商业全是存量，不用等兑现；坏处是它也不会再变好。</b></p>
+</section>
+
+<section>
+  <h2 class="sec">学区：边界正好压在小区门口 <span class="num">08</span></h2>
+  <p class="lead">这是本次体检里最需要你亲自去核的一项，因为它不是一个「是或不是」的问题，而是一个「你的那栋在不在线上」的问题。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>学段</th><th>学校</th><th>2026 施教区原文边界</th><th>判断</th></tr>
+    <tr><td>小学</td><td class="big">南京市江宁科学园小学</td><td>开源路-天元城小区以东（含天元城小区），新亭东路以南，天印大道以西，<b>科建路以北</b></td><td><span class="badge b-amber">校区在边界线上，需凭门牌核</span></td></tr>
+    <tr><td>初中</td><td class="big">南京市竹山中学湖东路校区</td><td>第二款：天秣路-竹山路以东，南京绕城高速以南，<b>天印大道以西</b>，方山以北</td><td><span class="badge b-green">大概率在此款覆盖内</span></td></tr>
+  </table>
+  </div>
+  <div class="callout">
+    <b>为什么说「压在线上」：</b>科学园小学的南边界是「科建路以北」，而都会四季的门牌恰好是科建路 456 号（西区）、518 号（东区）。小区在科建路北侧，理论上符合；但地址本身就在这条路上，一旦划片以路中心线或门牌单双号为界，结论就可能不同。<b>这不是可以靠推断解决的问题，必须拿具体楼栋号去核公告原文。</b>
+  </div>
+  <p class="note">另外两条要留意：① 链家把「南京市江宁高级中学」写成中小学配套——那是高中，需中考录取，与施教区无关；② 另一版链家页面写「力学小学分校、南京市月华路小学（湖东路校区）」，与教育局公告的科学园小学不一致。<b>中介口径在这个小区是混乱的，唯一可信的是江宁教育服务平台（jnjy.net.cn）发布的《2026 年江宁区部分公办小学施教区一览》。</b></p>
+  <p class="note">评级上，科学园小学 + 竹山中学湖东路校区属于<b>江宁中游</b>，与万科金域蓝湾的江宁开发区学校同一档，明显弱于百家湖小学（水月秦淮 15 栋前）和南外明远（保利堂悦）。<b>不要为这个学区付溢价。</b></p>
+</section>
+
+<section>
+  <h2 class="sec">梯户比与居住环境 <span class="num">09</span></h2>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>指标</th><th>都会四季</th><th>对照（四个基准小区）</th></tr>
+    <tr><td>交付时间</td><td class="n ok big">2022 年 3 月 / 9 月</td><td>保利 2017–2019，万科 2013，水月 2006–2008，明都 2005–2008</td></tr>
+    <tr><td>容积率</td><td class="n">2.6</td><td>明都 1.13、水月 1.5、万科 2.0、保利 4.00</td></tr>
+    <tr><td>绿化率</td><td class="n">35%</td><td>明都 46%、水月 48%、万科约 40%、保利 35%</td></tr>
+    <tr><td>总户数</td><td class="n">3,345（东 1,465 + 西 1,880）</td><td>万科 4,474+、保利 2,781、水月 2,053、明都 480</td></tr>
+    <tr><td>梯户比</td><td>94㎡ 两梯四户；113㎡ 两梯两户</td><td>明都一梯两户、保利两梯四户、万科两梯四户</td></tr>
+    <tr><td>人车分流</td><td class="ok">是</td><td>保利是、万科部分、水月否、明都否</td></tr>
+    <tr><td>层数</td><td class="n">21 / 24 / 26 层</td><td>—</td></tr>
+    <tr><td>交付标准</td><td class="ok">精装 + 新风 + 地暖 + 中央空调</td><td>四个对照小区均为毛坯或基础装修</td></tr>
+  </table>
+  </div>
+  <p class="note">居住环境这一项，都会四季是五个里最强的：<b>房龄新 9–17 年、人车分流、精装三大件、万科物业</b>。它的减分项是容积率 2.6（比明都、水月、万科都高）和 3,345 户的大盘体量——不是产品问题，是密度问题。</p>
+</section>
+
+<section>
+  <h2 class="sec">车位与物业（参考项） <span class="num">10</span></h2>
+  <p class="lead">按惯例不设门槛、不计入总分，只列事实。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>参考指标</th><th>都会四季</th><th>评价</th></tr>
+    <tr><td>固定车位（西区）</td><td class="n">2,241 个 / 1,880 户 = <b>1:1.19</b></td><td><span class="badge b-green">每百户 119，充足</span></td></tr>
+    <tr><td>车位形态</td><td>地下，<b>可租可售，有产权车位</b></td><td><span class="badge b-green">比明都雅苑「只能租」强一档</span></td></tr>
+    <tr><td>停车费</td><td class="n">310–330 元/月</td><td>与保利 350 元、万科地下 290 元同档</td></tr>
+    <tr><td>人车分流</td><td class="ok">是</td><td>—</td></tr>
+    <tr><td>物业公司</td><td>南京万科物业（东、西区同一家）</td><td>—</td></tr>
+    <tr><td>物业费</td><td class="n">东区 2.7–3.6 元 / 西区 1.9–5.7 元</td><td><span class="badge b-amber">同小区费率跨度大，需按楼栋确认</span></td></tr>
+    <tr><td>居住服务评分</td><td class="n ok big">9.4 / 10（克而瑞，西区）</td><td>与万科金域蓝湾并列，仅次于保利 9.9</td></tr>
+    <tr><td>综合评分</td><td class="n">8.7（品质 8.4 / 居住 9.4 / 生活 8.6 / 口碑 8.4）</td><td>江宁板块 2–3 万销售面积榜第 4</td></tr>
+    <tr><td>十年持有成本（94.56㎡）</td><td class="n">物业约 3.1 万 + 停车 3.7 万 ≈ <b>6.8 万</b></td><td>与保利、万科同档（6.2–6.9 万）</td></tr>
+  </table>
+  </div>
+  <p class="note">车位这一项都会四季是<b>五个里最好的</b>：1:1.19 且有产权车位可买，可选可租。明都雅苑 1:0.29 只能租、租约不随房转移，对比之下差距很大。若你家有两辆车，都会四季、保利、万科可以留，明都和水月直接出局。</p>
+</section>
+
+<section>
+  <h2 class="sec">规划与兑现 <span class="num">11</span></h2>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>项目</th><th>状态</th><th>时点</th><th>对都会四季的意义</th></tr>
+    <tr><td>地铁 5 号线全线</td><td><span class="badge b-green">已兑现</span></td><td>2025-08-06</td><td>多一条进城路径，但站点 1.4km</td></tr>
+    <tr><td>地铁 1 号线</td><td><span class="badge b-green">已运营</span></td><td>2005</td><td>天印大道 999m，主力通勤线</td></tr>
+    <tr><td>江宁医院湖山路院区</td><td><span class="badge b-green">已运营</span></td><td>2019</td><td>最近三甲，2.5–3.5km</td></tr>
+    <tr><td>龙湾天街、江宁万达</td><td><span class="badge b-green">已开业</span></td><td>—</td><td>区域商业已定型</td></tr>
+    <tr><td>地铁 13 号线（彤天路）</td><td><span class="badge b-red">规划未开工</span></td><td>未列入三期规划，前期研究</td><td>若落地，733m 将成为最大变量</td></tr>
+    <tr><td>地铁 17 号线（新亭东路）</td><td><span class="badge b-red">规划未开工</span></td><td>同批前期研究</td><td>更远期，不计入</td></tr>
+  </table>
+  </div>
+  <div class="callout blue">
+    <b>科学园板块的规划特征是「已定型」，不是「在兑现」。</b>商业、地铁、医院、学校全部是存量，这意味着一件事：你现在看到的生活，五年后基本还是这样。它的好处是没有「等配套」的风险；坏处是没有「配套升级」的溢价。<b>与南部新城正好相反——那边是 2027–2028 才兑现，这边是不用等也不会变。</b>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">综合评分：五个小区放一起 <span class="num">12</span></h2>
+  <p class="lead">七项硬指标加权，车位与物业不计分。都会四季与万科金域蓝湾几乎并列，但理由完全不同。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>维度</th><th>权重</th><th>明都雅苑</th><th>保利堂悦</th><th>水月秦淮</th><th>万科金域蓝湾</th><th>都会四季</th></tr>
+    <tr><td>预算可得性</td><td class="n">20%</td><td class="n">8.5</td><td class="n">7.0</td><td class="n">9.5</td><td class="n">8.5</td><td class="n">8.0</td></tr>
+    <tr><td>价格合理性与抗跌</td><td class="n">15%</td><td class="n">8.5</td><td class="n">7.5</td><td class="n">6.0</td><td class="n">5.5</td><td class="n">5.5</td></tr>
+    <tr><td>通勤</td><td class="n">20%</td><td class="n ok">9.5</td><td class="n">8.0</td><td class="n">8.5</td><td class="n">6.0</td><td class="n">6.3</td></tr>
+    <tr><td>学区</td><td class="n">15%</td><td class="n">6.5</td><td class="n ok">9.5</td><td class="n">6.0</td><td class="n">5.5</td><td class="n">5.5</td></tr>
+    <tr><td>商圈与日常</td><td class="n">12%</td><td class="n">6.5</td><td class="n">7.5</td><td class="n">7.0</td><td class="n ok">8.5</td><td class="n">7.0</td></tr>
+    <tr><td>医疗</td><td class="n">8%</td><td class="n ok">10.0</td><td class="n">6.0</td><td class="n">5.5</td><td class="n">4.5</td><td class="n">5.5</td></tr>
+    <tr><td>居住环境</td><td class="n">10%</td><td class="n">7.5</td><td class="n">7.0</td><td class="n">5.5</td><td class="n">7.0</td><td class="n ok">8.0</td></tr>
+    <tr style="background:#fbfaf6;"><td class="big">居住优先总分</td><td class="n">100%</td><td class="n big ok">8.18</td><td class="n big">7.63</td><td class="n big">7.23</td><td class="n big">6.63</td><td class="n big">6.59</td></tr>
+    <tr><td class="big">教育优先总分（学区 30%）</td><td class="n">100%</td><td class="n big">7.78</td><td class="n big ok">7.95</td><td class="n big">6.90</td><td class="n big">6.50</td><td class="n big">6.52</td></tr>
+  </table>
+  </div>
+  <p class="note">都会四季 <b>6.59 / 6.52</b>，排第五，但与万科金域蓝湾（6.63 / 6.50）在统计上并列——居住优先万科高 0.04，教育优先都会四季高 0.02，属噪音级别。两者真正的差别是：<b>万科强在商业和流动性，都会四季强在产品（房龄、精装、车位、物业）。一个买「现在方便」，一个买「房子好」。</b></p>
+  <p class="note">它离前四名的差距主要来自两项：<b>通勤 6.3（地铁 1km 外）</b>和<b>学区 5.5（江宁中游且边界待核）</b>。这两项恰好是最难通过装修或时间改善的——所以它很难靠「房子新」追上来。</p>
+</section>
+
+<section>
+  <h2 class="sec">逐项优缺点 <span class="num">13</span></h2>
+  <div class="card">
+    <div class="card-head">
+      <div class="row">
+        <h3>都会四季（西区 94㎡ 三房）</h3>
+        <span class="rank alt">综合第 5 / 5，产品第 1</span>
+      </div>
+    </div>
+    <div class="kv">
+      <div class="c"><div class="k">推荐房源</div><div class="v">94.56㎡ <small>3室1厅1卫</small></div></div>
+      <div class="c"><div class="k">可谈区间</div><div class="v">175–190 万</div></div>
+      <div class="c"><div class="k">套内（估）</div><div class="v">约 73㎡ <small>76–79%</small></div></div>
+      <div class="c"><div class="k">房龄</div><div class="v">4 年 <small>2022 交付</small></div></div>
+    </div>
+    <div class="pros-cons">
+      <div class="p">
+        <h4>优点</h4>
+        <ul>
+          <li>房龄 4 年，是五个小区里最新的，管线电梯都无历史包袱</li>
+          <li>精装交付含新风、地暖、中央空调，南京带地暖的住宅不多</li>
+          <li>人车分流，车位 1:1.19 且有产权车位可买可租</li>
+          <li>万科物业，克而瑞居住服务 9.4 分，与万科金域蓝湾同档</li>
+          <li>200 万买到 94.56㎡ 三房，建面比万科 87.97㎡ 大 6.5㎡</li>
+          <li>较销许价已跌 15%–20%，不是接最后一棒</li>
+        </ul>
+      </div>
+      <div class="c">
+        <h4>缺点</h4>
+        <ul>
+          <li>最近地铁 999m、5 号线 1.4km，两条线都超步行友好阈值</li>
+          <li>「13 号线 733m」是规划线，官方明确仍在前期研究</li>
+          <li>学区江宁中游，且小学施教区边界正好压在小区门牌上</li>
+          <li>76 套在售对 107 套累计成交，卖压大、转手周期长</li>
+          <li>同面积段挂牌离散 46%（169–248 万），价格体系混乱</li>
+          <li>最近三甲 2.5–3.5km，需驾车；容积率 2.6、3,345 户大盘</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body">
+      <p><b>怎么买：</b>只谈西区 94㎡ 这一档，目标价 175–190 万（对应单价 18,500–20,100）。东区 94.5㎡ 要 228 万起，比西区贵 40 万以上，除非你特别认万科仁恒的产品，否则不值。成交前必须确认「满两年」——未满两年的增值税加个税在 200 万总价上要 10 万以上。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">决策路径 <span class="num">14</span></h2>
+  <div class="tree">
+    <div class="node"><div class="cond">200 万、要三房、认房子新</div><div class="res">→ <b>都会四季西区 94.56㎡</b>，谈 175–190 万，先排雷再还价</div></div>
+    <div class="node"><div class="cond">200 万、要地铁和医院</div><div class="res">→ <b>明都雅苑 87.5㎡</b>，地铁 294m、三甲 350m，套内还多 2㎡</div></div>
+    <div class="node"><div class="cond">孩子 3 年内上学</div><div class="res">→ <b>保利堂悦 89.80㎡</b>（215 万），都会四季的学区撑不起溢价</div></div>
+    <div class="node"><div class="cond">要面积、能接受房龄</div><div class="res">→ <b>水月秦淮 115.68㎡</b>（168 万，谈 160 万内）</div></div>
+    <div class="node"><div class="cond">看重商业与转手速度</div><div class="res">→ <b>万科金域蓝湾 87.97㎡</b>（按 180 万出价），流动性五个里最好</div></div>
+    <div class="node"><div class="cond">家里两辆车</div><div class="res">→ 明都、水月出局；<b>都会四季在这一项上是最强的</b>（1:1.19 + 产权位）</div></div>
+    <div class="node"><div class="cond">10 年内可能换房</div><div class="res">→ <b>不建议都会四季</b>，76 套竞品 + 年均 27 套成交，卖出会很被动</div></div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">看房核实清单 <span class="num">15</span></h2>
+  <ol class="steps">
+    <li><b>先问东区还是西区、具体楼栋号。</b>两个区开发商、物业费、价格都不同，问不清这一条，后面全部无效。</li>
+    <li><b>产证上的建筑面积与套内面积各是多少。</b>得房率官方未披露，必须看产证；贝壳对部分房源标注「套内暂无」。</li>
+    <li><b>是否满两年、是否满五唯一。</b>2022 年交付的小区大量房源未满两年，增值税 5.3% 加个税在 200 万上超 10 万。</li>
+    <li><b>拿具体门牌去江宁教育服务平台核小学施教区。</b>公告边界是「科建路以北」，而小区门牌就在科建路上，必须逐幢确认。网址 jnjy.net.cn，查《2026 年江宁区部分公办小学施教区一览》。</li>
+    <li><b>不要接受「江宁高级中学」作为学区卖点。</b>那是高中，需中考。也不要接受「力学小学分校」的说法，与公告不一致。</li>
+    <li><b>确认 13 号线是不是被当成配套卖给你的。</b>官方口径是规划线、前期研究，未列入三期建设规划。若中介以此抬价，直接扣掉这个溢价。</li>
+    <li><b>车位是产权位还是租赁位，报价是否含车位。</b>东区 94.7㎡ 那套 238 万标了「带车位」，要问清是产权还是租约。</li>
+    <li><b>供暖费怎么算。</b>贝壳标注 3.5 元/㎡，需确认是按月还是按采暖季、能否报停、地暖是否全屋覆盖。</li>
+    <li><b>物业费按楼栋确认。</b>东区 2.7–3.6 元、西区 1.9–5.7 元，同小区跨度近 3 倍，签约前要拿到本楼栋的实际标准。</li>
+    <li><b>晚上 8 点看两件事：停车和噪音。</b>西区临科建路、东区临天印大道一侧，都要实地听；同时数一数地下车库空置率。</li>
+    <li><b>查不动产登记簿的抵押与查封，以及上次交易时间。</b>东区 113.47㎡ 那套记录显示 2026 年 9 月 8 日刚交易过，属于短期二次转手。</li>
+    <li><b>问业主为什么卖、挂牌多久、有没有降过价。</b>76 套在售的环境里，挂牌超过 6 个月且有降价记录的，议价空间通常在 8% 以上。</li>
+  </ol>
+</section>
+
+<footer>
+  <p>数据来源：贝壳找房小区页（西区固定车位 2,241、历史成交 107 套、参考均价 26,058、容积率 2.6、绿化 35%）、链家小区页（东区 15 栋 1,465 户、西区 19 栋 1,880 户）、克而瑞好房点评（综合 8.7 / 品质 8.4 / 居住 9.4 / 生活 8.6 / 口碑 8.4）、南京市江宁区教育局 2026 年施教区公告、南京市房屋租赁服务监管平台挂牌信息、南京地铁集团 2026 年 2 月公开回复。</p>
+  <p>口径说明：① 成交价因历史成交仅 107 套、样本薄，改用「挂牌分布 + 中位数 + 卖压结构」呈现，并标注置信度；② 面积一律取真实挂牌建筑面积，套内为按同年代塔楼区间估算并已标注；③ 学区只引 2026 年教育局公告原文边界，中介页面口径矛盾处已单列提示；④ 13 号线、17 号线为规划线，不计入通勤评分；⑤ 车位与物业仅作参考项，不参与加权总分。</p>
+  <p>本报告为决策参考，不构成投资建议。价格、学区与规划时点在签约前请以官方渠道复核。</p>
+</footer>
+
+</div>
+</body>
+</html>

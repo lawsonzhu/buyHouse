@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南京四小区 · 综合分析（终版）</title>
+<style>
+  :root{
+    --ink:#1c1c1a; --ink-2:#4a4a46; --muted:#7a7a74; --line:#e4e2dc;
+    --bg:#faf9f6; --card:#ffffff;
+    --blue:#185FA5; --blue-bg:#E6F1FB;
+    --green:#3B6D11; --green-bg:#EAF3DE;
+    --red:#A32D2D; --red-bg:#FCEBEB;
+    --amber:#854F0B; --amber-bg:#FAEEDA;
+    --gray-bg:#f4f2ec;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.72;font-size:15px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:56px 28px 80px;}
+
+  header{border-bottom:2px solid var(--ink);padding-bottom:28px;margin-bottom:36px;}
+  .kicker{font-size:12px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-bottom:14px;}
+  h1{font-size:30px;font-weight:600;letter-spacing:-.01em;line-height:1.35;margin-bottom:14px;}
+  .sub{font-size:15px;color:var(--ink-2);max-width:780px;}
+  .meta{margin-top:20px;font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:18px;}
+
+  .verdict{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:2px;padding:24px 26px;margin-bottom:26px;}
+  .verdict h2{font-size:13px;letter-spacing:.1em;color:var(--blue);margin-bottom:12px;font-weight:600;}
+  .verdict p{font-size:15.5px;margin-bottom:10px;}
+  .verdict p:last-child{margin-bottom:0;}
+  .verdict strong{background:linear-gradient(transparent 62%,#d8e6f4 62%);font-weight:600;}
+
+  .fix{background:#fffdf6;border:1px solid #e8dfc4;border-left:3px solid var(--amber);border-radius:2px;padding:22px 24px;margin-bottom:44px;}
+  .fix h2{font-size:13px;letter-spacing:.1em;color:var(--amber);margin-bottom:12px;font-weight:600;}
+  .fix p{font-size:14.5px;color:var(--ink-2);margin-bottom:10px;}
+  .fix p:last-child{margin-bottom:0;}
+  .fix b{color:var(--ink);font-weight:600;}
+
+  section{margin-bottom:50px;}
+  h2.sec{font-size:20px;font-weight:600;margin-bottom:8px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:12px;}
+  h2.sec span.num{font-size:12px;color:var(--muted);font-weight:400;letter-spacing:.1em;}
+  .lead{font-size:14.5px;color:var(--ink-2);margin:14px 0 20px;}
+  h3.sub-h{font-size:15px;font-weight:600;margin:26px 0 6px;}
+
+  .tbl-wrap{overflow-x:auto;margin:18px 0 10px;border:1px solid var(--line);border-radius:3px;background:var(--card);}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:760px;}
+  th{text-align:left;padding:11px 13px;background:var(--gray-bg);font-weight:600;font-size:12px;color:var(--ink-2);border-bottom:1px solid var(--line);white-space:nowrap;}
+  td{padding:11px 13px;border-bottom:1px solid #f0eee8;vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  td.n{font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .big{font-weight:600;}
+  .ok{color:var(--green);font-weight:600;}
+  .warn{color:var(--amber);font-weight:600;}
+  .bad{color:var(--red);font-weight:600;}
+  .flat{color:var(--muted);font-weight:400;font-size:12px;}
+
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:2px;font-weight:500;white-space:nowrap;}
+  .b-green{background:var(--green-bg);color:var(--green);}
+  .b-amber{background:var(--amber-bg);color:var(--amber);}
+  .b-red{background:var(--red-bg);color:var(--red);}
+  .b-gray{background:var(--gray-bg);color:var(--muted);}
+  .b-blue{background:var(--blue-bg);color:var(--blue);}
+
+  .note{font-size:12.5px;color:var(--muted);line-height:1.7;padding:14px 16px;background:var(--gray-bg);border-radius:3px;margin:14px 0;}
+  .note b{color:var(--ink-2);font-weight:600;}
+
+  .callout{border-left:3px solid var(--red);background:var(--red-bg);padding:16px 20px;border-radius:2px;font-size:13.5px;color:#5c2222;line-height:1.72;margin:18px 0;}
+  .callout b{font-weight:600;}
+  .callout.amber{border-left-color:var(--amber);background:var(--amber-bg);color:#5a3a10;}
+  .callout.blue{border-left-color:var(--blue);background:var(--blue-bg);color:#123a63;}
+  .callout.green{border-left-color:var(--green);background:var(--green-bg);color:#2a4d0d;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:3px;margin-bottom:20px;overflow:hidden;}
+  .card-head{padding:16px 22px 13px;border-bottom:1px solid var(--line);}
+  .card-head .row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .card-head h3{font-size:16.5px;font-weight:600;}
+  .rank{font-size:11.5px;color:#fff;background:var(--ink);padding:3px 10px;border-radius:2px;letter-spacing:.06em;white-space:nowrap;}
+  .rank.alt{background:#8a8880;}
+  .card-body{padding:16px 22px 18px;}
+  .card-body p{font-size:14px;color:var(--ink-2);margin-bottom:9px;}
+  .card-body p:last-child{margin-bottom:0;}
+  .card-body b{color:var(--ink);font-weight:600;}
+
+  .kv{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-bottom:1px solid var(--line);}
+  .kv .c{background:var(--card);padding:11px 15px;}
+  .kv .k{font-size:11.5px;color:var(--muted);margin-bottom:2px;}
+  .kv .v{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;}
+  .kv .v small{font-size:11.5px;font-weight:400;color:var(--muted);}
+
+  .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);}
+  .pros-cons > div{background:var(--card);padding:16px 22px;}
+  .pros-cons h4{font-size:12px;letter-spacing:.08em;margin-bottom:10px;font-weight:600;}
+  .pros-cons .p h4{color:var(--green);}
+  .pros-cons .c h4{color:var(--red);}
+  .pros-cons ul{list-style:none;}
+  .pros-cons li{font-size:13.5px;color:var(--ink-2);padding-left:14px;position:relative;margin-bottom:7px;line-height:1.65;}
+  .pros-cons li::before{content:"·";position:absolute;left:3px;top:0;font-weight:700;}
+  .pros-cons .p li::before{color:var(--green);}
+  .pros-cons .c li::before{color:var(--red);}
+
+  ol.steps{list-style:none;counter-reset:s;}
+  ol.steps li{counter-increment:s;position:relative;padding-left:40px;margin-bottom:14px;font-size:14px;color:var(--ink-2);}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:24px;height:24px;background:var(--blue-bg);color:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;}
+  ol.steps li b{color:var(--ink);font-weight:600;}
+
+  .tree{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:8px 0;margin:18px 0;}
+  .tree .node{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:14px 22px;border-bottom:1px solid #f0eee8;align-items:start;}
+  .tree .node:last-child{border-bottom:none;}
+  .tree .cond{font-size:13px;color:var(--muted);}
+  .tree .res{font-size:14px;}
+  .tree .res b{font-weight:600;}
+
+  footer{border-top:1px solid var(--line);padding-top:22px;margin-top:50px;font-size:12px;color:var(--muted);line-height:1.8;}
+
+  @media (max-width:720px){
+    .wrap{padding:36px 18px 60px;}
+    h1{font-size:24px;}
+    .kv{grid-template-columns:repeat(2,1fr);}
+    .card-body,.card-head{padding-left:18px;padding-right:18px;}
+    .pros-cons{grid-template-columns:1fr;}
+    .tree .node{grid-template-columns:1fr;gap:4px;}
+    .pros-cons > div{padding:16px 18px;}
+  }
+  @media print{body{background:#fff;font-size:12px;}.wrap{max-width:100%;padding:0;}.card,section{page-break-inside:avoid;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">南京 · 二手房决策分析 · 终版整合</div>
+  <h1>200 万、80㎡ 以上：四个小区只看能不能住得更好</h1>
+  <p class="sub">明都雅苑、保利堂悦、万科金域蓝湾、水月秦淮。八轮核查后的整合结论，口径统一为「9 月真实签约价 + 真实挂牌户型 + 楼栋号级学区」，保利堂悦只取 89㎡ 以上户型。</p>
+  <div class="meta">
+    <span>预算上限 200 万（保利可上浮至 215 万）</span>
+    <span>面积 ≥ 80㎡</span>
+    <span>取数：2026-10-20</span>
+    <span>价格口径：贝壳 A+ 签约记录 / 中指研究院</span>
+  </div>
+</header>
+
+<div class="verdict">
+  <h2>结论先说</h2>
+  <p><strong>如果孩子 3 年内要上学、预算能到 215 万 → 保利堂悦 89.80㎡（中高区，不要低层）。</strong>学区、房龄、物业三项它是唯一全优的，代价是预算几乎不留余量。</p>
+  <p><strong>如果预算硬卡 200 万、不指望学区 → 明都雅苑 87.5㎡。</strong>6 号线 294 米、三甲医院 350 米、套内约 75㎡ 比保利 91.95㎡ 的 67.5㎡ 还大 7.5㎡，总价正好，是这个预算下唯一「钱花完还住得舒服」的选项。</p>
+  <p>万科金域蓝湾是「现在最舒服、未来最不确定」的一个，水月秦淮是「面积最大、增值最弱」的一个。四个里没有全胜项，只有把哪一项放在第一位的问题。</p>
+</div>
+
+<div class="fix">
+  <h2>先立五条口径，否则前面几轮的错误会重复</h2>
+  <p><b>1. 只看成交价，不看挂牌价。</b>保利堂悦挂牌 31,331、成交中位 24,342，差 22%；万科差 30%。用挂牌价做预算测算，四个小区会全部算错。</p>
+  <p><b>2. 面积用真实户型，不用预算除单价。</b>「200 万 ÷ 2.4 万 = 82㎡」这个数对应的是不存在的户型。保利堂悦在售最小住宅 84.59㎡，89㎡ 段是 89.74–89.80㎡。</p>
+  <p><b>3. 学区看到楼栋号，不看小区名。</b>水月秦淮以 15 栋为界，前百家湖小学、后翠屏山小学；明都雅苑不在南外明远名单里。</p>
+  <p><b>4. 规划看官方年份，不看中介口径。</b>金陵万象城已从 2026 年改为 2027 年下半年；老佛爷百货项目已永久搁置。</p>
+  <p><b>5. 车位与物业是参考项，不是门槛。</b>它们影响体验和持有成本，不决定「能不能买」，且价值已部分计入成交价，单独加权会重复计算。</p>
+</div>
+
+<section>
+  <h2 class="sec">硬条件 <span class="num">01</span></h2>
+  <p class="lead">200 万、80㎡ 以上，四个小区加起来真正符合条件的只有 5 套。先把这一层筛完，再谈舒适度。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>房源建面</th><th>户型</th><th>总价</th><th>单价</th><th>楼层</th><th>判定</th></tr>
+    <tr><td>水月秦淮</td><td class="n">115.68㎡</td><td>3室1厅</td><td class="n">168 万</td><td class="n">14,522</td><td>中/17</td><td><span class="badge b-green">符合，余 32 万</span></td></tr>
+    <tr><td>水月秦淮</td><td class="n">95㎡</td><td>2室2厅</td><td class="n">130 万</td><td class="n">13,684</td><td>—</td><td><span class="badge b-green">符合</span></td></tr>
+    <tr><td>万科金域蓝湾</td><td class="n">87.97㎡</td><td>3室2厅1卫</td><td class="n">199 万</td><td class="n">22,622</td><td>高/31</td><td><span class="badge b-green">符合，满五唯一</span></td></tr>
+    <tr><td>明都雅苑</td><td class="n">87.5㎡</td><td>2室2厅1卫</td><td class="n">200 万</td><td class="n">22,857</td><td>中/6</td><td><span class="badge b-green">符合，正好卡线</span></td></tr>
+    <tr><td>保利堂悦</td><td class="n">91.95㎡</td><td>3室2厅1卫</td><td class="n">200 万</td><td class="n">21,751</td><td>高/32</td><td><span class="badge b-amber">符合但需验硬伤</span></td></tr>
+    <tr><td>保利堂悦</td><td class="n">89.80㎡</td><td>3室2厅1卫</td><td class="n">215 万</td><td class="n">23,942</td><td>低/32</td><td><span class="badge b-amber">超 15 万</span></td></tr>
+    <tr><td>明都雅苑</td><td class="n">107㎡</td><td>3室2厅</td><td class="n">240 万</td><td class="n">22,430</td><td>边户全明</td><td><span class="badge b-red">超 40 万</span></td></tr>
+    <tr><td>万科金域蓝湾</td><td class="n">117.01㎡</td><td>3室2厅2卫</td><td class="n">235 万</td><td class="n">20,084</td><td>—</td><td><span class="badge b-red">超 35 万</span></td></tr>
+  </table>
+  </div>
+  <p class="note">同一小区内单价能差 30%，原因只有三个：<b>楼层、装修、面积段</b>。所以谈价只谈你要买的那一套，不要拿「小区均价」当锚点。</p>
+</section>
+
+<section>
+  <h2 class="sec">成交价与剩余下跌空间 <span class="num">02</span></h2>
+  <p class="lead">「挂牌价 − 成交价」就是还没出清的那部分。落差越大，说明业主预期还没降到市场价，未来还有下探；落差为零甚至为负，说明价格已经到底。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>成交口径</th><th>成交单价</th><th>挂牌均价</th><th>落差</th><th>同比</th><th>剩余空间</th><th>置信度</th></tr>
+    <tr><td class="big">保利堂悦</td><td>9 月 · 6 套中位</td><td class="n big">24,342</td><td class="n">31,331</td><td class="n bad">−22%</td><td class="n ok">+0.8%</td><td>3–5%</td><td><span class="badge b-green">高</span></td></tr>
+    <tr><td class="big">明都雅苑</td><td>7 月 · 1 套 + 均价</td><td class="n big">23,000–24,900</td><td class="n">22,857</td><td class="n ok">挂牌低于成交</td><td class="n ok">+1.9%</td><td>几无</td><td><span class="badge b-amber">中</span></td></tr>
+    <tr><td class="big">万科金域蓝湾</td><td>9 月 · 11 套中位</td><td class="n big">19,983</td><td class="n">28,573</td><td class="n bad">−30%</td><td class="n bad">−4.1%</td><td>5–8%</td><td><span class="badge b-green">高</span></td></tr>
+    <tr><td class="big">水月秦淮</td><td>6 月 · 6 套明细</td><td class="n big">约 13,900</td><td class="n">18,564</td><td class="n bad">−25%</td><td class="n ok">+0.9%</td><td>5–10%</td><td><span class="badge b-amber">中</span></td></tr>
+  </table>
+  </div>
+
+  <div class="callout blue">
+    <b>议价策略必须按区分开。</b>秦淮（保利、明都）可以从 85 折起谈；江宁（万科、水月）的挂牌价基本就是底线，硬砍会被判为不诚意。在江宁应该接受挂牌价，转而要「满五唯一、家电留存、物业费结清、交房时间」——这些条件的现金价值往往比房价谈判更高。
+  </div>
+
+  <h3 class="sub-h">大盘坐标，用来判断「跌到位了没有」</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>指标</th><th>数值</th><th>含义</th></tr>
+    <tr><td>南京二手均价</td><td class="n">2021 年 30,595 → 2026 年 20,502（−33%）</td><td>五年单边下行，尚未转正</td></tr>
+    <tr><td>2026 年 7 月</td><td class="n">同比 −7.3%，挂牌同比 −9.8%</td><td>挂牌降幅大于成交，业主在让价</td></tr>
+    <tr><td>存量挂牌</td><td class="n">137,603 套 / 月成交 7,321 套</td><td>约 18.8 个月去化，买方市场</td></tr>
+    <tr><td>分区表现</td><td>秦淮 −18%（最抗跌）、江宁以价换量、南部新城次新 +4～13%</td><td>主城抗跌，近郊靠降价换成交</td></tr>
+  </table>
+  </div>
+  <p class="note">结论：<b>不存在「马上要涨」的小区</b>，但存在「跌得少、卖得掉」的小区。保利堂悦在秦淮 TOP10 普遍跌 12–25% 的背景下同比 +0.8%，是这四个里唯一被验证过抗跌的。</p>
+</section>
+
+<section>
+  <h2 class="sec">保利堂悦 89㎡ 以上专项 <span class="num">03</span></h2>
+  <p class="lead">你指定要 92㎡ 左右。这个面积段在保利堂悦的真实情况是：89㎡ 段就是三房，92㎡ 是同一产品线的放大版，两者套内只差约 2㎡，但总价差 43–58 万。</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>建面</th><th>总价</th><th>单价</th><th>楼层</th><th>朝向/装修</th><th>税费</th><th>判断</th></tr>
+    <tr><td class="n big">91.95㎡</td><td class="n big">200 万</td><td class="n">21,751</td><td>高/32</td><td>南北 · 精装</td><td>满两年</td><td><span class="badge b-amber">唯一卡进预算，需验硬伤</span></td></tr>
+    <tr><td class="n">89.80㎡</td><td class="n">215 万</td><td class="n">23,942</td><td>低/32</td><td>—</td><td>—</td><td><span class="badge b-blue">价格最合理，楼层最差</span></td></tr>
+    <tr><td class="n">91.80㎡</td><td class="n">248 万</td><td class="n">27,015</td><td>高/26</td><td>朝南</td><td>无增值税个税</td><td><span class="badge b-red">溢价 11%</span></td></tr>
+    <tr><td class="n">92.19㎡</td><td class="n">258 万</td><td class="n">27,986</td><td>中/32</td><td>南北</td><td>满五年</td><td><span class="badge b-red">溢价 15%</span></td></tr>
+    <tr><td class="n">91.36㎡</td><td class="n">268 万</td><td class="n">29,332</td><td>低/28</td><td>简装</td><td>无增值税个税</td><td><span class="badge b-red">溢价 21%，最低层最贵</span></td></tr>
+    <tr><td class="n">94.91㎡</td><td class="n">300 万</td><td class="n">31,609</td><td>—</td><td>—</td><td>—</td><td><span class="badge b-red">直接排除</span></td></tr>
+  </table>
+  </div>
+
+  <div class="callout amber">
+    <b>91.95㎡ / 200 万这一套有四个信号同时指向「异常」：</b>单价低于 9 月成交中位 11%、低于小区挂牌均价 31%、挂牌 2026-08-26、上一手交易是 2024 年 7 月（两年内二次转手）。价格好到不合理的房子，通常有一个没写出来的原因。看房必须做四件事：走消防通道听卡子门高架噪音、查不动产登记簿看抵押与查封、问 2024 年那次交易为什么又卖、晚上 8 点看楼下停车与临街车流。
+  </div>
+
+  <h3 class="sub-h">92㎡ 值不值：把套内算出来再决定</h3>
+  <p class="lead" style="margin-top:10px;">贝壳披露的实测数据：88.36㎡ 建面对应套内 64.83㎡，<b>得房率 73.4%</b>。这是全南京 32 层塔楼里偏低的一档。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>建面</th><th>得房率</th><th>套内</th><th>对比明都雅苑 87.5㎡（套内约 75㎡）</th></tr>
+    <tr><td class="n">84.59㎡</td><td class="n">73.4%</td><td class="n">约 62㎡</td><td class="bad">少 13㎡，还贵 6 万</td></tr>
+    <tr><td class="n">89.80㎡</td><td class="n">73.4%</td><td class="n">约 65.9㎡</td><td class="bad">少 9.1㎡，贵 15 万</td></tr>
+    <tr><td class="n">91.95㎡</td><td class="n">73.4%</td><td class="n">约 67.5㎡</td><td class="bad">少 7.5㎡，同价</td></tr>
+    <tr><td class="n">92.19㎡</td><td class="n">73.4%</td><td class="n">约 67.7㎡</td><td class="bad">少 7.3㎡，贵 58 万</td></tr>
+  </table>
+  </div>
+  <p class="note">89.80㎡ 与 92.19㎡ 套内只差 1.8㎡，总价差 43 万，<b>折合 24 万/㎡套内</b>。如果 92㎡ 的意义是「客厅宽 20cm、主卧放得下 1.8 米床」，这钱可以花；如果只是「面积数字大一点」，花在主城低密多层上更划算。</p>
+</section>
+
+<section>
+  <h2 class="sec">户型与得房率 <span class="num">04</span></h2>
+  <p class="lead">建筑面积是开发商卖的，套内面积才是你住的。四个小区形态不同，同样的 87㎡ 能差出 7㎡ 可用面积。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>建筑形态</th><th>得房率</th><th>推荐户型建面</th><th>套内可用</th><th>每 100 万买到套内</th></tr>
+    <tr><td class="big">明都雅苑</td><td>6 层多层（二期 2 幢带电梯）</td><td class="n ok">85–88%</td><td class="n">87.5㎡ 两房</td><td class="n big">约 75㎡</td><td class="n ok">37.5㎡</td></tr>
+    <tr><td class="big">水月秦淮</td><td>17–18 层塔楼</td><td class="n">约 79%</td><td class="n">115.68㎡ 三房</td><td class="n big">约 91㎡</td><td class="n ok">54.2㎡</td></tr>
+    <tr><td class="big">万科金域蓝湾</td><td>31–33 层板楼</td><td class="n">77.9%（实测）</td><td class="n">87.97㎡ 三房</td><td class="n">68.53㎡</td><td class="n">34.4㎡</td></tr>
+    <tr><td class="big">保利堂悦</td><td>27–32 层板塔</td><td class="n bad">73.4%（实测）</td><td class="n">89.80㎡ 三房</td><td class="n">约 65.9㎡</td><td class="n bad">30.6㎡</td></tr>
+  </table>
+  </div>
+  <div class="callout green">
+    <b>最反直觉的一条：明都雅苑 87.5㎡ 的套内约 75㎡，比保利堂悦 89.80㎡ 的 65.9㎡ 多 9 平方米，总价还低 15 万。</b>多层板楼的得房率优势在 90㎡ 这个面积段被放到最大。这也解释了为什么老小区的「小面积」实际住起来不比新盘「大面积」小。
+  </div>
+  <p class="note">万科 77.9% 不是估的：贝壳页面直接给出建面 87.97㎡、套内 68.53㎡，最小卧室 7.87㎡。明都 88.5% 也是实证：司法拍卖公告里 12 号 601 室建面 116.32㎡、套内 103.01㎡。保利 73.4% 来自 88.36㎡ / 套内 64.83㎡。</p>
+</section>
+
+<section>
+  <h2 class="sec">地铁与通勤 <span class="num">05</span></h2>
+  <p class="lead">「几条线」是话术，「最近站多少米」才是每天要付的成本。两者要一起看：线路多但都在 1.5 公里外，等于没有。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>线路数</th><th>各站步行距离</th><th>评价</th></tr>
+    <tr><td class="big">明都雅苑</td><td class="n">5 条</td><td><b>6 号线市中医院 294m</b>｜10 号线机场跑道旧址 786m｜5 号线大校场 1.2km｜3 号线大明路 1.2km｜1 号线花神庙 1.5km</td><td><span class="badge b-green">唯一两条线都在 800m 内</span></td></tr>
+    <tr><td class="big">保利堂悦</td><td class="n">6 条</td><td>3 号线明发广场 676m｜6 号线夹岗约 1.0km｜10 号线机场跑道旧址约 1.5km｜1 号线南京南站 1.8km｜S1、S3 需在南站换乘</td><td><span class="badge b-blue">一条线实用，其余在南站</span></td></tr>
+    <tr><td class="big">水月秦淮</td><td class="n">3 条</td><td><b>1 号线河定桥 300–560m</b>｜1 号线胜太西路｜3 号线宏运大道 618m</td><td><span class="badge b-green">两站双线，步行可达</span></td></tr>
+    <tr><td class="big">万科金域蓝湾</td><td class="n">3 条</td><td>1 号线小龙湾 900–1,130m｜3 号线九龙湖 1.1km｜5 号线约 2km</td><td><span class="badge b-amber">三线环绕，无一步行友好</span></td></tr>
+  </table>
+  </div>
+  <p class="note">保利堂悦的「6 条线」里，4 条需要先走到南京南站（1.8 公里）才能用。<b>真正有多条线在步行范围内的只有明都雅苑</b>，而且 6 号线与 10 号线方向不同，日常出行有真实冗余。</p>
+</section>
+
+<section>
+  <h2 class="sec">医疗 <span class="num">06</span></h2>
+  <p class="lead">这一项没有替代方案，也没法通过装修或买车改善。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>最近三甲</th><th>直线距离</th><th>步行</th><th>说明</th></tr>
+    <tr><td class="big">明都雅苑</td><td>南京市中医院（三甲，约千张床位）</td><td class="n ok big">350m</td><td>约 5 分钟</td><td>2019 年已整体运营，在小区东北侧</td></tr>
+    <tr><td class="big">保利堂悦</td><td>南京市中医院</td><td class="n warn">约 2.0km</td><td>需骑行/开车</td><td>同院，但隔着大校场</td></tr>
+    <tr><td class="big">水月秦淮</td><td>江宁医院（三甲，鼓山路）</td><td class="n warn">约 2.0km</td><td>需骑行/开车</td><td>江宁区属三甲，科室较全</td></tr>
+    <tr><td class="big">万科金域蓝湾</td><td>南京同仁医院（三级综合）</td><td class="n bad">2.5–2.7km</td><td>需开车</td><td>四个里最远，且非三甲</td></tr>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">商圈与日常 <span class="num">07</span></h2>
+  <p class="lead">要分两层看：日常（每天要用的）和区域级（周末去的）。前者决定生活便利，后者决定未来价值。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>日常（≤500m）</th><th>区域级</th><th>高能级</th><th>短板</th></tr>
+    <tr><td class="big">万科金域蓝湾</td><td><b>自带近 2 万㎡商业街</b>：超市、咖啡、健身、净菜市场</td><td>太阳城 1km（含盒马）</td><td>景枫、金鹰 2–2.5km</td><td>高能级商圈步行到不了</td></tr>
+    <tr><td class="big">明都雅苑</td><td>世纪华联、罗森、苏果在楼下</td><td>明发广场 1.5km</td><td>万象城 1.3km（2027 H2）、京东 MALL 1km</td><td>现阶段缺大型商业</td></tr>
+    <tr><td class="big">保利堂悦</td><td>社区底商为主，业态偏薄</td><td>明发广场 900m（麦德龙、迪卡侬、宜家）</td><td>万象城 1.5km、南京南站 1.8km</td><td>自身商业不足</td></tr>
+    <tr><td class="big">水月秦淮</td><td>欧尚、金轮新都汇 1km</td><td>百家湖商圈 2km</td><td>无</td><td>业态中等，无增量</td></tr>
+  </table>
+  </div>
+  <div class="callout amber">
+    <b>万象城的开业时间要按 2027 年下半年算。</b>官方口径（12345 与建设局质安站回复）已从此前的 2026 年 6 月改为 2027 年下半年。所有以「今年就能逛万象城」为卖点的房源，都在透支一个还没兑现的预期。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">学区 <span class="num">08</span></h2>
+  <p class="lead">这一项最容易买错，因为中介常用「1 公里内有某名校」代替「在施教区名单里」。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>小学</th><th>初中</th><th>评级</th><th>风险点</th></tr>
+    <tr><td class="big">保利堂悦</td><td><b>南外明远小学</b></td><td><b>南外明远初中（九年一贯）</b></td><td><span class="badge b-green">四小区最强</span></td><td>片区可能以跑道公园为界调整</td></tr>
+    <tr><td class="big">水月秦淮</td><td>百家湖小学（<b>仅 15 栋以前</b>）；15 栋以后 → 翠屏山小学</td><td>百家湖中学</td><td><span class="badge b-blue">中上，分期差异大</span></td><td>以楼栋号为界，不看期数</td></tr>
+    <tr><td class="big">明都雅苑</td><td>秦淮实验小学</td><td>东片三校共享：中华中学初中部 / 二十七初 / 十八中</td><td><span class="badge b-blue">中上，非南外系</span></td><td>常被误传为南外明远学区房</td></tr>
+    <tr><td class="big">万科金域蓝湾</td><td>江宁开发区学校小学部</td><td>江宁开发区学校西校区</td><td><span class="badge b-gray">江宁中游</span></td><td>无</td></tr>
+  </table>
+  </div>
+
+  <h3 class="sub-h">南外明远施教区原文边界</h3>
+  <p class="lead" style="margin-top:8px;">卡子门大街以东—机场大道以南—明贤路以西—汇景南路以南—神机营路以西—绕城公路以北。名单包含：果园村、夹岗村、汇景家园、<b>保利堂悦</b>、复地宴南都。<b>明都雅苑不在此列。</b></p>
+  <div class="callout">
+    <b>三条必须现场核实的学区风险：</b>① 水月秦淮的分界是楼栋号——问「这栋是几栋」，不要问「是天琴湾还是天秀湾」；② 大校场未来可能以跑道公园为界形成「北侧南师系、南侧南外系」，富华路南师附中分校在建，保利堂悦在跑道南侧，短期一致但长期可变；③ <b>不要为学区付超过 30 万的溢价</b>，片区调整一次就可能归零。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">梯户比与居住环境 <span class="num">09</span></h2>
+  <p class="lead">梯户比决定早高峰等多久，容积率和户数决定小区里有多少人跟你抢电梯、抢车位、抢绿地。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>梯户比</th><th>每部梯服务户数</th><th>容积率</th><th>绿化</th><th>总户数</th><th>房龄</th></tr>
+    <tr><td class="big">明都雅苑</td><td class="ok">一梯两户</td><td class="n ok">12 户/梯</td><td class="n ok">1.13</td><td class="n">46%</td><td class="n">480</td><td class="n warn">2005–2008</td></tr>
+    <tr><td class="big">水月秦淮</td><td>97㎡ 两梯四户；126–135㎡ 两梯三户；一期 10 层洋房一梯一户</td><td class="n">—</td><td class="n">1.5</td><td class="n ok">48%</td><td class="n">2,053</td><td class="n warn">2006–2008</td></tr>
+    <tr><td class="big">万科金域蓝湾</td><td>78–89㎡ 两梯四户；118㎡ 两梯三户；167㎡ 两梯两户</td><td class="n">最高 64 户/梯</td><td class="n">2.0</td><td class="n">约 40%</td><td class="n bad">4,474–4,860</td><td class="n">2013</td></tr>
+    <tr><td class="big">保利堂悦</td><td class="bad">全小区两梯四户</td><td class="n bad">最高 128 户/2 梯</td><td class="n bad">4.00</td><td class="n">35%</td><td class="n">2,781</td><td class="n ok">2017–2019</td></tr>
+  </table>
+  </div>
+  <p class="note">保利堂悦 32 层 × 4 户 = 128 户共用 2 部梯，早高峰实测约 3–5 分钟一班；容积率 4.00 是四个里最高，楼间距 60 米。<b>它的产品力来自「新 + 物业」，不来自「住得宽松」。</b></p>
+</section>
+
+<section>
+  <h2 class="sec">车位与物业 <span class="num">10</span></h2>
+  <p class="lead">按你的要求，这两项列在参考栏：不设门槛、不参与主排序，只在硬指标打平时用来选谁。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>参考指标</th><th>保利堂悦</th><th>万科金域蓝湾</th><th>水月秦淮</th><th>明都雅苑</th></tr>
+    <tr><td>车位总数 / 户数</td><td class="n">3,177 / 2,781</td><td class="n">3,853 / 4,474</td><td class="n">未公示</td><td class="n">140 / 480</td></tr>
+    <tr><td>每百户车位</td><td class="n ok">114（1:1.14）</td><td class="n">86（1:1.2）</td><td class="n">—</td><td class="n bad">29（1:0.29）</td></tr>
+    <tr><td>人车分流</td><td class="ok">是</td><td>部分</td><td class="bad">否</td><td class="bad">否</td></tr>
+    <tr><td>车位获取方式</td><td>可买（约 10 万）或租 350 元/月</td><td>租：地面 150–180，地下 260+30</td><td>地上租 100–120 元/月</td><td><span class="bad">只能租，无产权位可买</span></td></tr>
+    <tr><td>物业公司</td><td>保利物业</td><td>万科物业</td><td>锦江物业</td><td>百市物业</td></tr>
+    <tr><td>物业费</td><td class="n">1.9–4.0 元</td><td class="n">1.9–2.88 元</td><td class="n">0.8–1.0 元</td><td class="n">0.5–0.7 元</td></tr>
+    <tr><td>居住服务评分（克而瑞）</td><td class="n ok big">9.9 / 10</td><td class="n ok">9.4 / 10</td><td class="n flat">无评测</td><td class="n flat">无评测</td></tr>
+    <tr><td>十年持有成本（物业+停车）</td><td class="n">约 6.2–6.9 万</td><td class="n">约 6.3 万</td><td class="n ok">约 2.6 万</td><td class="n ok">约 0.7 万起</td></tr>
+    <tr><td>参考结论</td><td><span class="badge b-green">双项均优，车位过剩</span></td><td><span class="badge b-green">双项良好</span></td><td><span class="badge b-amber">地面停车，需现场核</span></td><td><span class="badge b-amber">能租但不稳定</span></td></tr>
+  </table>
+  </div>
+
+  <div class="callout blue">
+    <b>明都雅苑的车位准确说法是「能租，但不稳定」。</b>多套挂牌明确写「带两个租赁车位」，租房源也标「带停车位」——所以它不是「租不到」。真正的问题是：140 个位对 480 户，3.4 户抢 1 个；没有产权车位可买；租约不随房子转移，换业主后要重新排位。签约前必须问清：这套带几个位、租约还剩多久、月租多少。
+  </div>
+
+  <p class="note"><b>「物业费便宜」是陷阱。</b>明都雅苑 480 户 × 0.7 元，一年物业费总额只有约 25 万，养不起专业的工程和客服团队——所以车位没人管、公共设施老化无人修，这些省下来的钱最后都由业主自己补。保利堂悦 2,781 户一年超 500 万，这个规模才撑得起 9.9 分的服务。</p>
+
+  <h3 class="sub-h">参考项在什么情况下会翻转结论</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>家庭画像</th><th>硬指标首选</th><th>参考项处理后</th></tr>
+    <tr><td>无车 / 全程地铁</td><td>明都雅苑</td><td>车位权重归零，<b>结论不变</b></td></tr>
+    <tr><td>一辆车</td><td>明都 / 保利</td><td>明都降为备选，需先确认能否长租固定位</td></tr>
+    <tr><td><b>两辆车</b></td><td>保利 / 万科</td><td><b>明都直接出局</b>，水月也吃紧</td></tr>
+    <tr><td>学龄孩子 + 有车</td><td>保利 89.80㎡</td><td>全项无短板，强化第一</td></tr>
+    <tr><td>只看现金流</td><td>水月 115.68㎡</td><td>十年省 3.7 万，但抵不过转手慢</td></tr>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">未来规划与兑现节奏 <span class="num">11</span></h2>
+  <p class="lead">「未来周边舒适度」这个诉求，只有南部新城能给出级别的答案；江宁是「现在就好，未来不变」。</p>
+
+  <h3 class="sub-h">南部新城（明都雅苑、保利堂悦）</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>项目</th><th>状态</th><th>时点</th><th>对谁有用</th></tr>
+    <tr><td>地铁 6 号线</td><td><span class="badge b-green">已通车</span></td><td>2026-09-29</td><td>明都雅苑 294m，最大受益者</td></tr>
+    <tr><td>地铁 5 号线、10 号线</td><td><span class="badge b-green">已运营</span></td><td>—</td><td>两盘均可用</td></tr>
+    <tr><td>南外明远小学 + 初中</td><td><span class="badge b-green">已投用</span></td><td>—</td><td>保利堂悦（名单内）</td></tr>
+    <tr><td>南京市中医院</td><td><span class="badge b-green">已运营</span></td><td>2019</td><td>明都雅苑 350m</td></tr>
+    <tr><td>京东 MALL</td><td><span class="badge b-green">已开业</span></td><td>—</td><td>两盘均 1km 左右</td></tr>
+    <tr><td>机场跑道公园（2,632 米）</td><td><span class="badge b-blue">部分开放</span></td><td>16 公顷草坪已开，剩余在建</td><td>两盘步行可达</td></tr>
+    <tr><td>金陵万象城（25 万方，TOD 上盖 9 个出入口）</td><td><span class="badge b-amber">在建</span></td><td><b>2027 年下半年</b></td><td>保利 1.5km、明都 1.3km</td></tr>
+    <tr><td>富华路南师附中分校</td><td><span class="badge b-amber">在建</span></td><td>—</td><td>可能改变片区学区格局</td></tr>
+    <tr><td>老佛爷百货</td><td><span class="badge b-red">永久搁置</span></td><td>—</td><td>规划≠兑现的现成例子</td></tr>
+  </table>
+  </div>
+  <p class="note">南部新城的地铁线网密度已达 1.50 km/km²，规划 6 条线 15 站、9 所小学 7 所初中 1 所高中。<b>兑现力度是四个板块里最大的，但节奏是 2027–2028，不是今年。</b></p>
+
+  <h3 class="sub-h">江宁（万科金域蓝湾、水月秦淮）</h3>
+  <p class="lead" style="margin-top:8px;">商业和地铁全在存量里，不用等——这是优点。但未来三五年以<b>存量更新</b>为主（杨家圩文化商务中心），没有南部新城那种整片主城新中心的量级投入。<b>江宁是「现在就好」，南部新城是「正在变好且还会更好」。</b></p>
+</section>
+
+<section>
+  <h2 class="sec">综合评分 <span class="num">12</span></h2>
+  <p class="lead">七项硬指标加权，车位与物业不计分。两套权重分别对应「居住优先」和「教育优先」——排序前两名会互换，这本身就是结论。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>维度</th><th>标准权重</th><th>学区优先</th><th>明都雅苑</th><th>保利堂悦</th><th>水月秦淮</th><th>万科金域蓝湾</th></tr>
+    <tr><td>预算可得性 / 户型匹配</td><td class="n">20%</td><td class="n">15%</td><td class="n">8.5</td><td class="n">7.0</td><td class="n">9.5</td><td class="n">8.5</td></tr>
+    <tr><td>价格合理性与抗跌</td><td class="n">15%</td><td class="n">10%</td><td class="n">8.5</td><td class="n">7.5</td><td class="n">6.0</td><td class="n">5.5</td></tr>
+    <tr><td>通勤（距离 + 线路）</td><td class="n">20%</td><td class="n">15%</td><td class="n">9.5</td><td class="n">8.0</td><td class="n">8.5</td><td class="n">6.0</td></tr>
+    <tr><td>学区</td><td class="n">15%</td><td class="n">30%</td><td class="n">6.5</td><td class="n">9.5</td><td class="n">6.0</td><td class="n">5.5</td></tr>
+    <tr><td>商圈与日常</td><td class="n">12%</td><td class="n">10%</td><td class="n">6.5</td><td class="n">7.5</td><td class="n">7.0</td><td class="n">8.5</td></tr>
+    <tr><td>医疗</td><td class="n">8%</td><td class="n">5%</td><td class="n">10.0</td><td class="n">6.0</td><td class="n">5.5</td><td class="n">4.5</td></tr>
+    <tr><td>居住环境（容积率/房龄/梯户比/得房率）</td><td class="n">10%</td><td class="n">15%</td><td class="n">7.5</td><td class="n">7.0</td><td class="n">5.5</td><td class="n">7.0</td></tr>
+    <tr style="background:#fbfaf6;"><td class="big">加权总分</td><td class="n">100%</td><td class="n">100%</td><td class="n big ok">8.18 / 7.78</td><td class="n big ok">7.63 / 7.95</td><td class="n big">7.23 / 6.90</td><td class="n big">6.63 / 6.50</td></tr>
+  </table>
+  </div>
+  <p class="note">两个分数分别是「标准权重 / 学区优先」。<b>明都雅苑在居住优先下第一，保利堂悦在教育优先下第一</b>，说明这不是一个「谁更好」的问题，而是一个「学区值多少分」的问题。水月和万科在两套权重下都排后两位，但理由完全不同：水月输在环境与抗跌，万科输在通勤、学区、抗跌三项同时偏弱。</p>
+</section>
+
+<section>
+  <h2 class="sec">四个小区，逐个说清 <span class="num">13</span></h2>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="row">
+        <h3>保利堂悦</h3>
+        <span class="rank">学区优先第一</span>
+      </div>
+    </div>
+    <div class="kv">
+      <div class="c"><div class="k">推荐房源</div><div class="v">89.80㎡ <small>3室2厅1卫</small></div></div>
+      <div class="c"><div class="k">总价</div><div class="v">215 万 <small>超 15 万</small></div></div>
+      <div class="c"><div class="k">成交中位</div><div class="v">24,342 <small>元/㎡</small></div></div>
+      <div class="c"><div class="k">套内</div><div class="v">约 65.9㎡ <small>73.4%</small></div></div>
+    </div>
+    <div class="pros-cons">
+      <div class="p">
+        <h4>优点</h4>
+        <ul>
+          <li>南外明远九年一贯，施教区名单明确含本小区，四个里唯一学区无争议</li>
+          <li>2017–2019 年交付，管线与电梯都在寿命前半段</li>
+          <li>秦淮 TOP10 普跌 12–25% 时同比 +0.8%，抗跌已被验证</li>
+          <li>车位 1:1.14 且过剩，2,781 户撑得起 9.9 分物业</li>
+          <li>89㎡ 段就是三房，不是两房，功能完整</li>
+        </ul>
+      </div>
+      <div class="c">
+        <h4>缺点</h4>
+        <ul>
+          <li>得房率 73.4%，四个里最低，89.80㎡ 套内只有约 66㎡</li>
+          <li>容积率 4.00、2,781 户、32 层两梯四户，密度最高</li>
+          <li>靠双龙街与卡子门高架一侧噪音明显，低层尤甚</li>
+          <li>自身商业薄，万象城要等 2027 下半年</li>
+          <li>同小区 44.33㎡ 是商办公寓（单价 1.5–2.2 万），别被低价误导</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body">
+      <p><b>怎么买：</b>89.80㎡ 那套单价 23,942 已贴近成交中位，价格合理但楼层是低层。若能谈到 210 万以内可以接受；否则等一套中高区的 89–92㎡，把「楼层」而不是「面积」当第一筛选条件。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="row">
+        <h3>明都雅苑</h3>
+        <span class="rank alt">居住优先第一</span>
+      </div>
+    </div>
+    <div class="kv">
+      <div class="c"><div class="k">推荐房源</div><div class="v">87.5㎡ <small>2室2厅1卫</small></div></div>
+      <div class="c"><div class="k">总价</div><div class="v">200 万 <small>正好</small></div></div>
+      <div class="c"><div class="k">成交区间</div><div class="v">23,000–24,900</div></div>
+      <div class="c"><div class="k">套内</div><div class="v">约 75㎡ <small>约 86%</small></div></div>
+    </div>
+    <div class="pros-cons">
+      <div class="p">
+        <h4>优点</h4>
+        <ul>
+          <li>6 号线市中医院 294m、10 号线 786m，两线都在步行范围，四个里唯一</li>
+          <li>南京市中医院 350m，三甲步行 5 分钟，无可替代</li>
+          <li>容积率 1.13、一梯两户、套内约 75㎡，实际居住感好于多数新盘</li>
+          <li>挂牌价低于成交价，价格没有泡沫，谈判不用防虚高</li>
+          <li>物业费 0.7 元、480 户小社区，十年持有成本不到 1 万</li>
+        </ul>
+      </div>
+      <div class="c">
+        <h4>缺点</h4>
+        <ul>
+          <li>对口秦淮实验小学，<b>不是南外明远</b>，中介常混淆</li>
+          <li>2005 年一期为 6 层无电梯，只有二期 2 幢带电梯，需逐栋确认</li>
+          <li>140 个车位对 480 户，能租但不稳定，无产权位</li>
+          <li>月成交 1–2 套，急售时没有议价主动权，转手慢</li>
+          <li>87.5㎡ 只做两房，要三房得看 107㎡（240 万，超预算）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body">
+      <p><b>怎么买：</b>先问清是一期还是二期、是否加装电梯、这套带几个租赁车位。87.5㎡ 报价 200 万，按挂牌即成交的行情，能谈 3–5 万下来当装修款。<b>98.54㎡ 挂 320 万那套单价 32,474，比小区均价高 40%，直接跳过。</b></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="row">
+        <h3>万科金域蓝湾</h3>
+        <span class="rank alt">现在最舒服</span>
+      </div>
+    </div>
+    <div class="kv">
+      <div class="c"><div class="k">推荐房源</div><div class="v">87.97㎡ <small>3室2厅1卫</small></div></div>
+      <div class="c"><div class="k">总价</div><div class="v">199 万 <small>满五唯一</small></div></div>
+      <div class="c"><div class="k">成交中位</div><div class="v">19,983 <small>同比 −4.1%</small></div></div>
+      <div class="c"><div class="k">套内</div><div class="v">68.53㎡ <small>77.9%</small></div></div>
+    </div>
+    <div class="pros-cons">
+      <div class="p">
+        <h4>优点</h4>
+        <ul>
+          <li>万科物业 9.4 分、约 100 名保安、12 位楼栋管家，四个里服务最稳</li>
+          <li>自带近 2 万㎡商业街，超市、咖啡、健身、净菜市场都在楼下</li>
+          <li>近 12 个月成交 153 套，唯一「随时卖得掉」的小区</li>
+          <li>200 万内唯一「满五唯一 + 三房 + 电梯 + 精装」的组合</li>
+          <li>真实成交可对照：88–90㎡ 三房成交 174–192 万，199 万有 7–25 万空间</li>
+        </ul>
+      </div>
+      <div class="c">
+        <h4>缺点</h4>
+        <ul>
+          <li>最近地铁 1,130m，步行 15–18 分钟，「三线环绕」是话术</li>
+          <li>同比 −4.1%，是四个里唯一还在下跌的，无止跌信号</li>
+          <li>4,474–4,860 户大盘，同户型常年几十套在售，卖房互相压价</li>
+          <li>到最近三甲 2.5km 以上，且最近的是三级综合不是三甲</li>
+          <li>江宁开发区学校学区，江宁中游</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body">
+      <p><b>怎么买：</b>按 88–90㎡ 三房 174–192 万的真实成交出价，不要按 199 万签。它的价格还在往下走，慢一点不吃亏。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="row">
+        <h3>水月秦淮</h3>
+        <span class="rank alt">面积最大</span>
+      </div>
+    </div>
+    <div class="kv">
+      <div class="c"><div class="k">推荐房源</div><div class="v">115.68㎡ <small>3室1厅</small></div></div>
+      <div class="c"><div class="k">总价</div><div class="v">168 万 <small>余 32 万</small></div></div>
+      <div class="c"><div class="k">真实成交</div><div class="v">约 13,900 <small>元/㎡</small></div></div>
+      <div class="c"><div class="k">套内</div><div class="v">约 91㎡ <small>约 79%</small></div></div>
+    </div>
+    <div class="pros-cons">
+      <div class="p">
+        <h4>优点</h4>
+        <ul>
+          <li>200 万买 115.68㎡，套内约 91㎡ 是四个里最大</li>
+          <li>1 号线河定桥 300–560m、3 号线宏运大道 618m，双线双站</li>
+          <li>买完还剩 32 万，够做全屋翻新，等于「新房化」</li>
+          <li>绿化 48%、容积率 1.5、户户临水，居住环境不差</li>
+          <li>单价 1.39 万在江宁几乎找不到对手</li>
+        </ul>
+      </div>
+      <div class="c">
+        <h4>缺点</h4>
+        <ul>
+          <li><b>学区以楼栋号为界</b>：15 栋以前百家湖小学，之后翠屏山小学</li>
+          <li>房龄 17–20 年，塔楼为主，通透性与得房率都吃亏</li>
+          <li>增值最弱、转手周期最长，是四个里最不适合投资的</li>
+          <li>地面停车为主，车位未公示，两处中介解都写「紧张」</li>
+          <li>物业 0.8–1.0 元、无评分，长条布局管理难度大</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body">
+      <p><b>怎么买：</b>6 月 6 套真实成交单价 11,713–14,881，中位约 13,900。115.68㎡ 按这个口径约 161 万，报价 168 万还有 7–8 万空间。<b>先确认「这栋是几栋」，再谈价。</b></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">决策路径 <span class="num">14</span></h2>
+  <div class="tree">
+    <div class="node"><div class="cond">孩子 3 年内要上小学</div><div class="res">→ <b>保利堂悦 89.80㎡ / 215 万</b>（中高区优先），或赌 91.95㎡ / 200 万那套并验硬伤</div></div>
+    <div class="node"><div class="cond">预算硬卡 200 万，不指望学区</div><div class="res">→ <b>明都雅苑 87.5㎡ / 200 万</b>，谈 3–5 万，确认一期二期与租赁车位</div></div>
+    <div class="node"><div class="cond">要三房 + 看重物业 + 接受地铁通勤</div><div class="res">→ <b>万科金域蓝湾 87.97㎡</b>，按 180 万左右出价，别按 199 万签</div></div>
+    <div class="node"><div class="cond">要最大套内 + 想留装修钱</div><div class="res">→ <b>水月秦淮 115.68㎡ / 168 万</b>，压到 160 万以内，先核楼栋号</div></div>
+    <div class="node"><div class="cond">家里两辆车</div><div class="res">→ <b>明都雅苑、水月秦淮直接出局</b>，只剩保利与万科</div></div>
+    <div class="node"><div class="cond">不着急、能等到 2027</div><div class="res">→ 等万象城开业后重估南部新城，<b>但别指望那时房价更低</b></div></div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">看房核实清单 <span class="num">15</span></h2>
+  <p class="lead">打印出来，逐条问、逐条记。这 12 条里任何一条答不上来，都不要付定金。</p>
+  <ol class="steps">
+    <li><b>产证上的建筑面积和套内面积各是多少。</b>要拍照，不要听口述。四个小区的得房率差 15 个百分点，这一项直接决定你花 200 万买到多少可用面积。</li>
+    <li><b>这套房子的上一手交易时间与价格。</b>两年内二次转手（如保利 91.95㎡）必须问原因，并去不动产登记簿查抵押与查封。</li>
+    <li><b>明都雅苑：一期还是二期，是否加装电梯。</b>只有二期 2 幢是 6 层带电梯的小洋房，其余无电梯。</li>
+    <li><b>水月秦淮：这栋是几栋。</b>15 栋以前才是百家湖小学，15 栋以后是翠屏山小学。不要问期数。</li>
+    <li><b>学区：拿门牌号去区教育局官网核当年施教区原文。</b>秦淮区、江宁区各查一次，截图留存。中介的「学区房」承诺不具备任何效力。</li>
+    <li><b>保利堂悦：是住宅还是商办公寓，产权 70 年还是 40 年。</b>44.33㎡ / 68 万那套是商办，不能落户、不能划学区。</li>
+    <li><b>车位：是产权位还是租赁位，租约还剩多久，月租多少。</b>明都雅苑的租赁位不随房子转移，这是最容易在交房时翻脸的一条。</li>
+    <li><b>物业：物业费收缴率、维修基金余额、近五年是否换过物业。</b>收缴率低于 70% 的小区，十年后公共设施一定烂。</li>
+    <li><b>电梯：梯龄、是否大修过、维保单位。</b>水月秦淮与明都雅苑的电梯都在 15 年以上。</li>
+    <li><b>噪音：晚上 8 点走一趟。</b>保利堂悦靠双龙街一侧、万科临小龙湾路一侧、水月临河道路，都要实地听。</li>
+    <li><b>停车：晚上 8 点数一次。</b>明都数地面停了多少辆、有没有堵消防通道；水月看楼前是不是停满。这一趟比十张表格准。</li>
+    <li><b>税费：是否满五唯一、是否满两年。</b>200 万总价，满两年与不满两年的增值税加个税能差 10 万以上，比房价谈判更值钱。</li>
+  </ol>
+</section>
+
+<footer>
+  <p>数据来源：贝壳 A+ 系统成交签约记录（经第三方月度报告整理，取数日 2026-10-17）、中指研究院小区均价与成交明细、克而瑞好房评测小区评分、各区教育局施教区公告、南京地铁与南部新城管委会公开信息。</p>
+  <p>口径说明：① 成交单价一律取成交中位数而非挂牌均价；② 面积一律取真实挂牌建筑面积，套内按实测得房率折算；③ 明都雅苑与水月秦淮月成交仅 1–2 套，价格给区间不给单点；④ 保利堂悦仅纳入 89㎡ 以上住宅户型，44.33㎡ 商办公寓不在比较范围。</p>
+  <p>本报告为决策参考，不构成投资建议。所有价格与规划时点在签约前请以官方渠道复核。</p>
+</footer>
+
+</div>
+</body>
+</html>
