@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>买房研究 · 资料库</title>
+<style>
+  :root{
+    --bg:#f6f4ef;
+    --bg-soft:#fbfaf7;
+    --card:#ffffff;
+    --ink:#1f2328;
+    --ink-2:#5b6168;
+    --ink-3:#8b9098;
+    --line:#e6e2d9;
+    --line-2:#efece4;
+    --accent:#b1503a;
+    --accent-soft:#f6e9e4;
+    --green:#2f6f5e;
+    --green-soft:#e5f0ec;
+    --shadow:0 1px 2px rgba(31,35,40,.04), 0 8px 24px -12px rgba(31,35,40,.14);
+    --radius:14px;
+    font-synthesis-weight:none;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, #fdf7f2 0%, rgba(253,247,242,0) 60%),
+      radial-gradient(900px 500px at 100% 0%, #eef4f1 0%, rgba(238,244,241,0) 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.55;
+  }
+  a{color:inherit;text-decoration:none}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+  /* ---------- 列表视图 ---------- */
+  .list-view{
+    max-width:1080px;
+    margin:0 auto;
+    padding:64px 28px 80px;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;letter-spacing:.14em;color:var(--accent);
+    background:var(--accent-soft);
+    border:1px solid rgba(177,80,58,.16);
+    padding:5px 12px;border-radius:999px;
+    font-weight:600;
+  }
+  .eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+  h1{
+    font-size:clamp(28px,4.2vw,42px);
+    line-height:1.15;
+    letter-spacing:-.02em;
+    margin:20px 0 10px;
+    font-weight:700;
+  }
+  h1 .thin{color:var(--ink-3);font-weight:500}
+  .lede{
+    color:var(--ink-2);
+    font-size:15px;
+    max-width:62ch;
+    margin:0 0 8px;
+  }
+  .path{
+    display:inline-block;
+    font-size:12px;
+    color:var(--ink-3);
+    background:var(--bg-soft);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:4px 10px;
+    margin-top:10px;
+    word-break:break-all;
+  }
+
+  .toolbar{
+    display:flex;align-items:center;gap:14px;
+    margin:38px 0 18px;
+    flex-wrap:wrap;
+  }
+  .search{
+    position:relative;flex:1 1 260px;max-width:360px;
+  }
+  .search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.4}
+  .search input{
+    width:100%;
+    padding:10px 14px 10px 36px;
+    border:1px solid var(--line);
+    background:var(--card);
+    border-radius:10px;
+    font-size:14px;color:var(--ink);
+    outline:none;
+    transition:border-color .16s, box-shadow .16s;
+    font-family:inherit;
+  }
+  .search input::placeholder{color:var(--ink-3)}
+  .search input:focus{border-color:rgba(177,80,58,.45);box-shadow:0 0 0 3px rgba(177,80,58,.1)}
+  .count{font-size:12.5px;color:var(--ink-3);letter-spacing:.02em}
+
+  .section-label{
+    display:flex;align-items:center;gap:10px;
+    font-size:12px;letter-spacing:.12em;color:var(--ink-3);
+    text-transform:uppercase;
+    margin:26px 0 12px;
+  }
+  .section-label::after{content:"";flex:1;height:1px;background:var(--line-2)}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(288px,1fr));
+    gap:16px;
+  }
+  .card{
+    position:relative;
+    display:flex;flex-direction:column;gap:12px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px 20px 18px;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    transition:transform .18s cubic-bezier(.2,.7,.3,1), box-shadow .18s, border-color .18s;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:linear-gradient(180deg,var(--accent),#d98b6f);
+    opacity:0;transition:opacity .18s;
+  }
+  .card:hover{transform:translateY(-3px);border-color:#ddd7ca;box-shadow:0 2px 4px rgba(31,35,40,.05),0 18px 36px -18px rgba(31,35,40,.28)}
+  .card:hover::before{opacity:1}
+  .card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .badge{
+    flex:none;width:34px;height:34px;border-radius:9px;
+    display:grid;place-items:center;
+    background:var(--accent-soft);color:var(--accent);
+    border:1px solid rgba(177,80,58,.14);
+  }
+  .kind{
+    font-size:11px;color:var(--ink-3);
+    border:1px solid var(--line);
+    border-radius:999px;padding:2px 9px;
+    letter-spacing:.06em;
+    white-space:nowrap;
+  }
+  .card h3{
+    font-size:16.5px;line-height:1.4;margin:0;font-weight:650;letter-spacing:-.01em;
+  }
+  .fname{
+    font-size:12px;color:var(--ink-2);
+    word-break:break-all;
+    background:var(--bg-soft);
+    border:1px solid var(--line-2);
+    border-radius:6px;padding:2px 7px;
+    align-self:flex-start;
+    max-width:100%;
+  }
+  .meta{
+    display:flex;align-items:center;gap:14px;
+    font-size:12px;color:var(--ink-3);
+    margin-top:auto;padding-top:10px;
+    border-top:1px dashed var(--line-2);
+  }
+  .meta .sp{flex:1}
+  .open{
+    display:inline-flex;align-items:center;gap:5px;
+    color:var(--accent);font-weight:600;font-size:12.5px;
+  }
+  .open svg{transition:transform .18s}
+  .card:hover .open svg{transform:translateX(3px)}
+  .empty{
+    padding:56px 20px;text-align:center;color:var(--ink-3);font-size:14px;
+    border:1px dashed var(--line);border-radius:var(--radius);background:rgba(255,255,255,.5);
+  }
+  .foot{
+    margin-top:44px;font-size:12px;color:var(--ink-3);
+    display:flex;gap:16px;flex-wrap:wrap;align-items:center;
+  }
+  .kbd{
+    font-family:ui-monospace,Menlo,monospace;font-size:11px;
+    border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;
+    padding:1px 5px;background:var(--bg-soft);
+  }
+
+  /* ---------- 预览视图 ---------- */
+  .viewer{
+    position:fixed;inset:0;display:none;flex-direction:column;
+    background:var(--bg-soft);
+    z-index:50;
+  }
+  body.viewing .viewer{display:flex}
+  body.viewing .list-view{display:none}
+  .vbar{
+    flex:none;
+    display:flex;align-items:center;gap:14px;
+    padding:10px 18px;
+    background:rgba(251,250,247,.92);
+    backdrop-filter:saturate(180%) blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .btn-back{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:7px 14px 7px 11px;
+    border:1px solid var(--line);
+    background:var(--card);
+    border-radius:9px;
+    font-size:13.5px;font-weight:600;color:var(--ink);
+    cursor:pointer;font-family:inherit;
+    transition:background .15s,border-color .15s,transform .15s;
+    box-shadow:0 1px 2px rgba(31,35,40,.04);
+  }
+  .btn-back:hover{background:#fff;border-color:#d8d1c2;transform:translateX(-1px)}
+  .vtitle{
+    min-width:0;flex:1;
+    display:flex;flex-direction:column;gap:1px;
+  }
+  .vtitle b{font-size:14px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .vtitle span{font-size:11.5px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .vbar .ghost{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:6px 11px;border-radius:8px;
+    font-size:12.5px;color:var(--ink-2);
+    border:1px solid transparent;
+    transition:background .15s,color .15s;
+    white-space:nowrap;
+  }
+  .vbar .ghost:hover{background:#fff;border-color:var(--line);color:var(--ink)}
+  .vframe-wrap{flex:1;position:relative;background:#fff}
+  .vframe-wrap iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+  .vhint{
+    position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
+    background:#fff;border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    border-radius:10px;padding:10px 14px;
+    font-size:12.5px;color:var(--ink-2);
+    display:none;align-items:center;gap:10px;max-width:calc(100% - 40px);
+  }
+  .vhint.show{display:flex}
+  .vhint a{color:var(--accent);font-weight:600;white-space:nowrap}
+
+  @media (max-width:640px){
+    .list-view{padding:40px 18px 60px}
+    .vbar{padding:8px 10px;gap:8px}
+    .vbar .ghost.hide-sm{display:none}
+    .vtitle span{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ 列表 ============ -->
+<main class="list-view">
+  <span class="eyebrow"><span class="dot"></span>资料库</span>
+  <h1>买房研究 <span class="thin">/ 全部资料</span></h1>
+  <p class="lede">这里汇总了这个目录下的分析报告与体检文档。点击任意卡片即可在页面内打开阅读，随时用「返回」回到列表。</p>
+  <div class="path mono" id="dirPath">/Users/zhupengcheng/Documents/workSpace/buyHouse</div>
+
+  <div class="toolbar">
+    <div class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="搜索文件名或标题…" autocomplete="off">
+    </div>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="section-label">文档 / 报告</div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none">没有匹配的文件。</div>
+
+  <div class="section-label" id="dirLabel" style="display:none">子目录</div>
+  <div class="grid" id="dirGrid"></div>
+
+  <div class="foot">
+    <span><span class="kbd">/</span> 聚焦搜索</span>
+    <span><span class="kbd">Esc</span> 返回列表</span>
+    <span id="stamp"></span>
+  </div>
+</main>
+
+<!-- ============ 预览 ============ -->
+<section class="viewer" id="viewer" aria-hidden="true">
+  <div class="vbar">
+    <button class="btn-back" id="back" type="button">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      返回
+    </button>
+    <div class="vtitle">
+      <b id="vName">—</b>
+      <span id="vFile" class="mono"></span>
+    </div>
+    <a class="ghost hide-sm" id="vNew" href="#" target="_blank" rel="noopener">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>
+      新标签打开
+    </a>
+    <a class="ghost hide-sm" id="vTop" href="#">回到列表</a>
+  </div>
+  <div class="vframe-wrap">
+    <iframe id="frame" title="文档预览" referrerpolicy="no-referrer"></iframe>
+    <div class="vhint" id="hint">
+      <span>如果这里一直空白，说明浏览器限制了本地内嵌预览。</span>
+      <a id="hintLink" href="#" target="_blank" rel="noopener">改为新标签打开 →</a>
+    </div>
+  </div>
+</section>
+
+<script>
+/* =========================================================
+   文件清单
+   —— 新增文件后，在这里补一条即可（path 相对 index.html）
+   —— 生成脚本：见同目录 refresh-index.py（可选）
+   ========================================================= */
+const FILES = [
+  {
+    path: "南京四小区综合分析-终版.html",
+    title: "南京四小区 · 综合分析（终版）",
+    kind: "综合分析",
+    desc: "四个候选小区的横向对比与结论",
+    size: "49.2 KB",
+    date: "2026-10-20 15:38"
+  },
+  {
+    path: "南京都会四季小区体检.html",
+    title: "南京都会四季 · 单小区体检",
+    kind: "小区体检",
+    desc: "都会四季单盘体检：板块、楼盘、产品",
+    size: "41.0 KB",
+    date: "2026-10-20 15:50"
+  }
+];
+
+const DIRS = [ /* { path:"南京/", name:"南京" } */ ];
+
+const grid = document.getElementById('grid');
+const dirGrid = document.getElementById('dirGrid');
+const empty = document.getElementById('empty');
+const countEl = document.getElementById('count');
+const q = document.getElementById('q');
+
+document.getElementById('stamp').textContent = '索引更新于 ' + new Date().toLocaleString('zh-CN', {hour12:false});
+
+const docIcon = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>`;
+const dirIcon = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>`;
+const arrow = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="m13 6 6 6-6 6"/></svg>`;
+
+function esc(s){return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function render(){
+  const kw = q.value.trim().toLowerCase();
+  const hits = FILES.filter(f => !kw || (f.title + f.path + (f.kind||'') + (f.desc||'')).toLowerCase().includes(kw));
+
+  grid.innerHTML = hits.map((f, i) => `
+    <article class="card" tabindex="0" role="button" data-path="${esc(f.path)}" data-title="${esc(f.title)}">
+      <div class="card-top">
+        <span class="badge">${docIcon}</span>
+        <span class="kind">${esc(f.kind || 'HTML')}</span>
+      </div>
+      <h3>${esc(f.title)}</h3>
+      <span class="fname mono">${esc(f.path)}</span>
+      ${f.desc ? `<p style="margin:0;font-size:13px;color:var(--ink-2)">${esc(f.desc)}</p>` : ''}
+      <div class="meta">
+        <span>${esc(f.size || '')}</span>
+        <span>${esc(f.date || '')}</span>
+        <span class="sp"></span>
+        <span class="open">阅读 ${arrow}</span>
+      </div>
+    </article>`).join('');
+
+  dirGrid.innerHTML = DIRS.map(d => `
+    <a class="card" href="${esc(d.path)}">
+      <div class="card-top"><span class="badge" style="background:var(--green-soft);color:var(--green);border-color:rgba(47,111,94,.16)">${dirIcon}</span><span class="kind">目录</span></div>
+      <h3>${esc(d.name)}</h3>
+      <span class="fname mono">${esc(d.path)}</span>
+      <div class="meta"><span>文件夹</span><span class="sp"></span><span class="open">打开 ${arrow}</span></div>
+    </a>`).join('');
+
+  document.getElementById('dirLabel').style.display = DIRS.length ? 'flex' : 'none';
+  empty.style.display = (hits.length || DIRS.length) ? 'none' : 'block';
+  countEl.textContent = `共 ${FILES.length} 个文档${KW_TEXT(kw)}`;
+}
+function KW_TEXT(kw){return kw ? ` · 命中 ${FILES.filter(f=>(f.title+f.path+(f.kind||'')+(f.desc||'')).toLowerCase().includes(kw)).length} 个` : '';}
+
+/* ---------- 预览 / 返回 ----------
+   file:// 下 pushState 会抛 SecurityError，所以只用 hash 做路由。
+   返回：优先 history.back()，直接带 hash 打开页面时退回列表。 */
+const frame = document.getElementById('frame');
+const hint = document.getElementById('hint');
+let hintTimer = null;
+let frameLoaded = false;
+let currentPath = null;
+let cameFromList = false;
+
+frame.addEventListener('load', () => { frameLoaded = true; });
+
+function titleOf(p){
+  const f = FILES.find(x => x.path === p);
+  return f ? f.title : p;
+}
+
+function showDoc(path){
+  const title = titleOf(path);
+  document.body.classList.add('viewing');
+  document.getElementById('vName').textContent = title;
+  document.getElementById('vFile').textContent = path;
+  document.getElementById('vNew').href = encodeURI(path);
+  document.getElementById('hintLink').href = encodeURI(path);
+  document.title = title + ' · 预览';
+  hint.classList.remove('show');
+  window.scrollTo(0, 0);
+
+  frameLoaded = false;
+  frame.src = encodeURI(path);
+
+  clearTimeout(hintTimer);
+  hintTimer = setTimeout(() => { if (!frameLoaded) hint.classList.add('show'); }, 2500);
+}
+
+function hideDoc(){
+  document.body.classList.remove('viewing');
+  frame.src = 'about:blank';
+  document.title = '买房研究 · 资料库';
+  hint.classList.remove('show');
+  clearTimeout(hintTimer);
+}
+
+/* hash 是唯一状态源：点卡片改 hash，hashchange 驱动界面 */
+function route(){
+  const m = location.hash.match(/^#\/(.+)$/);
+  if (m) {
+    const p = decodeURIComponent(m[1]);
+    if (currentPath !== p) { currentPath = p; showDoc(p); }
+  } else if (currentPath !== null) {
+    currentPath = null;
+    hideDoc();
+  }
+}
+
+function openDoc(path){
+  cameFromList = true;
+  location.hash = '#/' + encodeURIComponent(path);
+  route(); // hashchange 也会触发，route 幂等
+}
+
+function goBack(){
+  if (cameFromList && history.length > 1) {
+    cameFromList = false;
+    history.back();          // 退回上一条列表记录
+  } else {
+    location.hash = '';      // 直接带 hash 进入时，退回列表
+  }
+  route();
+}
+
+document.addEventListener('click', e => {
+  const card = e.target.closest('.card[data-path]');
+  if (card) { e.preventDefault(); openDoc(card.dataset.path); }
+});
+document.addEventListener('keydown', e => {
+  const card = document.activeElement && document.activeElement.closest ? document.activeElement.closest('.card[data-path]') : null;
+  if (card && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openDoc(card.dataset.path); }
+  if (e.key === 'Escape' && document.body.classList.contains('viewing')) { e.preventDefault(); goBack(); }
+  if (e.key === '/' && document.activeElement !== q) { e.preventDefault(); q.focus(); }
+});
+document.getElementById('back').addEventListener('click', goBack);
+document.getElementById('vTop').addEventListener('click', e => { e.preventDefault(); goBack(); });
+
+window.addEventListener('hashchange', route);
+q.addEventListener('input', render);
+
+render();
+route();
+</script>
+</body>
+</html>
