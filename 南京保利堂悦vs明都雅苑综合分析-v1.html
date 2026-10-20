@@ -118,7 +118,7 @@ footer h4{font-size:13px;color:var(--ink-2);margin:16px 0 6px}
     <span>面积下限 <b>80㎡ 建面</b></span>
     <span>车辆 <b>1 辆</b>（2 辆为翻转条件）</span>
     <span>取数日 <b>2026-10-20</b></span>
-    <span>价格口径 <b>成交中位（区间）+ 挂牌中位</b></span>
+    <span>价格口径 <b>单价 = 成交中位；挂牌价仅折算议价空间</b></span>
   </div>
 
   <!-- 结论先说 -->
@@ -132,7 +132,7 @@ footer h4{font-size:13px;color:var(--ink-2);margin:16px 0 6px}
   <div class="fix">
     <h4>先立口径 · 五条铁律（每条配本案例的反例）</h4>
     <ol>
-      <li><b>只用成交中位，不用挂牌均价。</b>保利堂悦挂牌中位约 3.15 万/㎡，实际成交约 2.95 万；明都雅苑挂牌约 2.50 万，成交约 2.30 万。拿挂牌价倒算"250 万能买多少平"，会系统性少买 6–8㎡。</li>
+      <li><b>单价只用成交中位，挂牌价只折算谈价空间。</b>保利堂悦挂牌中位约 3.15 万/㎡、成交约 2.95 万，议价率 6.3%；明都雅苑挂牌约 2.50 万、成交约 2.30 万，议价率 8.0%。拿挂牌价倒算"250 万能买多少平"会系统性少买 6–8㎡；挂牌价的正确用法是算出这套房能谈下来多少、从哪儿开口。</li>
       <li><b>面积只认产证/挂牌建面，绝不倒算。</b>保利堂悦 92.19㎡ 是建面，套内约 69㎡；明都雅苑 106.6㎡ 是建面，套内约 90.6㎡。同样是"三房"，套内差 21㎡。</li>
       <li><b>得房率要单独摆出来。</b>保利 75%（高层板塔）对明都 85%（6 层多层）——10 个百分点，等于 100㎡ 里差 10㎡，按 2.3 万/㎡ 折算约 23 万。</li>
       <li><b>学区只认施教区公告原文。</b>保利堂悦在《南外明远小学》施教区名单里（"果园村、夹岗村、汇景家园、保利堂悅、复地宴南都"，边界以卡子门大街—机场大道—神机营路—绕城公路为界）；<b>明都雅苑不在南外明远范围内</b>（它在机场大道以西），对口秦淮实验小学 + 二十七初中/十八中。中介说"1 公里内有南外"不等于学区。</li>
@@ -147,51 +147,52 @@ footer h4{font-size:13px;color:var(--ink-2);margin:16px 0 6px}
   <div class="tbl-wrap">
     <table>
       <thead>
-        <tr><th>小区</th><th class="n">建面㎡</th><th>户型</th><th>楼层</th><th class="n">总价万</th><th class="n">单价元/㎡</th><th class="n">套内估㎡</th><th>判定</th></tr>
+        <tr><th>小区</th><th class="n">建面㎡</th><th>户型</th><th>楼层</th><th class="n">总价万</th><th class="n">挂牌单价</th><th class="n">较成交中位</th><th class="n">套内估㎡</th><th>判定</th></tr>
       </thead>
       <tbody>
-        <tr><td>保利堂悦</td><td class="n">84.26</td><td>3室1厅1卫</td><td>—</td><td class="n">199</td><td class="n">23,618</td><td class="n">63.2</td><td><span class="badge b-amber">低价位，需核采光</span></td></tr>
-        <tr><td>保利堂悦</td><td class="n">89.80</td><td>3室2厅</td><td>—</td><td class="n">250</td><td class="n">27,840</td><td class="n">67.4</td><td><span class="badge b-green">符合</span></td></tr>
-        <tr><td>保利堂悦</td><td class="n">92.19</td><td>3室2厅</td><td>—</td><td class="n">258</td><td class="n">27,986</td><td class="n">69.1</td><td><span class="badge b-green">符合（略超）</span></td></tr>
-        <tr><td>保利堂悦</td><td class="n">95.36</td><td>3室1厅1卫</td><td>高/28</td><td class="n">288</td><td class="n">30,202</td><td class="n">71.5</td><td><span class="badge b-red">超预算 15%</span></td></tr>
-        <tr><td>保利堂悦</td><td class="n">160.82</td><td>4室2厅2卫</td><td>中/25</td><td class="n">598</td><td class="n">37,184</td><td class="n">120.6</td><td><span class="badge b-red">超预算</span></td></tr>
-        <tr><td>明都雅苑</td><td class="n">79.12</td><td>2室2厅1卫</td><td>低/6</td><td class="n">190</td><td class="n">24,015</td><td class="n">67.3</td><td><span class="badge b-green">符合</span></td></tr>
-        <tr><td>明都雅苑</td><td class="n">87.50</td><td>2室1厅</td><td>—</td><td class="n">200</td><td class="n">22,857</td><td class="n">74.4</td><td><span class="badge b-green">符合</span></td></tr>
-        <tr><td>明都雅苑</td><td class="n">106.60</td><td>3室1厅</td><td>—</td><td class="n">240</td><td class="n">22,515</td><td class="n">90.6</td><td><span class="badge b-green">符合，性价比最高</span></td></tr>
-        <tr><td>明都雅苑</td><td class="n">123.93</td><td>3室2厅</td><td>带露台</td><td class="n">258</td><td class="n">20,819</td><td class="n">105.3</td><td><span class="badge b-amber">符合，顶楼露台须核渗漏</span></td></tr>
-        <tr><td>明都雅苑</td><td class="n">152.77</td><td>4室2厅</td><td>中/6</td><td class="n">310</td><td class="n">20,291</td><td class="n">129.9</td><td><span class="badge b-red">超预算</span></td></tr>
+        <tr><td>保利堂悦</td><td class="n">84.26</td><td>3室1厅1卫</td><td>—</td><td class="n">199</td><td class="n">23,618</td><td class="n ok">−20%</td><td class="n">63.2</td><td><span class="badge b-amber">低价位，需核采光</span></td></tr>
+        <tr><td>保利堂悦</td><td class="n">89.80</td><td>3室2厅</td><td>—</td><td class="n">250</td><td class="n">27,840</td><td class="n ok">−6%</td><td class="n">67.4</td><td><span class="badge b-green">符合</span></td></tr>
+        <tr><td>保利堂悦</td><td class="n">92.19</td><td>3室2厅</td><td>—</td><td class="n">258</td><td class="n">27,986</td><td class="n ok">−5%</td><td class="n">69.1</td><td><span class="badge b-green">符合（略超）</span></td></tr>
+        <tr><td>保利堂悦</td><td class="n">95.36</td><td>3室1厅1卫</td><td>高/28</td><td class="n">288</td><td class="n">30,202</td><td class="n">+2%</td><td class="n">71.5</td><td><span class="badge b-red">超预算 15%</span></td></tr>
+        <tr><td>保利堂悦</td><td class="n">160.82</td><td>4室2厅2卫</td><td>中/25</td><td class="n">598</td><td class="n">37,184</td><td class="n bad">+26%</td><td class="n">120.6</td><td><span class="badge b-red">超预算</span></td></tr>
+        <tr><td>明都雅苑</td><td class="n">79.12</td><td>2室2厅1卫</td><td>低/6</td><td class="n">190</td><td class="n">24,015</td><td class="n">+4%</td><td class="n">67.3</td><td><span class="badge b-green">符合</span></td></tr>
+        <tr><td>明都雅苑</td><td class="n">87.50</td><td>2室1厅</td><td>—</td><td class="n">200</td><td class="n">22,857</td><td class="n ok">−1%</td><td class="n">74.4</td><td><span class="badge b-green">符合</span></td></tr>
+        <tr><td>明都雅苑</td><td class="n">106.60</td><td>3室1厅</td><td>—</td><td class="n">240</td><td class="n">22,515</td><td class="n ok">−2%</td><td class="n">90.6</td><td><span class="badge b-green">符合，性价比最高</span></td></tr>
+        <tr><td>明都雅苑</td><td class="n">123.93</td><td>3室2厅</td><td>带露台</td><td class="n">258</td><td class="n">20,819</td><td class="n ok">−9%</td><td class="n">105.3</td><td><span class="badge b-amber">符合，顶楼露台须核渗漏</span></td></tr>
+        <tr><td>明都雅苑</td><td class="n">152.77</td><td>4室2厅</td><td>中/6</td><td class="n">310</td><td class="n">20,291</td><td class="n ok">−12%</td><td class="n">129.9</td><td><span class="badge b-red">超预算</span></td></tr>
       </tbody>
     </table>
   </div>
+  <p class="note">单价一栏是<b>挂牌单价</b>；「较成交中位」是它相对小区成交中位的溢价或折价（保利 29,500、明都 23,000），负值说明这套挂牌已经低于市场价、没有水分可挤，该查的是硬伤而不是砍价；正值就是这套房的可谈上限。全表不出现「成交单价以外的单价」这种说法，横向比较一律回到成交中位。</p>
   <p class="note">数据源：贝壳/链家南京站小区页、365 淘房、南京市房屋租赁服务监管平台房源挂牌信息。套内 = 建面 × 75%（保利堂悦，开发商口径得房率）/ 85%（明都雅苑 6 层多层，估值）。</p>
 
   <div class="callout amber">
-    <p><b>这一层改变了什么：</b>250 万在保利堂悦只能落在 84–92㎡ 的小三房，且 84㎡ 那套单价仅 2.36 万、明显低于小区中位——低价通常对应低楼层、临高架或采光被挡，必须现场核。在明都雅苑，同样的钱能直接上 106–124㎡，总价还更低。</p>
+    <p><b>这一层改变了什么：</b>250 万在保利堂悦只能落在 84–92㎡ 的小三房，且 84㎡ 那套挂牌单价仅 2.36 万、比成交中位低 20%，是这批里折扣最深的一套——低价通常对应低楼层、临高架或采光被挡，必须现场核，别把它当"捡漏"。在明都雅苑，同样的钱能直接上 106–124㎡，总价还更低。</p>
   </div>
 
   <!-- 02 成交价 -->
-  <h2><span class="no">02</span>成交价与剩余空间：谁在跌，谁接近出清</h2>
+  <h2><span class="no">02</span>成交价与议价空间：单价看成交，挂牌只管谈</h2>
 
   <div class="tbl-wrap">
     <table>
       <thead>
-        <tr><th>小区</th><th class="n">挂牌中位元/㎡</th><th class="n">成交中位元/㎡</th><th class="n">落差</th><th class="n">同比</th><th class="n">在售套数</th><th class="n">月成交估</th><th>置信度</th></tr>
+        <tr><th>小区</th><th class="n">成交中位元/㎡</th><th class="n">挂牌中位元/㎡</th><th class="n">议价率</th><th class="n">250 万房源可谈</th><th class="n">起谈价</th><th class="n">同比</th><th class="n">在售 / 月成交</th><th>置信度</th></tr>
       </thead>
       <tbody>
-        <tr><td>保利堂悦</td><td class="n">30,800 – 32,600</td><td class="n">28,500 – 30,500</td><td class="n warn">−6.3%</td><td class="n bad">−8.1%</td><td class="n">92（住宅）/ 280（含公寓）</td><td class="n">5 – 15</td><td><span class="badge b-amber">中</span></td></tr>
-        <tr><td>明都雅苑</td><td class="n">22,700 – 26,200</td><td class="n">21,000 – 24,000</td><td class="n warn">−8.0%</td><td class="n bad">−15.0%</td><td class="n">22 – 31</td><td class="n">1 – 2</td><td><span class="badge b-red">中低</span></td></tr>
+        <tr><td>保利堂悦</td><td class="n big">28,500 – 30,500</td><td class="n">30,800 – 32,600</td><td class="n warn">6.3%</td><td class="n">约 16 万</td><td class="n">227 万</td><td class="n bad">−8.1%</td><td class="n">92 套 / 5 – 15 套</td><td><span class="badge b-amber">中</span></td></tr>
+        <tr><td>明都雅苑</td><td class="n big">21,000 – 24,000</td><td class="n">22,700 – 26,200</td><td class="n warn">8.0%</td><td class="n">约 20 万</td><td class="n">223 万</td><td class="n bad">−15.0%</td><td class="n">22 – 31 套 / 1 – 2 套</td><td><span class="badge b-red">中低</span></td></tr>
       </tbody>
     </table>
   </div>
-  <p class="note">保利堂悦：58 同城 2026-10 挂牌 31,494 元/㎡（同比 −8.1%，近 3 个月从 34,029 跌到 31,494）、365 住宅均价 31,200、克而瑞 31,433（2025-12）。明都雅苑：中国房价行情 2026-09 均价 22,745、365 住宅均价 24,768、贝壳 9 月参考均价 26,211、中指 7 月 24,930；贝壳成交记录显示 2026-06/07/08/09 各 1 套。逐套成交明细需登录平台，本报告未绕过访问控制，价格一律给区间。</p>
+  <p class="note">议价率 =（挂牌中位 − 成交中位）÷ 挂牌中位；可谈与起谈价以 250 万挂牌房源为基准（起谈价另留 3% 楼层/装修缓冲）。保利堂悦：58 同城 2026-10 挂牌 31,494 元/㎡（同比 −8.1%，近 3 个月从 34,029 跌到 31,494）、365 住宅均价 31,200、克而瑞 31,433（2025-12）。明都雅苑：中国房价行情 2026-09 均价 22,745、365 住宅均价 24,768、贝壳 9 月参考均价 26,211、中指 7 月 24,930；贝壳成交记录显示 2026-06/07/08/09 各 1 套。逐套成交明细需登录平台，本报告未绕过访问控制，价格一律给区间。</p>
 
   <h3>议价策略</h3>
   <div class="two">
     <div class="callout blue">
-      <p><b>保利堂悦：从 95 折起谈。</b>落差只有 6%，接近出清，业主不会大让。真正的空间在"临高架楼栋"和"满两年/满五年"的税费差上——7、8、9 幢临卡子门高架，同户型可差 3–5%。</p>
+      <p><b>保利堂悦：从 91 折起谈。</b>议价率 6.3%，加 3% 缓冲，250 万的房子起谈价约 227 万，接近出清，业主不会大让。真正的空间在"临高架楼栋"和"满两年/满五年"的税费差上——7、8、9 幢临卡子门高架，同户型可差 3–5%。</p>
     </div>
     <div class="callout amber">
-      <p><b>明都雅苑：从 88 折起谈，但别指望快。</b>同比 −15%，还在下跌通道，理论上空间更大；可在售只有 22–31 套、月成交 1–2 套，业主不急、也不缺时间。挑"挂牌超过 90 天"的那几套。</p>
+      <p><b>明都雅苑：议价率 8%，从 89 折起谈，但别指望快。</b>250 万的房子可谈约 20 万、起谈价约 223 万；同比 −15% 还在下跌通道，理论上空间更大，可在售只有 22–31 套、月成交 1–2 套，业主不急、也不缺时间。挑"挂牌超过 90 天"的那几套。</p>
     </div>
   </div>
 
@@ -506,7 +507,7 @@ footer h4{font-size:13px;color:var(--ink-2);margin:16px 0 6px}
     <h4>数据来源与取数日</h4>
     <p>取数日 2026-10-20。价格与房源：贝壳/链家南京站小区页与挂牌页、58 同城、安居客、365 淘房、中国房价行情（creprice）、中指研究院、克而瑞好房评测、南京市房屋租赁服务监管平台（njzl.njhouse.com.cn）。地铁：南京地铁官网、南京市人民政府 2026-09-29 通车公告、百度百科线路条目。学区：秦淮区人民政府《2026 年秦淮区小学招生入学工作实施办法》、南外明远小学施教区公告原文、秦淮实验小学施教区名单。规划：南京南部新城管委会、南京市规划和自然资源局公示、12345 热线公开答复。物业与车位：克而瑞好房评测、物业公示信息、各平台小区档案。</p>
     <h4>口径说明</h4>
-    <p>① 成交价一律取中位数或区间，不使用挂牌均价替代；保利堂悦、明都雅苑的逐套成交明细需登录平台查看，本报告未绕过访问控制，价格均标注置信度。② 面积一律为产证/挂牌建筑面积，套内面积为按建筑形态推算的估值（保利 75%、明都 85%），非实测。③ 明都雅苑月成交 1–2 套，价格只给区间不给单点。④ 车位数据存在源冲突（140 / 440 两个口径），按保守值计分并标注。⑤ 已排除保利堂悦内的 40 年产权酒店式公寓（翡翠公馆）房源，其单价约 1.6–2.0 万/㎡，与住宅不可比。</p>
+    <p>① 单价一律取成交中位数，挂牌价不进任何单价、预算与面积测算，只折算成议价率、可谈金额与起谈价（起谈价另留 3% 楼层/装修缓冲）；保利堂悦、明都雅苑的逐套成交明细需登录平台查看，本报告未绕过访问控制，价格均标注置信度。② 面积一律为产证/挂牌建筑面积，套内面积为按建筑形态推算的估值（保利 75%、明都 85%），非实测。③ 明都雅苑月成交 1–2 套，价格只给区间不给单点。④ 车位数据存在源冲突（140 / 440 两个口径），按保守值计分并标注。⑤ 已排除保利堂悦内的 40 年产权酒店式公寓（翡翠公馆）房源，其报价约 1.6–2.0 万/㎡，与住宅不可比。</p>
     <h4>免责声明</h4>
     <p>本报告为公开信息整理与量化对比，不构成投资建议，不推荐任何中介或渠道。价格、学区、规划与产权信息在签约前请以官方渠道（不动产登记中心、区教育局、街道社区、物业公司）复核为准。房地产市场存在波动风险，本报告不对涨跌作任何承诺或预测。</p>
   </footer>
