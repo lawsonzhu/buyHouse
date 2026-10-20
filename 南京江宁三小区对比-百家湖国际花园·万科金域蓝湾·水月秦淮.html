@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南京江宁三小区对比 · 百家湖国际花园 / 万科金域蓝湾 / 水月秦淮</title>
+<meta name="description" content="同样 200 万，百家湖国际花园能买 137㎡ 四房、水月秦淮 115㎡ 三房、万科金域蓝湾只能 88㎡ 三房。但挂牌率 11.3% 对 1.8%，静态去化 94 个月对 6.7 个月——面积便宜三成，卖的时候要多等七年半。">
+<style>
+  :root{
+    --ink:#1c1c1a; --ink-2:#4a4a46; --muted:#7a7a74; --line:#e4e2dc;
+    --bg:#faf9f6; --card:#ffffff;
+    --blue:#185FA5; --blue-bg:#E6F1FB;
+    --green:#3B6D11; --green-bg:#EAF3DE;
+    --red:#A32D2D; --red-bg:#FCEBEB;
+    --amber:#854F0B; --amber-bg:#FAEEDA;
+    --gray-bg:#f4f2ec;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.72;font-size:15px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:56px 28px 80px;}
+
+  header{border-bottom:2px solid var(--ink);padding-bottom:28px;margin-bottom:36px;}
+  .kicker{font-size:12px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-bottom:14px;}
+  h1{font-size:30px;font-weight:600;letter-spacing:-.01em;line-height:1.35;margin-bottom:14px;}
+  .sub{font-size:15px;color:var(--ink-2);max-width:790px;}
+  .meta{margin-top:20px;font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:18px;}
+
+  .verdict{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:2px;padding:24px 26px;margin-bottom:26px;}
+  .verdict h2{font-size:13px;letter-spacing:.1em;color:var(--blue);margin-bottom:12px;font-weight:600;}
+  .verdict p{font-size:15.5px;margin-bottom:10px;}
+  .verdict p:last-child{margin-bottom:0;}
+  .verdict strong{background:linear-gradient(transparent 62%,#d8e6f4 62%);font-weight:600;}
+
+  .fix{background:#fffdf6;border:1px solid #e8dfc4;border-left:3px solid var(--amber);border-radius:2px;padding:22px 24px;margin-bottom:44px;}
+  .fix h2{font-size:13px;letter-spacing:.1em;color:var(--amber);margin-bottom:12px;font-weight:600;}
+  .fix p{font-size:14.5px;color:var(--ink-2);margin-bottom:10px;}
+  .fix p:last-child{margin-bottom:0;}
+  .fix b{color:var(--ink);font-weight:600;}
+
+  section{margin-bottom:50px;}
+  h2.sec{font-size:20px;font-weight:600;margin-bottom:8px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:12px;}
+  h2.sec span.num{font-size:12px;color:var(--muted);font-weight:400;letter-spacing:.1em;}
+  .lead{font-size:14.5px;color:var(--ink-2);margin:14px 0 20px;}
+  h3.sub-h{font-size:15px;font-weight:600;margin:26px 0 6px;}
+
+  .tbl-wrap{overflow-x:auto;margin:18px 0 10px;border:1px solid var(--line);border-radius:3px;background:var(--card);}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:760px;}
+  th{text-align:left;padding:11px 13px;background:var(--gray-bg);font-weight:600;font-size:12px;color:var(--ink-2);border-bottom:1px solid var(--line);white-space:nowrap;}
+  td{padding:11px 13px;border-bottom:1px solid #f0eee8;vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  td.n{font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .big{font-weight:600;}
+  .ok{color:var(--green);font-weight:600;}
+  .warn{color:var(--amber);font-weight:600;}
+  .bad{color:var(--red);font-weight:600;}
+  .flat{color:var(--muted);font-weight:400;font-size:12px;}
+
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:2px;font-weight:500;white-space:nowrap;}
+  .b-green{background:var(--green-bg);color:var(--green);}
+  .b-amber{background:var(--amber-bg);color:var(--amber);}
+  .b-red{background:var(--red-bg);color:var(--red);}
+  .b-gray{background:var(--gray-bg);color:var(--muted);}
+  .b-blue{background:var(--blue-bg);color:var(--blue);}
+
+  .note{font-size:12.5px;color:var(--muted);line-height:1.7;padding:14px 16px;background:var(--gray-bg);border-radius:3px;margin:14px 0;}
+  .note b{color:var(--ink-2);font-weight:600;}
+
+  .callout{border-left:3px solid var(--red);background:var(--red-bg);padding:16px 20px;border-radius:2px;font-size:13.5px;color:#5c2222;line-height:1.72;margin:18px 0;}
+  .callout b{font-weight:600;}
+  .callout.amber{border-left-color:var(--amber);background:var(--amber-bg);color:#5a3a10;}
+  .callout.blue{border-left-color:var(--blue);background:var(--blue-bg);color:#123a63;}
+  .callout.green{border-left-color:var(--green);background:var(--green-bg);color:#2a4d0d;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:3px;margin-bottom:22px;overflow:hidden;}
+  .card-head{padding:16px 22px 13px;border-bottom:1px solid var(--line);}
+  .card-head .row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .card-head h3{font-size:16.5px;font-weight:600;}
+  .rank{font-size:11.5px;color:#fff;background:var(--ink);padding:3px 10px;border-radius:2px;letter-spacing:.06em;white-space:nowrap;}
+  .card-body{padding:16px 22px 18px;}
+  .card-body p{font-size:14px;color:var(--ink-2);margin-bottom:9px;}
+  .card-body p:last-child{margin-bottom:0;}
+  .card-body b{color:var(--ink);font-weight:600;}
+
+  .kv{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-bottom:1px solid var(--line);}
+  .kv .c{background:var(--card);padding:11px 15px;}
+  .kv .k{font-size:11.5px;color:var(--muted);margin-bottom:2px;}
+  .kv .v{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;}
+  .kv .v small{font-size:11.5px;font-weight:400;color:var(--muted);}
+
+  .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);}
+  .pros-cons > div{background:var(--card);padding:16px 22px;}
+  .pros-cons h4{font-size:12px;letter-spacing:.08em;margin-bottom:10px;font-weight:600;}
+  .pros-cons .p h4{color:var(--green);}
+  .pros-cons .c h4{color:var(--red);}
+  .pros-cons ul{list-style:none;}
+  .pros-cons li{font-size:13.5px;color:var(--ink-2);padding-left:14px;position:relative;margin-bottom:7px;line-height:1.65;}
+  .pros-cons li::before{content:"·";position:absolute;left:3px;top:0;font-weight:700;}
+  .pros-cons .p li::before{color:var(--green);}
+  .pros-cons .c li::before{color:var(--red);}
+
+  ol.steps{list-style:none;counter-reset:s;}
+  ol.steps li{counter-increment:s;position:relative;padding-left:40px;margin-bottom:14px;font-size:14px;color:var(--ink-2);}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:24px;height:24px;background:var(--blue-bg);color:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;}
+  ol.steps li b{color:var(--ink);font-weight:600;}
+
+  .tree{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:8px 0;margin:18px 0;}
+  .tree .node{display:grid;grid-template-columns:230px 1fr;gap:14px;padding:14px 22px;border-bottom:1px solid #f0eee8;align-items:start;}
+  .tree .node:last-child{border-bottom:none;}
+  .tree .cond{font-size:13px;color:var(--muted);}
+  .tree .res{font-size:14px;}
+  .tree .res b{font-weight:600;}
+
+  footer{border-top:1px solid var(--line);padding-top:22px;margin-top:50px;font-size:12px;color:var(--muted);line-height:1.8;}
+
+  @media (max-width:720px){
+    .wrap{padding:36px 18px 60px;}
+    h1{font-size:24px;}
+    .kv{grid-template-columns:repeat(2,1fr);}
+    .card-body,.card-head{padding-left:18px;padding-right:18px;}
+    .pros-cons{grid-template-columns:1fr;}
+    .tree .node{grid-template-columns:1fr;gap:4px;}
+    .pros-cons > div{padding:16px 18px;}
+  }
+  @media print{body{background:#fff;font-size:12px;}.wrap{max-width:100%;padding:0;}.card,section{page-break-inside:avoid;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">南京 · 三小区对比 · 江宁百家湖 / 九龙湖</div>
+  <h1>同样 200 万：一个买 137㎡ 四房，一个买 115㎡ 三房，一个只能买 88㎡——但便宜的要多等七年半才卖得掉</h1>
+  <p class="sub">百家湖国际花园（利源中路 99 号）、万科金域蓝湾（清水亭东路 9 号）、水月秦淮（双龙大道 1008 号）。三个都在江宁、都是 200 万上下的总价段，但一个是被踩踏的老塔楼大盘，一个是板块里最好卖的次新房，一个是双线双站、学区公告点名的那一个。本报告沿用此前「200 万 / 80㎡ 以上 / 成交中位价」的统一口径，价格取数日 2026-10-20。</p>
+  <div class="meta">
+    <span>预算口径 200 万</span>
+    <span>面积门槛 ≥ 80㎡</span>
+    <span>单价一律取成交中位</span>
+    <span>取数 2026-10-20</span>
+  </div>
+</header>
+
+<div class="verdict">
+  <h2>结论先说</h2>
+  <p><strong>如果三年内可能换房，答案只有一个：万科金域蓝湾。</strong>它挂牌率 1.8%、近 12 个月成交 153 套、静态去化 6.7 个月；另外两个是 8.2% 对 100 个月、11.3% 对 60 个月。差的不是偏好，是你能不能按时拿到钱。</p>
+  <p><strong>如果五年内不卖、只要最大套内，选百家湖国际花园。</strong>200 万可谈下来一套 137.76㎡ 四房，套内约 110㎡，是三个里每 100 万买到面积最多的（58㎡）。代价是 1,650 户只有 360 个车位、有一批三梯八户的朝北户型、小学施教区分界线正好压在这个小区上。</p>
+  <p><strong>如果每天坐地铁、又在意学区确定性，选水月秦淮。</strong>1 号线河定桥 300–560 米、3 号线宏运大道约 570 米，两条线两个站都能走；而且 2026 年江宁区小学施教区公告里，「水月秦淮天琴湾花园 1-15 幢」是<strong>被点名写进百家湖小学范围的</strong>——这是三个小区里唯一一个有白纸黑字的。</p>
+  <p><strong>如果孩子 3 年内要上小学，三个都不是答案。</strong>江宁这三所对口学校都在区内中游，为此付溢价不划算。这条需求应该回到主城那条线（南外明远施教区 / 秦淮实验小学）去解。</p>
+</div>
+
+<div class="fix">
+  <h2>先立四条口径，否则平台数据会把你带到反方向</h2>
+  <p><b>1. 单价只用成交中位，平台「小区均价」一律不当价格用。</b>百家湖国际花园在链家/我爱我家挂「均价 18,922 / 19,948」，幸福里挂「小区均价 13,283」，中指 7 月写「均价 19,721」——同一个小区能差出 50%。真实成交（7 月 4 套）是 11,649–13,454，中位 12,637。那个 1.9 万不是你能卖到的价，是挂牌口径混了大平层和车位的产物。</p>
+  <p><b>2. 面积用真实户型，不用「预算 ÷ 单价」。</b>「200 万 ÷ 1.3 万 = 154㎡」这个数在百家湖国际花园没有对应户型；真实在售的最大住宅是 139.08㎡。</p>
+  <p><b>3. 挂牌量比挂牌价更重要。</b>这三个小区的差别，一半不在房子本身，在「同小区有多少人在跟你抢着卖」。在售 187 套对 85 套，是两套完全不同的处境。</p>
+  <p><b>4. 学区看公告原文的边界和楼栋号，不看中介的「周边名校」。</b>链家的小区页会把「翠屏山小学、百家湖小学、江宁开发区学校」并列写成「周边学校」，那是按距离算的，不是施教区。这一点在百家湖国际花园上会直接改变判断。</p>
+</div>
+
+<section>
+  <h2 class="sec">同样 200 万，三家买到的东西 <span class="num">01</span></h2>
+  <p class="lead">把总价固定住，只比「能换到多少可用面积」。这是三个小区差距最大、也最容易被总价数字掩盖的一栏。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>200 万能拿到的房源</th><th>建面</th><th>套内（实测/折算）</th><th>成交中位单价</th><th>每 100 万买到套内</th></tr>
+    <tr><td class="big">百家湖国际花园</td><td>4 室 2 厅 2 卫（137.76㎡ 挂 218 万，可谈到 185–190 万）</td><td class="n">137.76㎡</td><td class="n ok">约 110㎡<br><span class="flat">得房率 80.1%</span></td><td class="n">12,637–13,300</td><td class="n ok big">58.0㎡</td></tr>
+    <tr><td class="big">水月秦淮</td><td>3 室 2 厅（115.68㎡ 挂 168 万，可谈到 158–162 万）</td><td class="n">115.68㎡</td><td class="n ok">约 91㎡<br><span class="flat">得房率约 79%</span></td><td class="n">约 13,900</td><td class="n ok big">56.9㎡</td></tr>
+    <tr><td class="big">万科金域蓝湾</td><td>3 室 2 厅 1 卫（87.97㎡ 挂 199 万，可谈到 176 万）</td><td class="n">87.97㎡</td><td class="n bad">68.53㎡<br><span class="flat">得房率 77.9%（贝壳实测）</span></td><td class="n">19,983</td><td class="n bad big">38.9㎡</td></tr>
+  </table>
+  </div>
+  <p class="note"><b>怎么读这一栏。</b>百家湖国际花园和水月秦淮几乎打平（58.0 对 56.9㎡），但路径不同：前者靠「总价低 + 面积大」，后者靠「户型正 + 双地铁」。万科要拿到同样的套内，得再加约 100 万——这不是它贵得没道理（物业 9.4 分、2013 年次新、自带 2 万㎡ 商业街都在价格里），而是「200 万在三个小区里买到的东西不在一个量级」这个事实必须先摆明。</p>
+  <div class="callout amber">
+    <b>注意面积口径的陷阱：</b>百家湖国际花园的 137.76㎡ 是「4 室 2 厅 2 卫」，但该小区有一批典式楼（如 104.54㎡ 那套是三梯八户、朝东西北），户型不方正、朝向偏北。同一个小区内挂牌单价从 13,719 到 20,576，差 50%——价差主要来自朝向和梯户比，不是楼层。看房把「朝向 + 梯户比 + 是不是湖景面」当第一筛选条件，面积排第二。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">价格：谁在跌，谁在横，谁的水分最大 <span class="num">02</span></h2>
+  <p class="lead">议价率 =（挂牌均价 − 成交中位）÷ 挂牌均价，衡量的是「挂牌里有多少水分」。水分越大，起谈价可以压得越低；但它是谈价空间，不是下跌预测。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>成交中位</th><th>成交样本</th><th>挂牌均价</th><th>议价率</th><th>趋势</th><th>在售</th><th>置信度</th></tr>
+    <tr>
+      <td class="big">万科金域蓝湾</td><td class="n">19,983</td><td class="n">9 月 · 11 套</td><td class="n">23,368–23,625<br><span class="flat">365 住宅均价</span></td>
+      <td class="n">15%</td><td class="n bad">同比 −4.1%</td><td class="n">83–85 套</td><td><span class="badge b-green">高</span></td>
+    </tr>
+    <tr>
+      <td class="big">水月秦淮</td><td class="n">约 13,900</td><td class="n">6 月 · 6 套明细</td><td class="n">17,527–18,264<br><span class="flat">幸福里 / 中指</span></td>
+      <td class="n">21–24%</td><td class="n ok">环比 +0.6～+0.9%</td><td class="n">146 + 6 套</td><td><span class="badge b-amber">中</span></td>
+    </tr>
+    <tr>
+      <td class="big">百家湖国际花园</td><td class="n">12,637–13,300</td><td class="n">7 月 · 4 套<br><span class="flat">4 月 2 套</span></td><td class="n">18,136–18,574<br><span class="flat">幸福里周挂牌</span></td>
+      <td class="n">27–30%</td><td class="n bad">环比 −0.3～−2.5%</td><td class="n">187 套</td><td><span class="badge b-amber">中低</span></td>
+    </tr>
+  </table>
+  </div>
+
+  <div class="callout">
+    <b>百家湖国际花园的 27–30% 议价率不能直接用。</b>这个数是「挂牌均价 1.86 万」对「成交中位 1.33 万」算出来的，而 1.86 万是被 255.54㎡ 大平层（挂 23,480）和 104㎡ 高挂房源（挂 20,576）拉上去的。真实可谈的 125–140㎡ 房源挂 14,237–16,271，对成交中位只有 <b>7–16%</b> 的空间。这个小区<strong>没有 30% 的水分可挤</strong>，按 13,500 出价即可；照着「挂牌价七折」去谈，谈十套都谈不成，还会错过真正合适的房源。
+  </div>
+
+  <h3 class="sub-h">大盘坐标：这三个小区在江宁的哪个梯队</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>梯队</th><th>单价区间</th><th>代表小区</th><th>共性</th></tr>
+    <tr><td class="big">高端次新</td><td class="n">3.3–4.6 万</td><td>百家臻园、阳光城檀境、朗诗玲珑屿、金陵铭著</td><td>房龄 10 年内，产品力与物业过硬，跌幅小于板块平均</td></tr>
+    <tr><td class="big">普通刚需</td><td class="n">2.0–2.8 万</td><td>胜泰华府、高尔夫国际花园、怡湖华庭、<b>万科金域蓝湾</b></td><td>房龄 10–20 年，配套齐全但产品力一般，成交主力</td></tr>
+    <tr><td class="big">老旧大盘</td><td class="n bad">1.3–2.0 万</td><td>百家湖西花园、<b>百家湖国际花园</b>、<b>水月秦淮</b></td><td>房龄 20 年上下，户型与园区老化，挂牌量巨大，部分组团业主降价踩踏</td></tr>
+  </table>
+  </div>
+  <p class="note"><b>这条梯队判断比任何单套房源都重要。</b>万科金域蓝湾和另外两个根本不在一个价格带里——它贵 50%，买的不是同一个东西；而百家湖国际花园与水月秦淮同属「老旧大盘」梯队，2026 年的实际成交单价已经跌到 1.3–1.6 万区间，且这个梯队的调整还没结束。江宁不存在「马上要涨」的小区，只存在「谁跌得少、谁卖得掉」。</p>
+</section>
+
+<section>
+  <h2 class="sec">流动性：这是本次对比里唯一一票否决的指标 <span class="num">03</span></h2>
+  <p class="lead">买的时候看单价，卖的时候看挂牌量。同一个板块里，在售套数和月成交量的比值决定了你未来是「挂牌三个月成交」还是「挂两年还没人看」。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>在售</th><th>总户数</th><th>挂牌率</th><th>近期成交速度</th><th>静态去化</th><th>结论</th></tr>
+    <tr>
+      <td class="big">万科金域蓝湾</td><td class="n">83–85 套</td><td class="n">4,474–4,860</td><td class="n ok">1.8%</td>
+      <td class="n">近 12 个月 153 套<br>约 12.8 套/月</td><td class="n ok big">约 6.7 个月</td><td><span class="badge b-green">随时卖得掉</span></td>
+    </tr>
+    <tr>
+      <td class="big">水月秦淮</td><td class="n">146（天秀湾）+6（天龙湾）</td><td class="n">1,780–2,053</td><td class="n warn">7.4–8.6%</td>
+      <td class="n">月 1–6 套<br><span class="flat">8 月 1 套、6 月 6 套</span></td><td class="n warn">约 25–150 个月</td><td><span class="badge b-amber">慢，波动大</span></td>
+    </tr>
+    <tr>
+      <td class="big">百家湖国际花园</td><td class="n">187 套</td><td class="n">约 1,650</td><td class="n bad">约 11.3%</td>
+      <td class="n">月 2–4 套<br><span class="flat">4 月 2 套、7 月 4 套</span></td><td class="n bad big">约 47–94 个月</td><td><span class="badge b-red">最容易砸在手里</span></td>
+    </tr>
+  </table>
+  </div>
+  <div class="callout">
+    <b>把三个数字放在一起看：</b>万科 1.8% 挂牌率、6.7 个月去化；水月 8% 对 100 个月；百家湖国际 11.3% 对 60 个月。也就是说，<strong>百家湖国际花园省下来的那 30–40 万，代价是最坏情况下要等七年多才能变现</strong>。如果这笔钱在你 5 年内的计划里（换房、孩子上学、老人看病），这个代价比房价差更贵。反过来，如果你确定十年不卖、纯自住，这条就可以降权——但请把「十年不卖」当成一个需要向家人确认的决定，而不是一句顺口的假设。
+  </div>
+  <p class="note"><b>口径提醒。</b>「在售」取各平台当前挂牌数（幸福里 / 365 / 中指月报），平台上「上月成交 89 套」这类数字多为「在售」误标，不能当成交量用。百家湖国际花园 4 月指月报还把成交价写成「0」，这类缺失数据只能按区间估，所以它的价格置信度标为「中低」。</p>
+</section>
+
+<section>
+  <h2 class="sec">户型与得房率：80.1% 对 77.9%，差 2 个点 <span class="num">04</span></h2>
+  <p class="lead">建筑面积是开发商卖的，套内才是你住的。三个小区形态不同，同样的 88㎡ 能差出 4㎡ 可用面积；但面积段不同，得房率的意义也不同。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>建筑形态</th><th>得房率</th><th>主力面积段</th><th>梯户比</th><th>户型硬伤</th></tr>
+    <tr>
+      <td class="big">百家湖国际花园</td><td>28–31 层塔楼 / 板塔结合</td><td class="n ok">80.1%<br><span class="flat">100.82㎡ → 套内 80.77㎡</span></td>
+      <td class="n">78–100㎡ 两房<br>110–128㎡ 三房<br>134–140㎡ 四房</td>
+      <td class="n bad">两梯三户 / 两梯四户<br>两梯六户 / <b>三梯八户</b></td>
+      <td>典式楼为主，多数户型不正南正北；有一批朝北或东西北朝向，采光差</td>
+    </tr>
+    <tr>
+      <td class="big">水月秦淮</td><td>17–18 层塔楼（一期天琴湾含 10 层洋房）</td><td class="n">约 79%</td>
+      <td class="n">95㎡ 两房<br>115–135㎡ 三房</td>
+      <td class="n">两梯四户 / 两梯三户<br><span class="flat">一期洋房一梯一户</span></td>
+      <td>塔楼通透性一般，但「单排独座」布局、南北向无重叠，户户临水</td>
+    </tr>
+    <tr>
+      <td class="big">万科金域蓝湾</td><td>31–33 层板楼</td><td class="n">77.9%<br><span class="flat">87.97㎡ → 套内 68.53㎡</span></td>
+      <td class="n">78–89㎡ 三房<br>117–118㎡ 三房两卫</td>
+      <td class="n">两梯四户（78–89㎡）<br>两梯三户 / 两梯两户</td>
+      <td>最小卧室 7.87㎡；4,474–4,860 户大盘，同户型常年几十套在售</td>
+    </tr>
+  </table>
+  </div>
+  <p class="note"><b>百家湖国际花园 80.1% 是实测出来的</b>（贝壳房源页直接给出 100.82㎡ 建面对应套内 80.77㎡），比万科的 77.9% 高 2.2 个点，比水月高约 1 个点。这三家在得房率上差距不大，真正拉开体验的是梯户比：三梯八户意味着早高峰一层可能有 8 户同时等梯，而万科 78–89㎡ 段是两梯四户。</p>
+</section>
+
+<section>
+  <h2 class="sec">地铁与通勤：一条线 542 米，两条线两个站，还是「三线环绕」 <span class="num">05</span></h2>
+  <p class="lead">「几条线」是话术，「最近站多少米」才是每天要付的成本。线路多但都在 1 公里外，等于没有。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>线路数</th><th>各站步行距离</th><th>评价</th></tr>
+    <tr>
+      <td class="big">水月秦淮</td><td class="n">2 条</td>
+      <td class="n">1 号线河定桥 300–560m｜3 号线宏运大道 563–618m｜3 号线胜太西路 1.2km</td>
+      <td class="ok">两个站都在 600 米内，且一条进主城（1 号线）、一条通南京南站（3 号线），方向互补</td>
+    </tr>
+    <tr>
+      <td class="big">百家湖国际花园</td><td class="n">2 条</td>
+      <td class="n">3 号线胜太西路 542–636m｜3 号线天元西路 1.1–1.38km｜1 号线胜太路 1.49km｜1 号线百家湖 1.24–1.8km</td>
+      <td class="ok">一条线在步行范围，2 站到南京南站；1 号线要 1.5 公里，实际用不上</td>
+    </tr>
+    <tr>
+      <td class="big">万科金域蓝湾</td><td class="n">3 条</td>
+      <td class="n">1 号线小龙湾 900–1,130m｜3 号线九龙湖约 1.1km｜5 号线约 2km</td>
+      <td class="bad">三线环绕、无一步行友好，最近站步行 15 分钟以上</td>
+    </tr>
+  </table>
+  </div>
+  <p class="note"><b>通勤的差别不在「有没有地铁」，在「下雨天要不要打伞走 15 分钟」。</b>万科金域蓝湾的「双地铁」在房源描述里写「步行可达」，实测 900–1,130 米；水月秦淮 300 米那个是真的。对于每天通勤的人来说，这一项值多少，各自掂量——但它确实是万科在三家里唯一的硬伤型短板（其余短板是价格和学区）。</p>
+</section>
+
+<section>
+  <h2 class="sec">学区：三个里只有一个有白纸黑字 <span class="num">06</span></h2>
+  <p class="lead">这一栏最容易买错，因为中介常用「1 公里内有某名校」代替「在施教区名单里」。2026 年江宁区公告原文已经把边界写到路名一级，可以直接比对。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>小学</th><th>初中</th><th>确定性</th><th>风险点</th></tr>
+    <tr>
+      <td class="big">水月秦淮</td><td><b>百家湖小学</b>（天琴湾花园 1-15 幢，公告点名）<br>15 幢以后 → 翠屏山小学</td><td>百家湖中学片区（近年并入江宁开发区学校体系）</td>
+      <td><span class="badge b-green">最高</span><br>公告直接写楼栋号</td><td>以楼栋号为界，不看期数名字；买前必须确认「这栋是几栋」</td>
+    </tr>
+    <tr>
+      <td class="big">百家湖国际花园</td><td class="bad">不定：百家湖小学 / 翠屏山小学二选一</td><td>江宁开发区学校（翠屏山校区或百家湖校区）</td>
+      <td><span class="badge b-red">最低</span><br>两校分界线压在本小区</td><td>中介口径互相矛盾：安居客经纪人说翠屏山小学，链家小区页两家并列。必须按楼栋门牌去区教育局核</td>
+    </tr>
+    <tr>
+      <td class="big">万科金域蓝湾</td><td>江宁开发区学校（小学部西校区）<br><span class="flat">另有平台标清水亭学校</span></td><td>江宁开发区学校西校区 / 清水亭学校</td>
+      <td><span class="badge b-amber">中</span></td><td>口径不统一，但无论哪一所都是江宁中游，不构成加分项</td>
+    </tr>
+  </table>
+  </div>
+
+  <h3 class="sub-h">2026 年江宁区公告原文（边界，可直接比对）</h3>
+  <p class="lead" style="margin-bottom:10px">百家湖小学：利源北路—秦淮路—临淮街—佳湖西路—白龙桥—佳湖东路沿线<b>以东</b>，秦淮新河—双龙大道—上元大街以南（<b>含水月秦淮天琴湾花园 1-15 幢</b>和青春水岸家园），秦淮河以西，天元中路至天元西路以北。</p>
+  <p class="lead" style="margin-top:0">翠屏山小学：南京机场高速以东，秦淮新河以南，利源北路—秦淮路—临淮街—佳湖西路—白龙桥—佳湖东路沿线<b>以西</b>，天元西路以北（不含石马新寓）。</p>
+
+  <div class="callout">
+    <b>为什么百家湖国际花园的学区是「不定」而不是「差」。</b>两所小学的分界线就是「利源北路—秦淮路—临淮街—佳湖西路—白龙桥—佳湖东路」这条斜穿百家湖东岸的线，而小区门牌是利源中路 99 号、紧邻白龙桥，正好落在这条线上。不同楼栋、不同平台给出的对口学校就不一样。<strong>这不是可以靠推理解决的，只能拿具体楼栋号和门牌去江宁区教育局（或学校招生办）核当年公告。</strong>如果学区是这个家庭的核心诉求，这个不确定性本身就该让这套房子降一档——因为你买的是「可能」，卖的买家也会按「可能」压价。
+  </div>
+  <p class="note"><b>三条通用提醒。</b>① 「天琴湾 1-15 幢」这类以楼栋号限定的条款，签合同前必须在合同里写明具体幢号，不要写「水月秦淮」；② 江宁这三所对口校都在区内中游，不要为学区付超过 20–30 万的溢价，片区调整一次就可能归零；③ 别信「周边名校」列表——那是按直线距离生成的。</p>
+</section>
+
+<section>
+  <h2 class="sec">商圈与日常：一个赢在楼下，一个赢在小区里 <span class="num">07</span></h2>
+  <p class="lead">要分两层看：日常（每天要用的，500 米内）和区域级（周末去的）。前者决定生活便利，后者决定未来价值。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>日常（≤500m）</th><th>区域级</th><th>高能级</th><th>短板</th></tr>
+    <tr>
+      <td class="big">百家湖国际花园</td>
+      <td class="ok">北京华联超市约 50m、利源中路公交站约 160m、农贸市场约 200m、多家银行</td>
+      <td>金鹰国际 / 景枫中心约 1km（过白龙桥直达）、百家湖 1912 街区约 1km</td>
+      <td>同曦万尚城、太阳城 1–2km</td>
+      <td>社区自身商业体量小，靠周边底商</td>
+    </tr>
+    <tr>
+      <td class="big">万科金域蓝湾</td>
+      <td class="ok">自带约 2 万㎡ 商业街：苏果、罗森、咖啡、健身、净菜市场、21 班幼儿园；约 2,000㎡ 运动会馆含室内外双泳池</td>
+      <td>21 世纪太阳城约 1km</td>
+      <td>景枫、金鹰 2–2.5km</td>
+      <td>高能级商圈步行到不了，日常靠小区内循环</td>
+    </tr>
+    <tr>
+      <td class="big">水月秦淮</td>
+      <td>河定桥沿线底商、超市</td>
+      <td>欧尚、金轮新都汇约 1km；百家湖商圈约 2km</td>
+      <td>无</td>
+      <td>业态中等，且板块内几乎没有新增商业</td>
+    </tr>
+  </table>
+  </div>
+  <p class="note"><b>这一项其实是三个小区里最不需要纠结的。</b>百家湖国际花园的「下楼就是华联 + 菜场 + 银行」是成熟老盘的典型优势，水月秦淮的临河底商偏薄，万科的商业街是全江宁小区自配套里做得最好的一档。三者在「日常够用」上都及格，差别在「周末要不要开车」。</p>
+</section>
+
+<section>
+  <h2 class="sec">医疗：这一项没有替代方案 <span class="num">08</span></h2>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>最近三甲</th><th>距离</th><th>最近医疗机构</th><th>说明</th></tr>
+    <tr><td class="big">水月秦淮</td><td>江宁医院（三甲，鼓山路院区）</td><td class="n ok">约 2.0km</td><td>河定桥沿线社区卫生服务站</td><td>江宁区属三甲，科室较全，本组最近</td></tr>
+    <tr><td class="big">百家湖国际花园</td><td>江宁医院（三甲）</td><td class="n warn">约 3km</td><td>江宁医院开发区分院约 990m<br><span class="flat">分院/社区级，非三甲</span></td><td>小病在门口，大病要开车；不要被「990 米有医院」当成三甲便利</td></tr>
+    <tr><td class="big">万科金域蓝湾</td><td>南京同仁医院（三级综合，非三甲）2.5–2.7km</td><td class="n bad">三甲更远</td><td>百家湖社区卫生服务中心</td><td>三个里最弱，且最近的还不是三甲</td></tr>
+  </table>
+  </div>
+  <p class="note">如果家里有老人、或计划把父母接来同住，这一项建议直接提到前三权重：水月秦淮 2 公里是三家里最好的，百家湖国际的 990 米是分院（能看常规门诊，做不了大手术），万科这一项最差。</p>
+</section>
+
+<section>
+  <h2 class="sec">车位与物业：参考项，但在百家湖国际花园会变成门槛 <span class="num">09</span></h2>
+  <p class="lead">按此前口径，这两项不设门槛、不参与主排序，只在硬指标打平时用来选谁。但有一个例外：当车位比低到 1:0.22 时，它已经不是「体验问题」。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>参考指标</th><th>百家湖国际花园</th><th>水月秦淮</th><th>万科金域蓝湾</th></tr>
+    <tr><td class="big">车位 / 户数</td><td class="n bad">360 / 约 1,650<br>约 1:0.22</td><td class="n warn">未公示<br>天琴湾 650 位<br>地面停车为主</td><td class="n ok">3,853 / 4,474–4,860<br>约 1:0.79–0.86</td></tr>
+    <tr><td class="big">人车分流</td><td class="bad">否；地下车库部分未正常启用</td><td class="bad">否</td><td>部分做到</td></tr>
+    <tr><td class="big">停车方式与费用</td><td>地面为主，先到先得，乱停普遍</td><td>地面租 100–120 元/月</td><td>地面 150–180 / 地下 260+30 元/月</td></tr>
+    <tr><td class="big">物业公司</td><td>南京合和物业</td><td>南京锦江物业</td><td>万科物业</td></tr>
+    <tr><td class="big">物业费（元/㎡·月）</td><td class="warn">口径三种：1.0 / 1.2 / 1.65–1.95</td><td>0.8–1.0</td><td>1.9–2.88</td></tr>
+    <tr><td class="big">服务口碑</td><td>无第三方评分；业主反馈「三期 24 小时管理、服务到位」</td><td>无评分，长条布局管理难度大</td><td>克而瑞居住服务 9.4 / 10</td></tr>
+    <tr><td class="big">参考结论</td><td class="bad">有车家庭直接出局</td><td class="warn">能停，但要现场数</td><td class="ok">双项最好</td></tr>
+  </table>
+  </div>
+  <div class="callout">
+    <b>1:0.22 是什么概念：</b>约 1,650 户、360 个车位，意味着每 4.6 户抢一个位。而且多份业主反馈提到「地下车库未正常启用、车辆乱停乱放、占消防通道」。这不是「停车稍难」，是「每天回家要抢位置」。<strong>家里有车、且不打算换房的话，这个小区应该在第一步就排除，不用再比价格和面积。</strong>
+  </div>
+  <p class="note"><b>物业费口径冲突要在现场解决。</b>百家湖国际花园的物业费在三个来源里分别是 1.0（中指 / 百科）、1.2（365 房源）、1.65 / 1.75 / 1.95（安居客经纪人，按一二三期）。三者差近一倍，直接影响十年持有成本估算（按 128㎡ 算，1.2 元约 1,843 元/月 vs 1.95 元约 2,995 元/月，十年差 13.8 万）。问物业要一张盖公章的收费公示，比问中介十次都准。</p>
+</section>
+
+<section>
+  <h2 class="sec">规划与兑现：三个都在「已经好了」的地方 <span class="num">10</span></h2>
+  <p class="lead">这一栏对这三个小区其实是个「减分项」：没有增量可等，也就没有涨价理由。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>项目</th><th>状态</th><th>对谁有用</th></tr>
+    <tr><td>3 号线（胜太西路 / 宏运大道 / 九龙湖）</td><td>已运营</td><td>三个小区都用得上</td></tr>
+    <tr><td>1 号线（河定桥 / 胜太路 / 小龙湾）</td><td>已运营</td><td>水月秦淮最近（300–560m）</td></tr>
+    <tr><td>5 号线</td><td>已运营</td><td>万科约 2km，实际用不上</td></tr>
+    <tr><td>地铁 12 号线（天元西路）</td><td class="warn">规划，未获批开工</td><td>部分平台按「规划 12 号线」标注距离，不计入任何结论</td></tr>
+    <tr><td>景枫中心 / 金鹰 / 21 世纪太阳城</td><td>已运营</td><td>百家湖国际花园 1km 内最便利</td></tr>
+    <tr><td>杨家圩文化商务中心</td><td>存量更新中</td><td>江宁未来三五年以存量更新为主，无量级新增投入</td></tr>
+  </table>
+  </div>
+  <p class="note"><b>结论：江宁是「现在就好，未来不变」。</b>优点是不用等、不会被规划延期坑；缺点是这三个小区都不具备「板块升级带来重估」的可能。对比参考：南部新城的地铁线网密度已达 1.50 km/km²、万象城 2027 下半年开业、还有 9 所小学 7 所初中的规划——但那套逻辑适用于主城，不适用于这里。</p>
+</section>
+
+<section>
+  <h2 class="sec">综合评分：两套权重，第一都是它 <span class="num">11</span></h2>
+  <p class="lead">七项硬指标加权，车位与物业不计分。两套权重分别对应「居住优先」和「教育优先」。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>维度</th><th>标准权重</th><th>学区优先</th><th>百家湖国际花园</th><th>水月秦淮</th><th>万科金域蓝湾</th></tr>
+    <tr><td>预算可得性 / 户型匹配</td><td class="n">20%</td><td class="n">15%</td><td class="n">9.5</td><td class="n">9.5</td><td class="n">8.5</td></tr>
+    <tr><td>价格合理性与抗跌</td><td class="n">15%</td><td class="n">10%</td><td class="n">5.0</td><td class="n">6.0</td><td class="n">5.5</td></tr>
+    <tr><td>通勤（距离 + 线路）</td><td class="n">20%</td><td class="n">15%</td><td class="n">7.5</td><td class="n">8.5</td><td class="n">6.0</td></tr>
+    <tr><td>学区</td><td class="n">15%</td><td class="n">30%</td><td class="n">5.0</td><td class="n">6.0</td><td class="n">5.5</td></tr>
+    <tr><td>商圈与日常</td><td class="n">12%</td><td class="n">10%</td><td class="n">8.5</td><td class="n">7.0</td><td class="n">8.5</td></tr>
+    <tr><td>医疗</td><td class="n">8%</td><td class="n">5%</td><td class="n">5.0</td><td class="n">5.5</td><td class="n">4.5</td></tr>
+    <tr><td>居住环境（容积率/房龄/梯户比/得房率）</td><td class="n">10%</td><td class="n">15%</td><td class="n">4.5</td><td class="n">5.5</td><td class="n">7.0</td></tr>
+    <tr><td class="big">加权总分</td><td class="n big">100%</td><td class="n big">100%</td><td class="big">6.77 / 6.33</td><td class="big ok">7.23 / 6.90</td><td class="big">6.63 / 6.50</td></tr>
+  </table>
+  </div>
+  <div class="callout blue">
+    这一栏有一个反直觉结果：<strong>水月秦淮在两套权重下都排第一，但它不是「最好的房子」。</strong>它赢在「没有一项低于 5 分」——通勤 8.5、医疗 5.5、学区 6.0、居住环境 5.5，是个各项及格、没有致命短板的选择。而百家湖国际花园和万科金域蓝湾是两种不同的「偏科」：前者面积与商圈接近满分，居住环境只有 4.5（三梯八户 + 车位 1:0.22）；后者居住环境 7.0 最高，但通勤 6.0、抗跌 5.5 拖住了总分。<strong>如果你的权重跟这两套都不一样（比如「物业和日常体验」占 30%），万科会翻到第一——所以真正要决定的不是「谁第一」，而是「你最不能接受哪一项」。最不能接受的是停车和电梯 → 排除百家湖国际；最不能接受的是每天多走 15 分钟 → 排除万科；最不能接受的是「挂了半年没人看」→ 排除百家湖国际与水月。</strong>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">三个小区，逐个说清 <span class="num">12</span></h2>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="row">
+        <h3>百家湖国际花园</h3>
+        <span class="rank">每 100 万买到 58㎡ · 面积效率第一</span>
+      </div>
+    </div>
+    <div class="kv">
+      <div class="c"><div class="k">推荐房源</div><div class="v">137.76㎡ <small>4室2厅2卫</small></div></div>
+      <div class="c"><div class="k">挂牌 / 目标价</div><div class="v">218 万 <small>→ 185–190 万</small></div></div>
+      <div class="c"><div class="k">成交中位</div><div class="v">12,637 <small>元/㎡</small></div></div>
+      <div class="c"><div class="k">套内</div><div class="v">约 110㎡ <small>80.1%</small></div></div>
+    </div>
+    <div class="pros-cons">
+      <div class="p">
+        <h4>优点</h4>
+        <ul>
+          <li>200 万可拿到 137㎡ 四房，套内约 110㎡，是三个里每 100 万买到面积最多的</li>
+          <li>得房率 80.1%（实测），三个里最高</li>
+          <li>下楼 50 米就是北京华联、200 米农贸市场，日常便利度三个里最好</li>
+          <li>过白龙桥 1km 直达金鹰与景枫，百家湖 1912 街区也在 1km</li>
+          <li>3 号线胜太西路 542–636 米，两站到南京南站，换乘 S1/多线方便</li>
+          <li>2009–2011 年交付，管线与电梯虽老但未到寿命末期，比 2006 年的水月好</li>
+        </ul>
+      </div>
+      <div class="c">
+        <h4>缺点</h4>
+        <ul>
+          <li><b>车位 360 个对约 1,650 户（1:0.22）</b>，地下车库部分未正常启用，乱停占道；有车家庭应直接排除</li>
+          <li>梯户比最差一档有<b>三梯八户</b>；典式楼为主，多套为朝北或东西北，采光差</li>
+          <li>容积率 3.80（另有 4.76 口径），10 栋高层密排，居住宽松度最差</li>
+          <li><b>小学施教区分界线压在本小区上</b>，百家湖小学与翠屏山小学二选一，中介口径矛盾</li>
+          <li>在售 187 套、挂牌率约 11.3%，静态去化 47–94 个月，业主在降价踩踏</li>
+          <li>土地 1996 年取得，70 年产权到 2066 年，剩余约 40 年，部分银行评估与后续转手会受影响</li>
+          <li>物业费口径三种（1.0 / 1.2 / 1.65–1.95），十年持有成本可能差 13 万</li>
+          <li>最近三甲约 3km，990 米那家是开发区分院（非三甲）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body">
+      <p><b>怎么买：</b>先按「楼栋 + 朝向 + 梯户比」筛掉一半房源，不要按面积选。137.76㎡ 那套挂 218 万（单价 15,825，比成交中位高 19%），按 13,500 口径约 186 万，可谈到 185–190 万；139.08㎡ 挂 198 万（14,237）已经贴近中位，空间只有 3–5 万，但要看它是不是低层/<b>朝西</b>。104㎡ 段挂 205–215 万（19,610–20,576）明显虚高，别碰。</p>
+      <p><b>签约前必须做三件事：</b>① 晚上 8 点到目标楼栋下数一次地面停了多少车、有没有堵消防通道（这一步比十张表格准）；② 拿楼栋门牌去江宁区教育局核当年施教区公告原文；③ 问物业要盖章的物业费公示 + 地下车库为什么没正常启用、有没有启用计划。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="row">
+        <h3>水月秦淮</h3>
+        <span class="rank">没有一项低于 5 分 · 综合第一</span>
+      </div>
+    </div>
+    <div class="kv">
+      <div class="c"><div class="k">推荐房源</div><div class="v">115.68㎡ <small>3室1厅</small></div></div>
+      <div class="c"><div class="k">挂牌 / 目标价</div><div class="v">168 万 <small>→ 158–162 万</small></div></div>
+      <div class="c"><div class="k">成交中位</div><div class="v">约 13,900 <small>元/㎡</small></div></div>
+      <div class="c"><div class="k">套内</div><div class="v">约 91㎡ <small>约 79%</small></div></div>
+    </div>
+    <div class="pros-cons">
+      <div class="p">
+        <h4>优点</h4>
+        <ul>
+          <li>1 号线河定桥 300–560m、3 号线宏运大道约 570m，两条线两个站都能走，三个里通勤最好</li>
+          <li>学区<b>有白纸黑字</b>：公告点名「水月秦淮天琴湾花园 1-15 幢」属百家湖小学</li>
+          <li>容积率 1.5、绿化 48%；「单排独座」布局、南北向无重叠，户户临水</li>
+          <li>200 万买 115.68㎡，还余 30 多万，够做全屋翻新，等于「新房化」</li>
+          <li>最近三甲（江宁医院）约 2km，三个里最近</li>
+          <li>挂牌均价环比 +0.6～+0.9%，是三家中唯一价格没在跌的</li>
+        </ul>
+      </div>
+      <div class="c">
+        <h4>缺点</h4>
+        <ul>
+          <li>房龄 18–20 年，是三个里最老的；塔楼为主，通透性与得房率都吃亏</li>
+          <li>在售 152 套、挂牌率 7.4–8.6%，月成交 1–6 套，去化 25–150 个月，波动极大</li>
+          <li>车位未公示、地面停车为主，多个中介口径都是「紧张」</li>
+          <li>小学以楼栋号为界：15 幢以前百家湖小学，15 幢以后翠屏山小学</li>
+          <li>物业锦江 0.8–1.0 元、无第三方评分，长条布局管理难度大</li>
+          <li>商业业态中等（欧尚、金轮新都汇 1km），板块内几乎没有新增</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body">
+      <p><b>怎么买：</b>6 月 6 套真实成交单价 11,713–14,881，中位约 13,900。115.68㎡ 按 13,900 约 161 万，挂牌 168 万（单价 14,522，10 月 4 日新挂）空间 7–8 万，谈到 158–162 万合理。<b>先确认「这栋是几栋」</b>——这不是细节，它直接决定孩子上哪所小学，也决定未来卖给谁。</p>
+      <p><b>两个要现场核的点：</b>① 楼栋号 vs 15 幢分界；② 晚上数一次楼前停车，看是否停满、有没有固定位可长租。另外 135.67㎡ 那套挂 210 万（单价 15,479）是低层带院子边户，若院子可用，溢价可以接受。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="row">
+        <h3>万科金域蓝湾</h3>
+        <span class="rank">最好卖 · 但贵 50% 且还在跌</span>
+      </div>
+    </div>
+    <div class="kv">
+      <div class="c"><div class="k">推荐房源</div><div class="v">87.97㎡ <small>3室2厅1卫</small></div></div>
+      <div class="c"><div class="k">挂牌 / 目标价</div><div class="v">199 万 <small>→ 176 万</small></div></div>
+      <div class="c"><div class="k">成交中位</div><div class="v">19,983 <small>元/㎡</small></div></div>
+      <div class="c"><div class="k">套内</div><div class="v">68.53㎡ <small>77.9%</small></div></div>
+    </div>
+    <div class="pros-cons">
+      <div class="p">
+        <h4>优点</h4>
+        <ul>
+          <li><b>三个里唯一卖得掉的</b>：在售 83–85 套、挂牌率 1.8%，近 12 个月成交 153 套，静态去化约 6.7 个月</li>
+          <li>万科物业 9.4 分（克而瑞），社区管理、安保、管家体系三个里最稳</li>
+          <li>自带约 2 万㎡ 商业街 + 约 2,000㎡ 运动会馆（室内外双泳池），日常体验最好</li>
+          <li>2013 年交付，房龄 13 年，是三个里最新的</li>
+          <li>容积率 2.0、车位约 1:0.8，居住宽松度和停车都远好于另外两个</li>
+          <li>三房产品成熟，78–89㎡ 就是三房，功能完整</li>
+        </ul>
+      </div>
+      <div class="c">
+        <h4>缺点</h4>
+        <ul>
+          <li><b>贵 50%</b>：成交中位 19,983 对另外两个 1.3 万，同样 200 万只能买 88㎡</li>
+          <li><b>同比 −4.1%，是三个里唯一还在跌的</b>，且无止跌信号</li>
+          <li>最近地铁 900–1,130m，「双地铁步行可达」是话术，实际走 15 分钟以上</li>
+          <li>得房率 77.9%，最小卧室 7.87㎡，套内效率三个里最低</li>
+          <li>4,474–4,860 户大盘，同户型常年几十套在售，卖房要与邻居互相压价</li>
+          <li>学区江宁中游，且对口口径不统一；最近三甲 2.5km 以上且非三甲</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body">
+      <p><b>怎么买：</b>按 88–90㎡ 三房 174–192 万的真实成交出价，不要按 199 万签。84.98㎡ 那套挂 198 万（23,300）单价明显偏高，意义不大。它的价格还在往下走，慢一点不吃亏——但要注意它的「好卖」是<strong>以价换量换来的</strong>：12.8 套/月的成交量，对应的是同比 −4.1% 的让价幅度。</p>
+      <p><b>一句话定位：</b>如果把这四个字当真——「五年内会卖」——它是唯一不需要犹豫的答案；如果十年不卖，它比另外两个多付的 20–30 万单价，买的是物业、商业街和房龄，值不值取决于你多在意这三样。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">决策路径 <span class="num">13</span></h2>
+  <div class="tree">
+    <div class="node"><div class="cond">家里有车、只打算买一个车位</div><div class="res">→ <b>百家湖国际花园直接出局</b>（1:0.22，360 个位对约 1,650 户），在水月与万科之间选</div></div>
+    <div class="node"><div class="cond">五年内可能换房 / 需要随时变现</div><div class="res">→ <b>万科金域蓝湾 87.97㎡</b>，按 176 万出价，别按 199 万签</div></div>
+    <div class="node"><div class="cond">十年不卖、要最大的房子、能接受老塔楼</div><div class="res">→ <b>百家湖国际花园 137.76㎡ 四房</b>，压到 185–190 万，先筛朝向与梯户比</div></div>
+    <div class="node"><div class="cond">每天坐地铁通勤 + 在意学区确定性</div><div class="res">→ <b>水月秦淮 115.68㎡</b>，压到 158–162 万，先确认「这栋是几栋」</div></div>
+    <div class="node"><div class="cond">家里有老人，或计划接父母同住</div><div class="res">→ <b>水月秦淮</b>（三甲 2km）；百家湖国际的 990 米是分院，万科最远</div></div>
+    <div class="node"><div class="cond">孩子 3 年内上小学</div><div class="res">→ <b>三个都不选</b>。江宁这三所都在区内中游，回主城那条线（南外明远 / 秦淮实验）解</div></div>
+    <div class="node"><div class="cond">预算能到 260 万以上</div><div class="res">→ 三家里看 <b>万科 117.38㎡ 三房两卫</b>（挂 258 万），或跳出水月/百家湖国际这个梯队，去看普通刚需带的新盘</div></div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">看房核实清单 <span class="num">14</span></h2>
+  <p class="lead">打印出来，逐条问、逐条记。任何一条答不上来，都不要付定金。</p>
+  <ol class="steps">
+    <li><b>产证上的建筑面积和套内面积各是多少。</b>要拍照，不要听口述。三家的得房率差 2 个点，但面积段不同，这一项直接决定你花 200 万买到多少可用面积。</li>
+    <li><b>这套房子的上一手交易时间与价格。</b>两年内二次转手的必须问原因，并去不动产登记簿查抵押与查封。</li>
+    <li><b>百家湖国际花园：是哪一栋、几梯几户、主卧和客厅朝什么方向。</b>这个小区内部差价能到 50%，朝向和梯户比比楼层重要；顺便问地下车库为什么没正常启用。</li>
+    <li><b>百家湖国际花园：物业费到底多少。</b>1.0 / 1.2 / 1.65–1.95 三个口径都在流通，要盖公章的收费公示，按 128㎡ 算十年能差 13 万。</li>
+    <li><b>水月秦淮：这栋是几栋。</b>15 幢以前才是百家湖小学，15 幢以后是翠屏山小学。不要问「是几期」，直接问幢号。</li>
+    <li><b>学区：拿门牌号去江宁区教育局官网核当年施教区原文。</b>三家各查一次，截图留存。中介的「学区房」承诺不具备任何效力。</li>
+    <li><b>车位：是产权位还是租赁位，租约还剩多久，月租多少。</b>百家湖国际花园要问「这套房子有没有固定车位」，答案若是「自己找地方停」，就别买了。</li>
+    <li><b>物业：物业费收缴率、维修基金余额、近五年是否换过物业。</b>收缴率低于 70% 的小区，十年后公共设施一定烂。</li>
+    <li><b>电梯：梯龄、是否大修过、维保单位。</b>水月秦淮与百家湖国际花园的电梯都在 15 年以上，三梯八户那几栋尤其要看。</li>
+    <li><b>噪音：晚上 8 点走一趟。</b>水月秦淮临河道路、万科临小龙湾路一侧、百家湖国际临利源中路一侧，都要实地听。</li>
+    <li><b>停车：晚上 8 点数一次。</b>百家湖国际数地面停了多少辆、有没有堵消防通道；水月看楼前是不是停满。这一趟比十张表格准。</li>
+    <li><b>税费：是否满五唯一、是否满两年。</b>200 万总价，满两年与不满两年的增值税加个税能差 10 万以上，比房价谈判更值钱。</li>
+    <li><b>土地年限：问清土地出让时间。</b>百家湖国际花园的土地是 1996 年取得的，70 年产权到 2066 年，剩余约 40 年——这会影响部分银行的评估与贷款年限。</li>
+  </ol>
+</section>
+
+<footer>
+  <p><b>数据来源：</b>中指研究院小区月报与成交明细（百家湖国际花园 2026-04 / 07、水月秦淮 2026-07 / 08）、贝壳 / 链家 / 幸福里 / 365 淘房 / 安居客在售房源页与小区页（含套内面积、梯户比、挂牌时间、在售套数）、克而瑞好房评测居住服务评分、南京市江宁区教育局 2026 年小学招生入学实施细则与施教区一览（含翠屏山小学 2026 年入学公告）、南京地铁运营线路公开信息。取数日 2026-10-20。</p>
+  <p><b>口径说明：</b>① 单价一律取成交单价中位数，平台「小区均价」只用于计算议价率，不进任何预算与面积测算；② 面积一律取真实挂牌建筑面积，套内按实测得房率折算；③ 百家湖国际花园与水月秦淮月成交样本仅 1–6 套，价格给区间不给单点，置信度标为中 / 中低；④ 「静态去化」= 当前在售套数 ÷ 近期月均成交，仅作横向参考，不代表实际成交周期；⑤ 12 号线为规划线路，未获批开工，不计入任何结论。</p>
+  <p><b>已知不确定性：</b>百家湖国际花园的小学施教区归属在现有公开信息中存在冲突，本报告按「不确定」处理，未按任何一方结论计分；该小区物业费存在三个口径，未取单一值；万科金域蓝湾的对口学校在不同平台标注不一致，本报告按「江宁中游」共性处理，未做校际差异比较。以上三项均需签约前以官方渠道复核。</p>
+  <p style="margin-top:14px">本报告为决策参考，不构成投资建议。所有价格与规划时点在签约前请以官方渠道复核。</p>
+</footer>
+
+</div>
+</body>
+</html>
