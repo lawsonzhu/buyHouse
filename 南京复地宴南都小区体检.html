@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南京复地宴南都 · 单小区体检</title>
+<meta name="description" content="秦淮大校场复地宴南都单小区体检：南外明远施教区名单已含门牌，97㎡ 三房 275 万上车，但月成交 1–2 套、挂牌到成交 725 天，是全片流动性最差的一档。">
+<style>
+  :root{
+    --ink:#1c1c1a; --ink-2:#4a4a46; --muted:#7a7a74; --line:#e4e2dc;
+    --bg:#faf9f6; --card:#ffffff;
+    --blue:#185FA5; --blue-bg:#E6F1FB;
+    --green:#3B6D11; --green-bg:#EAF3DE;
+    --red:#A32D2D; --red-bg:#FCEBEB;
+    --amber:#854F0B; --amber-bg:#FAEEDA;
+    --gray-bg:#f4f2ec;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.72;font-size:15px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:56px 28px 80px;}
+
+  header{border-bottom:2px solid var(--ink);padding-bottom:28px;margin-bottom:36px;}
+  .kicker{font-size:12px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-bottom:14px;}
+  h1{font-size:30px;font-weight:600;letter-spacing:-.01em;line-height:1.35;margin-bottom:14px;}
+  .sub{font-size:15px;color:var(--ink-2);max-width:790px;}
+  .meta{margin-top:20px;font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:18px;}
+
+  .verdict{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:2px;padding:24px 26px;margin-bottom:26px;}
+  .verdict h2{font-size:13px;letter-spacing:.1em;color:var(--blue);margin-bottom:12px;font-weight:600;}
+  .verdict p{font-size:15.5px;margin-bottom:10px;}
+  .verdict p:last-child{margin-bottom:0;}
+  .verdict strong{background:linear-gradient(transparent 62%,#d8e6f4 62%);font-weight:600;}
+
+  .fix{background:#fffdf6;border:1px solid #e8dfc4;border-left:3px solid var(--amber);border-radius:2px;padding:22px 24px;margin-bottom:44px;}
+  .fix h2{font-size:13px;letter-spacing:.1em;color:var(--amber);margin-bottom:12px;font-weight:600;}
+  .fix p{font-size:14.5px;color:var(--ink-2);margin-bottom:10px;}
+  .fix p:last-child{margin-bottom:0;}
+  .fix b{color:var(--ink);font-weight:600;}
+
+  section{margin-bottom:50px;}
+  h2.sec{font-size:20px;font-weight:600;margin-bottom:8px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:12px;}
+  h2.sec span.num{font-size:12px;color:var(--muted);font-weight:400;letter-spacing:.1em;}
+  .lead{font-size:14.5px;color:var(--ink-2);margin:14px 0 20px;}
+  h3.sub-h{font-size:15px;font-weight:600;margin:26px 0 6px;}
+
+  .tbl-wrap{overflow-x:auto;margin:18px 0 10px;border:1px solid var(--line);border-radius:3px;background:var(--card);}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:760px;}
+  th{text-align:left;padding:11px 13px;background:var(--gray-bg);font-weight:600;font-size:12px;color:var(--ink-2);border-bottom:1px solid var(--line);white-space:nowrap;}
+  td{padding:11px 13px;border-bottom:1px solid #f0eee8;vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  td.n{font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .big{font-weight:600;}
+  .ok{color:var(--green);font-weight:600;}
+  .warn{color:var(--amber);font-weight:600;}
+  .bad{color:var(--red);font-weight:600;}
+  .flat{color:var(--muted);font-weight:400;font-size:12px;}
+
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:2px;font-weight:500;white-space:nowrap;}
+  .b-green{background:var(--green-bg);color:var(--green);}
+  .b-amber{background:var(--amber-bg);color:var(--amber);}
+  .b-red{background:var(--red-bg);color:var(--red);}
+  .b-gray{background:var(--gray-bg);color:var(--muted);}
+  .b-blue{background:var(--blue-bg);color:var(--blue);}
+
+  .note{font-size:12.5px;color:var(--muted);line-height:1.7;padding:14px 16px;background:var(--gray-bg);border-radius:3px;margin:14px 0;}
+  .note b{color:var(--ink-2);font-weight:600;}
+
+  .callout{border-left:3px solid var(--red);background:var(--red-bg);padding:16px 20px;border-radius:2px;font-size:13.5px;color:#5c2222;line-height:1.72;margin:18px 0;}
+  .callout b{font-weight:600;}
+  .callout.amber{border-left-color:var(--amber);background:var(--amber-bg);color:#5a3a10;}
+  .callout.blue{border-left-color:var(--blue);background:var(--blue-bg);color:#123a63;}
+  .callout.green{border-left-color:var(--green);background:var(--green-bg);color:#2a4d0d;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:3px;margin-bottom:20px;overflow:hidden;}
+  .card-head{padding:16px 22px 13px;border-bottom:1px solid var(--line);}
+  .card-head .row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .card-head h3{font-size:16.5px;font-weight:600;}
+  .rank{font-size:11.5px;color:#fff;background:var(--ink);padding:3px 10px;border-radius:2px;letter-spacing:.06em;white-space:nowrap;}
+  .card-body{padding:16px 22px 18px;}
+  .card-body p{font-size:14px;color:var(--ink-2);margin-bottom:9px;}
+  .card-body p:last-child{margin-bottom:0;}
+  .card-body b{color:var(--ink);font-weight:600;}
+
+  .kv{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-bottom:1px solid var(--line);}
+  .kv .c{background:var(--card);padding:11px 15px;}
+  .kv .k{font-size:11.5px;color:var(--muted);margin-bottom:2px;}
+  .kv .v{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;}
+  .kv .v small{font-size:11.5px;font-weight:400;color:var(--muted);}
+
+  .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);}
+  .pros-cons > div{background:var(--card);padding:16px 22px;}
+  .pros-cons h4{font-size:12px;letter-spacing:.08em;margin-bottom:10px;font-weight:600;}
+  .pros-cons .p h4{color:var(--green);}
+  .pros-cons .c h4{color:var(--red);}
+  .pros-cons ul{list-style:none;}
+  .pros-cons li{font-size:13.5px;color:var(--ink-2);padding-left:14px;position:relative;margin-bottom:7px;line-height:1.65;}
+  .pros-cons li::before{content:"·";position:absolute;left:3px;top:0;font-weight:700;}
+  .pros-cons .p li::before{color:var(--green);}
+  .pros-cons .c li::before{color:var(--red);}
+
+  ol.steps{list-style:none;counter-reset:s;}
+  ol.steps li{counter-increment:s;position:relative;padding-left:40px;margin-bottom:14px;font-size:14px;color:var(--ink-2);}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:24px;height:24px;background:var(--blue-bg);color:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;}
+  ol.steps li b{color:var(--ink);font-weight:600;}
+
+  .tree{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:8px 0;margin:18px 0;}
+  .tree .node{display:grid;grid-template-columns:210px 1fr;gap:14px;padding:14px 22px;border-bottom:1px solid #f0eee8;align-items:start;}
+  .tree .node:last-child{border-bottom:none;}
+  .tree .cond{font-size:13px;color:var(--muted);}
+  .tree .res{font-size:14px;}
+  .tree .res b{font-weight:600;}
+
+  footer{border-top:1px solid var(--line);padding-top:22px;margin-top:50px;font-size:12px;color:var(--muted);line-height:1.8;}
+
+  @media (max-width:720px){
+    .wrap{padding:36px 18px 60px;}
+    h1{font-size:24px;}
+    .kv{grid-template-columns:repeat(2,1fr);}
+    .card-body,.card-head{padding-left:18px;padding-right:18px;}
+    .pros-cons{grid-template-columns:1fr;}
+    .tree .node{grid-template-columns:1fr;gap:4px;}
+    .pros-cons > div{padding:16px 18px;}
+  }
+  @media print{body{background:#fff;font-size:12px;}.wrap{max-width:100%;padding:0;}.card,section{page-break-inside:avoid;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">南京 · 单小区体检 · 秦淮大校场 · 南外明远施教区</div>
+  <h1>复地宴南都：学区、地铁、配套都是现成的，只有一样是虚的——流动性</h1>
+  <p class="sub">汇景北路与双龙大道（卡子门大街）交汇，复地 2016 年首开、2017–2019 年陆续交付的 8 幢住宅，另带 528 户 40 年产权公寓和一栋甲级写字楼。本报告按「97㎡ 三房 275 万 / 120㎡ 三房两卫 350 万」两档口径核算，并以同施教区的保利堂悦作为唯一横向基准。</p>
+  <div class="meta">
+    <span>上车门槛 275 万（97㎡）</span>
+    <span>舒适档 350 万（120㎡）</span>
+    <span>取数：2026-10-20</span>
+    <span>价格口径：中指小区均价 + 365 挂牌 + 逐套挂牌样本</span>
+  </div>
+</header>
+
+<div class="verdict">
+  <h2>结论先说</h2>
+  <p><strong>275 万在大校场南外明远施教区里能买到 97㎡ 三房，这是这个小区最硬的一条结论。</strong>同一笔钱，隔壁保利堂悦只能上 89–92㎡ 的小三房，明都雅苑面积更大但根本没有这个学区。施教区公告里写的是「复地宴南都（一期苏家桥路 6 号、二期苏家桥路 8 号）」——不是「1 公里内有南外」，是名单里点了门牌。</p>
+  <p><strong>但它的价格是用流动性换来的。</strong>中指口径 2026 年 4/5/6 月成交 2 套、1 套、2 套；贝壳 9 月口径二期从挂牌到成交 <b>725 天</b>。一路之隔的保利堂悦，同一学区、同一板块、挂牌价几乎一样，成交周期 <b>45.3 天</b>、近一年成交 68 套。<b>差十几倍的不是房价，是能不能卖掉。</b></p>
+  <p>所以这不是一个「值不值」的问题，是一个「你多久会换手」的问题。<strong>十年内不打算卖</strong>，275 万在这里买到的确定性（学区含门牌、3 号线 650 米双站、三甲 1.3 公里、商业在楼下）在全片排得上前列；<strong>五年内可能置换</strong>，同样的钱没有理由不选保利堂悦。</p>
+</div>
+
+<div class="fix">
+  <h2>这个小区有六个坑，先立口径</h2>
+  <p><b>1.「复地宴南都」不是一个小区，是三个产品。</b>住宅 8 幢（一期 1–4 幢 742 户，二期 5–8 幢 821 户，中间隔佳营路）、公寓 528 户（40 年产权、物业费 4.8 元）、甲级写字楼。平台那个「均价 3.23 万」是混算的；公寓实际成交在 2.2–2.5 万、35–50㎡。<b>看到「2 室 1 厅 90 万、46㎡」的，是公寓，别当住宅算。</b></p>
+  <p><b>2.「上月成交 39 套」是错的，39 是在售套数。</b>中指逐月记录：2026 年 4 月成交 2 套、5 月 1 套、6 月 2 套。真按 39 套/月算，1,563 户住宅不到四年就换手一遍，不可能。<b>这个小区全年的真实成交，大概是二十套上下。</b></p>
+  <p><b>3. 成交周期 725 天不是笔误。</b>贝壳 2026-09-11 挂牌口径：复地宴南都二期挂牌均价 3.47 万、成交周期 725 天；保利堂悦 3.46 万、成交周期 45.3 天、近一年成交 68 套。<b>价格持平、速度差十几倍，差的是户型、楼层、装修和这栋楼本身是谁在用。</b></p>
+  <p><b>4. 容积率 4.15 是全盘综合容积率，不是住宅地块的。</b>这个数字把写字楼、酒店式公寓、集中商业一起算进去了。住宅 B 地块单地块低于 4.15。<b>拿 4.15 去和纯住宅小区比密度，会把结论做反；但它确实比同板块的保利堂悦更「综合体」。</b></p>
+  <p><b>5. 学区是确定的，但学校 2022 年才办。</b>南外明远小学 2022 年 9 月开办（前身是秦淮第二实验小学/五老村小学分校更名），明远初中同年开办。南外派驻的是管理团队与品牌，<b>不是本部师资</b>；2026 年没有完整中考成绩。<b>别为这个学区支付超过总价 15% 的溢价</b>——复地对无学区老小区（明都雅苑成交约 2.3 万）的溢价约 25%，已经越线。</p>
+  <p><b>6. 中医院 1.3 公里不是「步行 5 分钟」。</b>南京市中医院官方就医指引写的是：地铁 3 号线大明路站出站后<b>换乘 708/99/27 路公交</b>到「南京市中医院」站。医院自己都不认为它离大明路站可以走过去，说明它不在步行友好半径里。骑行 6 分钟是真实体感，步行 16–18 分钟。</p>
+</div>
+
+<section>
+  <h2 class="sec">它到底是什么产品 <span class="num">01</span></h2>
+  <p class="lead">先把三套体系拆开。你买住宅，但定价权被公寓拖着走——这是这个小区所有价格困惑的来源。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>项目</th><th>住宅（B 地块）</th><th>公寓（C / D 地块）</th><th>写字楼</th></tr>
+    <tr><td>产权</td><td class="big">70 年</td><td><span class="badge b-amber">40 年（商办）</span></td><td>40 年</td></tr>
+    <tr><td>体量</td><td class="n">8 幢 / 1,563 户<br><span class="flat">一期 1–4 幢 742 户，二期 5–8 幢 821 户</span></td><td class="n">528 户</td><td class="n">甲级，28 层</td></tr>
+    <tr><td>主力建面</td><td class="n big">97 / 105 / 120 / 140㎡</td><td class="n">28–69㎡（含挑高）</td><td class="n">136–638㎡</td></tr>
+    <tr><td>层数 / 梯户</td><td class="n">29–30 层，两梯四户</td><td class="n">20–26 层</td><td class="n">—</td></tr>
+    <tr><td>物业费</td><td class="n ok">1.9–2.7 元/㎡·月</td><td class="n bad">4.8 元/㎡·月</td><td class="n">9–18 元/㎡·月</td></tr>
+    <tr><td>2026 年成交区间</td><td class="n">约 2.80–3.10 万/㎡</td><td class="n">约 2.20–2.50 万/㎡</td><td class="n">1.3–1.8 万/㎡（售价）</td></tr>
+    <tr><td>对买家的意义</td><td><span class="badge b-blue">这一份报告只谈这个</span></td><td><span class="badge b-red">不要买，也不要当价格参照</span></td><td><span class="badge b-gray">无关</span></td></tr>
+  </table>
+  </div>
+  <p class="note">全盘备案口径混乱是常态：365 写总户数 2,979 户、中指写 2,524 户、楼盘档案写 2,856 户、住宅口径 1,563 户。<b>差异全部来自「有没有把公寓和写字楼算进去」。</b>谈价格前先问一句「你说的是住宅还是公寓」，能省掉一半沟通。</p>
+  <div class="callout amber">
+    <b>这一节改变了什么：</b>它决定了你的可比对象不是「复地宴南都」这四个字，而是「复地宴南都一期 / 二期 97–122㎡ 三房」。中介报的「小区均价 3.2 万」，对你的那套房子没有解释力——97㎡ 段实际挂牌 2.80–2.87 万，141㎡ 段 3.37 万，中间差 18%。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">275 万 / 350 万能买到什么 <span class="num">02</span></h2>
+  <p class="lead">按真实挂牌建面逐套核，不用「预算 ÷ 单价」倒算。全部为住宅，已剔除公寓。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>期</th><th>建面</th><th>户型</th><th>总价</th><th>单价</th><th>楼层</th><th>挂牌日</th><th>判断</th></tr>
+    <tr><td>一期</td><td class="n big">97.31㎡</td><td>3室2厅1卫</td><td class="n big">273 万</td><td class="n">28,055</td><td>高/29</td><td class="n">2026-05</td><td><span class="badge b-green">全小区最低单价，优先看</span></td></tr>
+    <tr><td>二期</td><td class="n big">97.31㎡</td><td>3室2厅1卫</td><td class="n big">279 万</td><td class="n">28,672</td><td>中/29</td><td class="n">2026-09</td><td><span class="badge b-blue">主力上车户型，可谈 265–272</span></td></tr>
+    <tr><td>一期</td><td class="n">95.78㎡</td><td>3室3厅</td><td class="n">262 万</td><td class="n">27,355</td><td>—</td><td class="n">—</td><td><span class="badge b-amber">低于中位 6%，先核楼层采光</span></td></tr>
+    <tr><td>一期</td><td class="n">105.27㎡</td><td>3室2厅2卫</td><td class="n">—</td><td class="n">—</td><td>高/30</td><td class="n">2026-09</td><td><span class="badge b-green">唯一披露套内 80.87㎡，得房率 76.8%</span></td></tr>
+    <tr><td>二期</td><td class="n">120.88㎡</td><td>3室2厅2卫</td><td class="n big">329 万</td><td class="n">27,217</td><td>高/29</td><td class="n">2026-08</td><td><span class="badge b-green">大三房最低单价，简装可压到 315 左右</span></td></tr>
+    <tr><td>一期</td><td class="n">122.03㎡</td><td>3室2厅2卫</td><td class="n">369 万</td><td class="n">30,239</td><td>—</td><td class="n">—</td><td><span class="badge b-gray">接近中位，可谈</span></td></tr>
+    <tr><td>二期</td><td class="n">121.80㎡</td><td>3室2厅2卫</td><td class="n">380 万</td><td class="n">31,199</td><td>中/29</td><td class="n">2026-08</td><td><span class="badge b-amber">比同面积中位高约 7%</span></td></tr>
+    <tr><td>二期</td><td class="n">122.03㎡</td><td>3室2厅2卫</td><td class="n">380 万</td><td class="n">31,140</td><td>中/29</td><td class="n">2026-09</td><td><span class="badge b-amber">同上，非精装不谈</span></td></tr>
+    <tr><td>一期</td><td class="n">141.65㎡</td><td>4室2厅2卫</td><td class="n">478 万</td><td class="n">33,745</td><td>高/29</td><td class="n">2026-09</td><td><span class="badge b-red">大户型溢价 16%，流动性最差</span></td></tr>
+  </table>
+  </div>
+  <p class="note">数据源：贝壳 / 链家 / 365 淘房南京站在售房源页，逐套核对建面、户型、楼层与挂牌日。总价带「—」的为平台未公开总价，仅用于得房率与单价结构参考。<b>同一小区 97㎡ 与 122㎡ 之间 18% 的单价差，不是楼层造成的，是 2024–2026 年这一轮里大户型先跌、小户型后跌造成的。</b></p>
+  <div class="callout">
+    <b>三套「275 万以内」的房，全部低于小区挂牌中位 3–8%。</b>这个偏离幅度可以用「业主急售 + 高楼层 + 简装」解释，但不足以解释 262 万那套（低于中位 13%）。<b>看房前必做三件事：</b>调不动产登记簿确认无查封无二次抵押、确认房源真实在售（不是已成交未下架）、到现场核临卡子门高架一侧的噪音。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">成交价：从 5 万到 2.9 万，三年半 <span class="num">03</span></h2>
+  <p class="lead">这是全片跌幅最完整的一条曲线，因为它从最高点一路有记录地跌下来。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>时点</th><th>价格</th><th>口径</th><th>置信度</th></tr>
+    <tr><td>2018-08 收官</td><td class="n big">34,000</td><td>销许均价，464 套，2,055 组摇号，中签率 22.6%</td><td><span class="badge b-green">高</span></td></tr>
+    <tr><td>2023-02 峰值</td><td class="n bad big">50,000–51,383</td><td>二期 97.31㎡ 成交 500 万，<b>含 20–30 万车位</b>，净房价约 4.83–4.93 万</td><td><span class="badge b-green">高</span></td></tr>
+    <tr><td>2023-08</td><td class="n">39,866</td><td>一期 122.36㎡ 成交 487.8 万，成交周期 314 天</td><td><span class="badge b-green">高</span></td></tr>
+    <tr><td>2026-04</td><td class="n">30,364</td><td>中指小区均价，环比 −1.69%，成交 2 套</td><td><span class="badge b-amber">中</span></td></tr>
+    <tr><td>2026-05</td><td class="n">29,319</td><td>中指，环比 −4.85%，成交 1 套（106.35㎡）</td><td><span class="badge b-amber">中</span></td></tr>
+    <tr><td>2026-06</td><td class="n big">29,110</td><td>中指，环比 −0.71%，成交 2 套（97.31 / 121.22㎡）</td><td><span class="badge b-amber">中</span></td></tr>
+    <tr><td>2026-09 挂牌</td><td class="n">32,340</td><td>365 住宅挂牌均价（另有链家本网参考 3.31–3.47 万，口径偏高）</td><td><span class="badge b-amber">中</span></td></tr>
+    <tr><td>挂牌 − 成交落差</td><td class="n warn big">−10.0%</td><td>(29,110 − 32,340) ÷ 32,340</td><td><span class="badge b-amber">中</span></td></tr>
+    <tr><td>较 2018 销许价</td><td class="n bad">−14.4%</td><td>29,110 ÷ 34,000 − 1</td><td><span class="badge b-green">高</span></td></tr>
+    <tr><td>较 2023-02 峰值</td><td class="n bad big">−42%</td><td>29,110 ÷ 50,000 − 1，且当年峰值含车位</td><td><span class="badge b-green">高</span></td></tr>
+  </table>
+  </div>
+  <p class="note"><b>为什么给区间不给单点：</b>中指 4–6 月合计只有 5 套成交样本，且平台不披露单套总价（列表里「成交价 0 万」）。样本量不足以支撑一个精确中位数，所以本报告用「中指小区均价 + 逐套挂牌样本」交叉定位，结论是<b>真实成交大概率落在 2.80–2.95 万</b>，97㎡ 三房对应 272–287 万。</p>
+  <div class="callout amber">
+    <b>这一节改变了什么：</b>落差只有 10%，按锚点属于「接近出清」，理论上让价空间不大，从 95 折起谈即可。但这条规则在这类低流动性盘上会失效——<b>买家少，业主的「市场价」认知更新得很慢</b>，挂牌 3.2 万而成交 2.9 万的组合，会一直存在到你签合同为止。真正的空间不在折扣，在挑那套「已经挂了半年」的房子。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">卖压：这个小区最重要的一个数字 <span class="num">04</span></h2>
+  <p class="lead">学区、地铁、商圈都可以横向比，这一项比不了——它是这个小区自己的问题。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>指标</th><th>复地宴南都</th><th>保利堂悦（同学区、同板块）</th><th>读法</th></tr>
+    <tr><td>住宅在售</td><td class="n big bad">226 套</td><td class="n">92 套（住宅口径）</td><td>复地是保利的 2.5 倍，户数却只有对方的 3/4</td></tr>
+    <tr><td>住宅户数</td><td class="n">1,563 户</td><td class="n">2,063 户</td><td>—</td></tr>
+    <tr><td>挂牌率</td><td class="n bad">14.5%<br><span class="flat">按全盘 2,979 户则 7.6%</span></td><td class="n">4.5%</td><td>正常小区 3–5%，复地是 3 倍</td></tr>
+    <tr><td>月成交</td><td class="n big bad">1–2 套</td><td class="n ok">5–15 套</td><td>中指 4/5/6 月：2 / 1 / 2</td></tr>
+    <tr><td>挂牌到成交周期</td><td class="n big bad">725 天</td><td class="n ok big">45.3 天</td><td>贝壳 2026-09-11 口径</td></tr>
+    <tr><td>近一年成交</td><td class="n">约 20 套（推算）</td><td class="n">68 套</td><td>按中指月均 × 12 推算，置信度低</td></tr>
+    <tr><td>公寓在售（另一套体系）</td><td class="n">76–130 套 / 528 户</td><td class="n">—</td><td>不要和住宅混算</td></tr>
+  </table>
+  </div>
+  <div class="callout">
+    <b>226 套 ÷ 月成交 1.5 套 ≈ 150 个月，这个数字大到不可能是真实库存。</b>它说明平台在售列表里含大量重复挂牌、已成交未下架、以及同一套被多家中介挂出来的房源。<b>但方向是确定的：这是全片流动性最差的一档。</b>原因不在学区（跟保利堂悦是同一个学区），在三件事——98㎡ 做三房、得房率 76.8%、楼下就是公寓和写字楼。买家来看房，看的是「这片的生活」，签的是「这栋楼的产品」。
+  </div>
+  <p class="note">这组数字对买家是好消息，也是坏消息。<b>好消息</b>：226 个竞品互相压价，你没有理由按挂牌价签，265 万谈 273 万那套在今天是合理的。<b>坏消息</b>：你买入后卖出时，面对的还是这 226 个对手，而月成交只有 1–2 套。<b>「次新 + 成熟配套」在这里不是流动性，是库存。</b></p>
+</section>
+
+<section>
+  <h2 class="sec">户型与得房率 <span class="num">05</span></h2>
+  <p class="lead">这个小区有一套房源披露了套内面积——这是全报告里最可靠的一个实测值，用它反推整栋楼。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>建面</th><th>户型</th><th>梯户比</th><th>套内</th><th>得房率</th><th>每 100 万买到的套内</th></tr>
+    <tr><td class="n big">97.31㎡</td><td>3室2厅1卫</td><td>两梯四户 / 29 层</td><td class="n">约 73–75㎡（估）</td><td class="n">75–77%</td><td class="n">26.7㎡ <span class="flat">按 275 万</span></td></tr>
+    <tr><td class="n big">105.27㎡</td><td>3室2厅2卫</td><td>两梯四户 / 30 层</td><td class="n ok big">80.87㎡ <b>实测</b></td><td class="n ok">76.8%</td><td class="n">—</td></tr>
+    <tr><td class="n">120.88–122.03㎡</td><td>3室2厅2卫</td><td>两梯四户 / 29 层</td><td class="n">约 92–95㎡（估）</td><td class="n">76–78%</td><td class="n">26.8㎡ <span class="flat">按 350 万</span></td></tr>
+    <tr><td class="n">141.65㎡</td><td>4室2厅2卫</td><td>两梯四户 / 29 层</td><td class="n">约 108–110㎡（估）</td><td class="n">76–78%</td><td class="n">22.8㎡ <span class="flat">按 478 万</span></td></tr>
+  </table>
+  </div>
+  <p class="note">对照同一板块的另外两种产品：保利堂悦 92.19㎡ 套内 69.1㎡（75%，每 100 万 25.4㎡）；明都雅苑 106.6㎡ 套内约 90.6㎡（85%，每 100 万 36.9㎡）。<b>复地宴南都的 76.8% 恰好卡在中间</b>——比保利高 1.8 个点，比 2005 年的多层低 8 个点。这不是产品的优势，是 2016 年那批高层的平均水平。</p>
+  <div class="callout amber">
+    <b>这一节改变了什么：</b>不要用「97㎡ 三房」想象空间。97㎡ × 76.8% = 74.5㎡ 套内，扣掉两面墙，实际是「两间正经卧室 + 一间只能放单人床的书房」。<b>如果你需要三个能住人的房间，必须看 105㎡ 或 120㎡，97㎡ 会把第三个房间做成鸡肋。</b>这也是它成交慢的原因之一——南京 2016 年那批 98㎡ 三房，是这个户型史上最尴尬的尺寸。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">地铁：两条真线，一站不在步行半径 <span class="num">06</span></h2>
+  <p class="lead">这一项它比保利堂悦强，但强得没那么多。把「步行可达」和「需要接驳」分开，差距就出来了。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>站点</th><th>线路</th><th>状态</th><th>步行距离</th><th>能否计入通勤</th></tr>
+    <tr><td class="big">大明路</td><td>3 号线</td><td><span class="badge b-green">已运营</span></td><td class="n big ok">651–750m</td><td class="ok">可以，8–10 分钟</td></tr>
+    <tr><td class="big">明发广场</td><td>3 号线</td><td><span class="badge b-green">已运营</span></td><td class="n ok">744–884m</td><td class="ok">可以，10–12 分钟</td></tr>
+    <tr><td>夹岗</td><td>6 号线</td><td><span class="badge b-green">已运营（2026-09-29 开通）</span></td><td class="n warn">1,242m</td><td class="warn">勉强，骑行 5 分钟</td></tr>
+    <tr><td>机场跑道旧址</td><td>6 / 10 号线</td><td><span class="badge b-green">已开通</span></td><td class="n">1,458m</td><td class="bad">不算</td></tr>
+    <tr><td>卡子门</td><td>10 号线</td><td><span class="badge b-green">已开通</span></td><td class="n">1,920m</td><td class="bad">不算</td></tr>
+    <tr><td>南京南站</td><td>1 / 3 / 6 / S1 / S3</td><td><span class="badge b-green">已运营</span></td><td class="n">1,505–1,851m</td><td class="bad">换乘枢纽，不是步行地铁房</td></tr>
+  </table>
+  </div>
+  <p class="note"><b>3 号线两站都在 900 米内，这在南京是少见的「双站可选」</b>——北门走大明路站，西门走明发广场站，早高峰哪边人少走哪边。6 号线 9 月 29 日刚通车（与 S1 贯通、南京南站成五线换乘），夹岗 1.24 公里，实际是骑行或公交接驳，<b>不要被「三线环绕」说服</b>。距离取自贝壳/链家小区页与幸福里，为步行路径近似值，非直线距离。</p>
+  <div class="callout green">
+    <b>这一项改变了什么：</b>它把「老城东南」变成了「20 分钟到新街口」。3 号线大明路到常府街 6 站、约 14 分钟，到南京站 30 分钟；这是整个大校场板块里通勤性价比最高的一段。<b>但它不是「地铁上盖」，是「地铁旁边」</b>——这个差别在雨天和买重物时能感觉出来。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">医疗 <span class="num">07</span></h2>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>医院</th><th>等级</th><th>距离</th><th>说明</th></tr>
+    <tr><td class="big">南京市中医院（大明路院区）</td><td>三甲</td><td class="n warn">约 1.3km<br><span class="flat">骑行 6 分钟 / 步行 16–18 分钟</span></td><td>1,500–1,575 床，南中医三附院，全国肛肠中心；官方就医指引需从大明路站换公交</td></tr>
+    <tr><td>南京城南医院</td><td>二级</td><td class="n">约 0.8km</td><td>日常门诊、体检可用，不计入三甲距离</td></tr>
+    <tr><td>秦淮区红花社区卫生服务中心</td><td>社区</td><td class="n">约 0.7km</td><td>疫苗、慢病、儿童保健</td></tr>
+    <tr><td>南京南园妇产医院</td><td>专科</td><td class="n">约 2km</td><td>—</td></tr>
+  </table>
+  </div>
+  <p class="note">按评分锚点，1.3km 落在「500m–1.5km」档，给 7.0 分（保利堂悦 1.5km 在同体系报告里记 7.5 分，属同档口径微差）。<b>这一项不是短板，但也不是卖点。</b>对比明都雅苑到中医院 350 米——那是真的「走 4 分钟」，复地是「骑车 6 分钟或开车 3 分钟但停车难」。</p>
+</section>
+
+<section>
+  <h2 class="sec">商圈：下楼就能吃饭，这是它最强的一项 <span class="num">08</span></h2>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>层级</th><th>项目</th><th>距离</th><th>状态</th><th>评价</th></tr>
+    <tr><td rowspan="3">日常</td><td>复地活力广场沿街底商</td><td class="n">楼下</td><td><span class="badge b-green">已开业</span></td><td class="ok">餐饮为主，奶茶、超市、药房、银行齐备</td></tr>
+    <tr><td>明发商业广场 / 永辉超市</td><td class="n">300–500m</td><td><span class="badge b-green">已开业</span></td><td class="ok">买菜、日用品主力</td></tr>
+    <tr><td>麦德龙、石林家居</td><td class="n">马路西侧</td><td><span class="badge b-green">已开业</span></td><td>大宗采购</td></tr>
+    <tr><td rowspan="3">区域级</td><td>复地活力广场（自建商业体）</td><td class="n">200–300m</td><td><span class="badge b-green">已开业</span></td><td class="ok">影院、亲子、餐饮，周末不用开车</td></tr>
+    <tr><td>宜家、迪卡侬</td><td class="n">约 2km</td><td><span class="badge b-green">已开业</span></td><td>两站路车距</td></tr>
+    <tr><td>京东 MALL</td><td class="n">大校场片区</td><td><span class="badge b-green">已开业</span></td><td>—</td></tr>
+    <tr><td rowspan="2">高能级</td><td>金陵万象城</td><td class="n">约 2–3km</td><td><span class="badge b-amber">在建，2027 下半年</span></td><td>25 万㎡，原定 2026 开业，已延期</td></tr>
+    <tr><td>夫子庙 / 新街口</td><td class="n">3 号线 4–8 站</td><td><span class="badge b-green">已运营</span></td><td>地铁直达</td></tr>
+  </table>
+  </div>
+  <p class="note"><b>复地的日常配套是「已经跑起来的」，这在大校场是少数。</b>板块里大量 2021 年后交付的新盘还在等商业，而复地 2019 年交付时就带着底商和活力广场。<b>好处是不用等兑现；坏处是底商以餐饮为主，油烟和夜间噪音是真实成本</b>——低楼层、临街栋要现场闻一遍。</p>
+  <div class="callout blue">
+    <b>这一项改变了什么：</b>如果你家有老人或小孩，「下楼有饭、500 米有超市」的价值高于「2 公里外有个万象城」。这也是复地在商圈上拿到 8.5 分、高于保利堂悦的原因——<b>它的生活半径是步行级的，不是车行级的。</b>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">学区：名单里点了门牌，这是全报告最确定的一条 <span class="num">09</span></h2>
+  <p class="lead">不引用中介说法，直接看 2026 年招生通告原文。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>学段</th><th>学校</th><th>2026 施教区原文</th><th>判断</th></tr>
+    <tr><td>小学</td><td class="big">南京外国语学校明远小学<br><span class="flat">公办，汇景东路 8 号，2022-09 开办</span></td><td>「卡子门大街以东，机场大道以南，明贤路以西，汇景南路以南，神机营路以西，绕城公路以北。」名单：汇景家园（汇平苑等 15 苑）、保利堂悦（汇康路 99 号）、<b>复地宴南都（一期苏家桥路 6 号、二期苏家桥路 8 号）</b>、琥珀云台雅居、睿境府、果园村、夹岗村（60 号除外）</td><td><span class="badge b-green">确定：公告点名 + 门牌号</span></td></tr>
+    <tr><td>初中</td><td class="big">南京外国语学校明远初中<br><span class="flat">公办，校场大道 28 号</span></td><td>《2026 年秦淮区公办初中施教区范围》：明远初中 ← <b>南京外国语学校明远小学、南京市佳营小学</b></td><td><span class="badge b-green">确定：与小学形成九年一贯闭环</span></td></tr>
+  </table>
+  </div>
+  <p class="note">这一条的价值在于「确定性」，不在于「名校」。<b>公告原文里同时出现小区名和门牌号，意味着不存在「压线」「按楼栋分界」「分期不同学区」这些风险</b>——一期苏家桥路 6 号、二期苏家桥路 8 号，两期都在名单里，写得比大多数学区房都清楚。</p>
+  <div class="callout amber">
+    <b>但有三个风险点必须写清楚：</b><br>
+    ① <b>学校 2022 年才办，2026 年没有完整中考成绩。</b>南外派驻的是管理团队与品牌，不是本部师资。买的是「南外系新校的预期」。<br>
+    ② <b>大校场未来以跑道公园为界，形成「北侧南师系、南侧南外系」。</b>复地在跑道西南侧，短期在南外系一侧；但南师附中富华路分校（在建，已延期至 2027）落成后，片区施教区存在整体重划的可能。<br>
+    ③ <b>2026 年秦淮区学区划分「无重大变化」</b>——这是稳定信号，不是永久承诺，每年 5 月都要重新核一次公告。
+  </div>
+  <div class="callout">
+    <b>不要为这个学区付超过总价 15% 的溢价。</b>参照物是同一板块、同一房龄段但没有这个学区的明都雅苑：成交约 2.3 万/㎡。复地 2.85 万 ÷ 2.3 万 − 1 = <b>溢价 24%</b>，已经越过这条线。换句话说，你现在买它，学区那部分已经买在「预期价」而不是「折价」上了。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">梯户比与居住环境 <span class="num">10</span></h2>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>指标</th><th>复地宴南都</th><th>怎么读</th></tr>
+    <tr><td>交付时间</td><td class="n">2017–2019 年（房龄 7–9 年）</td><td class="ok">次新，管线电梯无历史包袱</td></tr>
+    <tr><td>层数 / 梯户比</td><td class="n">29–30 层，两梯四户</td><td class="warn">每部梯服务 58–60 户，早高峰需等</td></tr>
+    <tr><td>楼间距</td><td class="n">50m 以上</td><td class="ok">中高区采光无遮挡</td></tr>
+    <tr><td>综合容积率</td><td class="n bad">4.15</td><td class="bad">全盘口径（含写字楼/公寓/商业），住宅单地块低于此值，但仍偏高</td></tr>
+    <tr><td>绿化率</td><td class="n">35%</td><td>中等；实地看内部维护良好、有林下步道</td></tr>
+    <tr><td>住宅户数</td><td class="n">1,563 户（一期 742 / 二期 821）</td><td>中等体量，两期之间隔佳营路</td></tr>
+    <tr><td>人车分流</td><td class="ok">是（地下车库）</td><td>—</td></tr>
+    <tr><td>业态纯粹度</td><td class="bad">差：住宅 + 528 户公寓 + 甲级写字楼 + 集中商业</td><td class="bad">出入人流复杂，是它区别于保利堂悦的最大产品差异</td></tr>
+    <tr><td>得房率</td><td class="n">76.8%（105.27㎡ 实测口径）</td><td>2016 年高层平均水平，比保利高 1.8 个点</td></tr>
+  </table>
+  </div>
+  <p class="note">四项核心取「一优（房龄）两一般（梯户、得房率）一劣（容积率/业态）」→ 6.0 分。<b>必须区分两件事：</b>「小区内部体验」（绿化、安保、卫生，实测都不错，门禁刷卡严格）和「城市综合体属性」（楼下就是写字楼和公寓，外卖、短租、公司进出）。<b>前者是好的，后者是它在二手市场上折价的原因。</b></p>
+  <div class="callout amber">
+    <b>这一项改变了什么：</b>如果你介意「小区里有公司、有短租、有公寓租客」，这一项就是否决项——它不可能通过装修或时间改善。<b>如果你只是要一个住得舒服、配套成熟的家</b>，它的内部环境实测是合格的，甚至在同类高层里偏上。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">车位与物业（参考项，不进总分） <span class="num">11</span></h2>
+  <p class="lead">按惯例只列事实、不设门槛。唯一可能翻转结论的情形写在最后。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>参考指标</th><th>数值</th><th>评价</th></tr>
+    <tr><td>室内机动车位</td><td class="n">2,887 个</td><td rowspan="2"><span class="badge b-green">全盘约 1:0.97–1.14（含公寓/写字楼）；纯住宅 1,563 户更宽松，但需确认住宅区是否有独立车位区</span></td></tr>
+    <tr><td>全盘户数</td><td class="n">2,524–2,979 户（口径不一）</td></tr>
+    <tr><td>车位形态</td><td>地下，自走式；<b>有产权车位可单独交易</b></td><td class="ok">比「只能租」的小区强一档</td></tr>
+    <tr><td>停车费</td><td class="n">约 300–400 元/月<span class="flat">（写字楼口径 400 元包月）</span></td><td>与保利堂悦 350 元同档</td></tr>
+    <tr><td>人车分流</td><td class="ok">是</td><td>—</td></tr>
+    <tr><td>物业公司</td><td>上海高地物业管理有限公司（复地自有体系）</td><td>—</td></tr>
+    <tr><td>物业费</td><td class="n ok">住宅 1.9–2.7 元</td><td><span class="badge b-amber">同小区跨度大，须按楼栋/期数确认；公寓 4.8 元、写字楼 9–18 元不要混</span></td></tr>
+    <tr><td>物业费总额（住宅）</td><td class="n">约 390 万元/年<span class="flat">（1,563 户 × 平均 110㎡ × 1.9 元 × 12）</span></td><td class="ok">足以维持专业工程与客服团队</td></tr>
+    <tr><td>十年持有成本（97㎡）</td><td class="n">物业约 2.2 万 + 停车 4.8 万 ≈ <b>7.0 万</b></td><td>与保利、都会四季同档（6.2–7.0 万）</td></tr>
+  </table>
+  </div>
+  <p class="note"><b>什么情况下翻转结论：只有一种——家里两辆车。</b>此时每百户车位低于 40 的小区直接出局；复地约 1:1，不受影响，不构成否决。其余画像（物业口碑、车位产权、停车费）都只做微调，不建议为它们改变主排序。</p>
+</section>
+
+<section>
+  <h2 class="sec">规划与兑现：两条延期，四条已兑现 <span class="num">12</span></h2>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>项目</th><th>状态</th><th>时点</th><th>对复地宴南都的意义</th></tr>
+    <tr><td>地铁 6 号线</td><td><span class="badge b-green">已兑现</span></td><td>2026-09-29 开通</td><td>夹岗 1.24km，多一条路径但不改变「步行地铁房」定性；南京南站升为五线换乘</td></tr>
+    <tr><td>地铁 10 号线全线</td><td><span class="badge b-green">已兑现</span></td><td>官方 2026-07 口径</td><td>卡子门 1.9km，太远，不影响本小区</td></tr>
+    <tr><td>地铁 3 号线</td><td><span class="badge b-green">已运营</span></td><td>2015</td><td>大明路 650m，主力通勤线</td></tr>
+    <tr><td>南京市中医院</td><td><span class="badge b-green">已运营</span></td><td>2019 迁入大明路院区</td><td>三甲 1.3km</td></tr>
+    <tr><td>复地活力广场、明发商业广场、京东 MALL</td><td><span class="badge b-green">已开业</span></td><td>—</td><td>日常商业已定型，不用等</td></tr>
+    <tr><td>机场跑道公园启动区</td><td><span class="badge b-blue">在建</span></td><td>2026 年内交付约 1km 样板段（国际路—承天大道）</td><td>2,632 米跑道原真保留，16 公顷草坪 + 31.7 公顷生态营地</td></tr>
+    <tr><td>中芬合作交流中心 / 丽笙酒店</td><td><span class="badge b-green">已兑现</span></td><td>2026-03 开业</td><td>片区门面，复地 1–2km</td></tr>
+    <tr><td><b>金陵万象城</b></td><td><span class="badge b-red">延期</span></td><td>原定 2026，官方调整为 <b>2027 下半年</b></td><td>25 万㎡、华东最大万象城，主体已封顶</td></tr>
+    <tr><td><b>南师附中富华路分校</b></td><td><span class="badge b-red">延期</span></td><td>原定 2026-09 招生，因工程未竣工推迟至 <b>2027</b></td><td>九年一贯（12 班幼儿园 + 36 班小学 + 18 班初中），落成后大校场教育格局或重划</td></tr>
+  </table>
+  </div>
+  <p class="note">跑道公园这件事值得单独说一句：从 2005 年段进院士团队提出构想到 2026 年启动区开工，<b>已经过去二十余年</b>。它是南京最典型的一个「规划兑现慢于预期」案例，也是判断这个板块时必须打折的东西。<b>已兑现的四条（3 号线、6 号线、中医院、商业）是真的；两条延期（万象城、富华路学校）也是真的。</b></p>
+  <div class="callout blue">
+    <b>这一节改变了什么：</b>复地宴南都的核心价值<b>不依赖任何未兑现的规划</b>——地铁、学区、医院、商业全部是存量。这在这个板块里是罕见的优点：你现在看到的生活，五年后基本还是这样，只是旁边多一个公园和一个万象城。<b>代价是它也没有「配套升级」的溢价可赚。</b>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">综合评分 <span class="num">13</span></h2>
+  <p class="lead">七项硬指标加权，车位与物业不计分。两套权重都算，因为学区在这两项里的权重差一倍。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>维度</th><th class="n">权重<br>居住 / 教育</th><th class="n">得分</th><th>打分依据</th></tr>
+    <tr><td>预算可得性 / 户型匹配</td><td class="n">20% / 15%</td><td class="n">8.0</td><td>275 万内 97㎡ 三房有 3 套在售，余量不足 10%</td></tr>
+    <tr><td>价格合理性与抗跌</td><td class="n">15% / 10%</td><td class="n bad">5.5</td><td>落差 10% 尚可，但同比为负、较峰值 −42%、月成交 1–2 套</td></tr>
+    <tr><td>通勤</td><td class="n">20% / 15%</td><td class="n ok">8.5</td><td>3 号线两站 651–884m，双站可选；6 号线 1.24km 不计</td></tr>
+    <tr><td>学区</td><td class="n">15% / 30%</td><td class="n ok">8.0</td><td>南外明远小学+初中，名单点名含门牌；但新校无成绩</td></tr>
+    <tr><td>商圈与日常</td><td class="n">12% / 10%</td><td class="n ok">8.5</td><td>底商 + 活力广场 + 明发 + 麦德龙，全在步行级</td></tr>
+    <tr><td>医疗</td><td class="n">8% / 5%</td><td class="n">7.0</td><td>三甲 1.3km，骑行 6 分钟，非步行级</td></tr>
+    <tr><td>居住环境</td><td class="n">10% / 15%</td><td class="n warn">6.0</td><td>房龄 7–9 年优；容积率 4.15、60 户/梯、76.8% 得房率、商住混合</td></tr>
+    <tr style="background:#fbfaf6;"><td class="big">总分</td><td class="n">100%</td><td class="n big ok">7.51 / 7.53</td><td>居住优先 / 教育优先</td></tr>
+  </table>
+  </div>
+  <p class="note">同目录《保利堂悦 vs 明都雅苑》报告里，保利堂悦是 <b>7.57 / 7.50</b>。两家在三个数字上全部落在 0.06 以内，按规则（分差 &lt; 0.2 视为并列）<b>统计上是并列</b>。</p>
+  <div class="callout amber">
+    <b>分差产生在哪，很清楚：</b>复地赢在<b>商圈（+0.5）</b>和<b>通勤（+1.0）</b>，输在<b>价格抗跌（−1.0）</b>和<b>居住环境（−1.0）</b>。学区、预算、医疗三项几乎相同。<b>换句话说，这两家不是「谁更好」，是「同样 7.5 分，你把分花在了哪」</b>——复地把分花在「现在的生活方便」，保利把分花在「未来的资产好卖」。
+  </div>
+  <p class="note">两套权重几乎不产生差异（7.51 vs 7.53，差 0.02），这在单小区体检里是有意义的信号：<b>说明学区不是它的「决定性优势」，而是它的「及格项」</b>——名单确定、无争议，但新校、无成绩，加权到 30% 也拉不开分。</p>
+</section>
+
+<section>
+  <h2 class="sec">优缺点与怎么买 <span class="num">14</span></h2>
+  <div class="card">
+    <div class="card-head">
+      <div class="row">
+        <h3>复地宴南都 · 97㎡ 三房</h3>
+        <span class="rank">居住 7.51 / 教育 7.53</span>
+      </div>
+    </div>
+    <div class="kv">
+      <div class="c"><div class="k">推荐户型</div><div class="v">97.31㎡ <small>3室2厅1卫</small></div></div>
+      <div class="c"><div class="k">合理成交区间</div><div class="v">265–275 万</div></div>
+      <div class="c"><div class="k">套内（估）</div><div class="v">约 74㎡ <small>76–77%</small></div></div>
+      <div class="c"><div class="k">房龄</div><div class="v">7–9 年 <small>2017–19 交付</small></div></div>
+    </div>
+    <div class="pros-cons">
+      <div class="p">
+        <h4>优点</h4>
+        <ul>
+          <li>学区名单点名含门牌（一期苏家桥路 6 号、二期苏家桥路 8 号），无「压线」风险</li>
+          <li>南外明远小学 + 明远初中九年一贯，同一集团闭环</li>
+          <li>3 号线两站 651–884m，双站可选；6 号线 9 月刚通车</li>
+          <li>日常配套全部是存量：底商、活力广场、明发永辉、麦德龙全在步行级</li>
+          <li>三甲中医院 1.3km，骑行 6 分钟</li>
+          <li>房龄 7–9 年，管线电梯无历史包袱；小区内部维护与门禁实测偏上</li>
+          <li>得房率 76.8% 有实测口径（105.27㎡ 套内 80.87㎡），不是估算</li>
+        </ul>
+      </div>
+      <div class="c">
+        <h4>缺点</h4>
+        <ul>
+          <li>月成交 1–2 套，挂牌到成交 725 天，全片流动性最差</li>
+          <li>住宅在售 226 套，挂牌率 14.5%，是保利堂悦的 3 倍</li>
+          <li>较 2023 年 2 月峰值下跌约 42%，抗跌性是全片最弱一项</li>
+          <li>业态混杂：528 户 40 年公寓 + 甲级写字楼 + 集中商业，出入人流复杂</li>
+          <li>综合容积率 4.15、两梯四户 30 层（60 户/梯），早高峰等电梯</li>
+          <li>97㎡ 做三房，第三个房间只能放单人床，实用性打折</li>
+          <li>西侧紧邻卡子门高架 / 双龙大道，临路栋噪音需现场核</li>
+          <li>学区 2022 年才办，2026 年无完整中考成绩；2027 年富华路南师分校落成后片区或重划</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body">
+      <p><b>怎么买：</b>只碰住宅，不碰公寓。户型优先 105.27㎡（有实测得房率、且是三房两卫）或 120.88㎡ 那套 329 万（大三房里单价最低）。<b>97㎡ 只在 270 万以内才值得</b>——再高就没有理由不选保利堂悦 92㎡ 的同价三房。</p>
+      <p><b>谈判切入点：</b>① 用「同小区 262 万那套 95.78㎡」做锚，压 275 万那套到 268 万；② 用「同小区在售 226 套、月成交 1–2 套」压业主预期；③ 临高架一侧的房源再要 3–5% 折价，这是可以量化的硬伤；④ 大部分房源已满五年，增值税免，但个税与是否唯一要逐套核。</p>
+      <p><b>不要碰：</b>复地宴南都公寓（40 年、4.8 元物业费、月供与住宅不同、转手客群极窄）；141.65㎡ 大四房（单价 3.37 万、溢价 16%，流动性是全小区最差的一档）。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">决策路径 <span class="num">15</span></h2>
+  <div class="tree">
+    <div class="node"><div class="cond">家里有学龄子女，3 年内要用小学学位</div><div class="res">→ <b>可以选</b>，施教区名单点名含门牌，是这片确定性最高的学区之一；但同价位的保利堂悦学区完全一样，没有理由只认这一家</div></div>
+    <div class="node"><div class="cond">预算卡死 275 万以内，要三房</div><div class="res">→ <b>选复地宴南都</b>，97㎡ 三房 273 万是全片唯一解（保利同价只能 84–89㎡，明都无此学区）</div></div>
+    <div class="node"><div class="cond">预算 340–360 万，要三房两卫</div><div class="res">→ <b>先看复地 120.88㎡（329 万）</b>，再看保利堂悦 92–95㎡；前者的「面积/单价」更划算，后者的「好卖」更值钱</div></div>
+    <div class="node"><div class="cond">5 年内可能置换</div><div class="res">→ <b>选保利堂悦</b>。725 天 vs 45 天，这不是偏好问题，是能不能按时拿到钱的问题</div></div>
+    <div class="node"><div class="cond">介意小区里有写字楼、公寓、短租</div><div class="res">→ <b>直接排除</b>。这是综合体属性，不会随时间改善</div></div>
+    <div class="node"><div class="cond">每天坐 3 号线通勤，且经常出差</div><div class="res">→ <b>选复地</b>。两站 651–884m 双选 + 南京南站 1.5km（1/3/6/S1/S3 五线），是这片通勤最优解</div></div>
+    <div class="node"><div class="cond">家里 2 辆车</div><div class="res">→ <b>不受影响</b>。车位约 1:1，且产权车位可单独买；但签约前必须确认住宅区是否有独立车位区域，不与写字楼共用</div></div>
+    <div class="node"><div class="cond">老人同住、看病频繁</div><div class="res">→ <b>可接受</b>。三甲 1.3km 骑行 6 分钟，但步行 16–18 分钟；若要求「走 5 分钟到三甲」，这一片应该看明都雅苑（350m）</div></div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">看房核实清单 <span class="num">16</span></h2>
+  <p class="lead">可以打印出来带去看房，逐条打勾。</p>
+  <ol class="steps">
+    <li><b>确认是「一期」还是「二期」。</b>一期苏家桥路 6 号、二期苏家桥路 8 号，中间隔佳营路。两期都在施教区名单里，但价格、楼层、临路情况不同，别听中介一句「复地宴南都」就报价。</li>
+    <li><b>确认是「住宅」还是「公寓」。</b>看不动产证上的「使用期限」：70 年是住宅，40 年是公寓。公寓物业费 4.8 元、不能落户、学区无效。</li>
+    <li><b>调不动产登记簿。</b>核三件事：有无查封、有无二次抵押、上次交易时间与价格。复地 2017–2019 交付，多数已满五年，但「满五唯一」要单独核，个税差 1%–2%。</li>
+    <li><b>核楼栋是否临高架。</b>西侧紧邻卡子门高架 / 双龙大道。1–2 幢西单元、临街低楼层噪音最重。晚上 7 点去实地站 10 分钟，比看图纸有用。</li>
+    <li><b>核楼栋是否临底商。</b>活力广场沿街以餐饮为主，油烟与夜间噪音对 3 层以下影响明显。问物业「哪几栋下方有餐饮排烟管道」。</li>
+    <li><b>量套内。</b>让业主提供产证附图，或用激光尺现场量。105.27㎡ 那套的 80.87㎡ 是贝壳披露值，可作为整栋楼的校验基准（76.8%）。</li>
+    <li><b>问物业三件事：</b>住宅物业费具体多少（1.9 还是 2.7）？住宅区是否有独立地下车位区域，是否与写字楼/公寓共用？近两年物业费有无上调？</li>
+    <li><b>核车位。</b>是产权车位还是人防/租赁车位？能否单独过户？月租多少、是否可长租固定位？（房源写「带车位」通常是「当前在租」，租约不随房子转移）</li>
+    <li><b>核学区。</b>拿具体楼栋号 + 门牌去秦淮区教育局官网查当年《小学招生通告》与《公办初中施教区范围》，不要只看中介截图。2027 年富华路南师分校落成后需重新核。</li>
+    <li><b>核电梯。</b>两梯四户 30 层，早高峰实测：早上 8:00 在一楼等一次，记录等待时间。超过 5 分钟就是日常成本。</li>
+    <li><b>核渗水与空鼓。</b>2017–2019 交付的高层，顶楼与东/西端墙是重点。问物业「本栋近两年报修记录」，比问业主可靠。</li>
+    <li><b>核租售比与空置。</b>问同栋有多少户出租、多少户空置、多少户是公司注册地址（复地写字楼与住宅同盘，部分住宅被注册为公司）。这直接决定你未来的邻里结构，也决定转手时买家怎么看这栋楼。</li>
+  </ol>
+</section>
+
+<footer>
+  <p><b>数据来源与取数日：</b>取数 2026-10-20。价格：中指研究院小区月报（2026 年 4/5/6 月）、365 淘房南京站住宅挂牌页、贝壳/链家南京站小区页与在售房源页、房天下区域均价榜。学区：南京外国语学校明远小学 2026-05-15 招生通告原文、南京市秦淮区人民政府《2026 年秦淮区初中招生入学工作实施办法》附件 1《2026 年秦淮区公办初中施教区范围》。规划：南京市秦淮区人民政府 2026-07-16《机场跑道公园"起飞"啦》、南京日报 2026-07-10、南京市人民政府 2026-09-29《地铁 6 号线今日开通初期运营》。楼盘档案：百度百科「复地宴南都」词条、365 楼盘档案页。</p>
+  <p><b>口径说明：</b>① 成交价一律取平台小区均价与逐套成交记录，不把挂牌均价当成交价；本报告同时给出两者并计算落差。② 面积一律为产证/挂牌建筑面积，套内面积仅在该平台明确披露时使用（105.27㎡ → 80.87㎡），其余为按同类高层 76–78% 的估算值并标注「估」。③ 成交样本 4–6 月合计仅 5 套，故价格给区间不给单点。④ 已排除房源类型：40 年产权公寓、写字楼、商铺、车位单卖。⑤ 距离为步行路径近似值（贝壳/链家小区页、幸福里、百度地图测距），非直线距离。⑥ 未核实项：住宅单地块容积率（规划许可未查到公开原文）、住宅区是否与写字楼共用地下车库、97㎡ 套内实测值。</p>
+  <p><b>免责声明：</b>本报告为购房决策参考，不构成投资建议，不承诺任何涨跌。所有价格、学区、规划与税费信息，签约前须以不动产登记簿、当年施教区公告、规划部门公示及税务窗口口径复核。学区划片每年 5 月更新，规划节点以官方公告为准。</p>
+</footer>
+
+</div>
+</body>
+</html>
