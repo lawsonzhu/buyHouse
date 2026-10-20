@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南京 保利堂悦 vs 明都雅苑 · 大校场两代产品对撞</title>
+<style>
+:root{
+  --ink:#1c1c1a; --ink-2:#4a4a46; --muted:#7a7a74; --line:#e4e2dc;
+  --bg:#faf9f6; --card:#ffffff;
+  --blue:#185FA5; --blue-bg:#E6F1FB;
+  --green:#3B6D11; --green-bg:#EAF3DE;
+  --red:#A32D2D; --red-bg:#FCEBEB;
+  --amber:#854F0B; --amber-bg:#FAEEDA;
+  --gray-bg:#f4f2ec;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:15px;line-height:1.72;
+  font-variant-numeric:tabular-nums;
+}
+.wrap{max-width:1040px;margin:0 auto;padding:48px 28px 80px}
+h1{font-size:30px;line-height:1.32;margin:0 0 10px;letter-spacing:-.3px}
+.sub{color:var(--muted);font-size:13.5px;margin-bottom:8px}
+.meta{color:var(--muted);font-size:12.5px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0;margin:22px 0 36px;display:flex;flex-wrap:wrap;gap:6px 22px}
+.meta span b{color:var(--ink-2);font-weight:600}
+h2{font-size:20px;margin:48px 0 14px;padding-top:18px;border-top:1px solid var(--line);letter-spacing:-.2px}
+h2 .no{color:var(--blue);font-size:13px;font-weight:700;letter-spacing:.08em;margin-right:10px;vertical-align:2px}
+h3{font-size:16px;margin:26px 0 10px}
+p{margin:0 0 12px}
+.lead{font-size:16px;color:var(--ink-2)}
+.verdict{background:var(--card);border-left:3px solid var(--blue);padding:18px 22px;margin:0 0 16px;border-radius:0 6px 6px 0}
+.verdict p:last-child{margin-bottom:0}
+.verdict strong{color:var(--blue)}
+.fix{background:var(--amber-bg);border:1px solid #ecd9b8;border-radius:6px;padding:16px 20px;margin:18px 0}
+.fix h4{margin:0 0 8px;font-size:14px;color:var(--amber);letter-spacing:.02em}
+.fix ol{margin:0;padding-left:20px}
+.fix li{margin-bottom:7px;font-size:14px}
+.fix li:last-child{margin-bottom:0}
+.tbl-wrap{overflow-x:auto;margin:16px 0 6px;border:1px solid var(--line);border-radius:6px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:780px;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--gray-bg);font-weight:600;font-size:12.5px;color:var(--ink-2);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ok{color:var(--green);font-weight:600}
+.warn{color:var(--amber);font-weight:600}
+.bad{color:var(--red);font-weight:600}
+.badge{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11.5px;font-weight:600;white-space:nowrap;line-height:1.7}
+.b-green{background:var(--green-bg);color:var(--green)}
+.b-amber{background:var(--amber-bg);color:var(--amber)}
+.b-red{background:var(--red-bg);color:var(--red)}
+.b-blue{background:var(--blue-bg);color:var(--blue)}
+.b-gray{background:var(--gray-bg);color:var(--muted)}
+.callout{border-radius:6px;padding:14px 18px;margin:18px 0;font-size:14px;background:var(--gray-bg);border-left:3px solid var(--muted)}
+.callout.blue{background:var(--blue-bg);border-left-color:var(--blue)}
+.callout.amber{background:var(--amber-bg);border-left-color:var(--amber)}
+.callout.green{background:var(--green-bg);border-left-color:var(--green)}
+.callout p:last-child{margin-bottom:0}
+.callout b{color:var(--ink)}
+.note{color:var(--muted);font-size:12.5px;margin:8px 0 20px;line-height:1.65}
+.kv{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:14px 0 18px}
+.kv div{background:var(--card);padding:12px 14px}
+.kv .k{font-size:11.5px;color:var(--muted);letter-spacing:.03em}
+.kv .v{font-size:17px;font-weight:600;margin-top:3px;letter-spacing:-.2px}
+.kv .v small{font-size:11.5px;font-weight:400;color:var(--muted);margin-left:3px}
+.pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0 6px}
+.pros-cons>div{border:1px solid var(--line);border-radius:6px;padding:14px 18px;background:var(--card)}
+.pros-cons .p{border-top:2px solid var(--green)}
+.pros-cons .c{border-top:2px solid var(--red)}
+.pros-cons h4{margin:0 0 8px;font-size:13px;letter-spacing:.04em}
+.pros-cons .p h4{color:var(--green)}
+.pros-cons .c h4{color:var(--red)}
+.pros-cons ul{margin:0;padding-left:18px;font-size:13.5px}
+.pros-cons li{margin-bottom:6px;color:var(--ink-2)}
+.pros-cons li:last-child{margin-bottom:0}
+ol.steps{counter-reset:s;list-style:none;padding:0;margin:14px 0}
+ol.steps li{counter-increment:s;position:relative;padding:9px 0 9px 38px;border-bottom:1px dashed var(--line);font-size:14px}
+ol.steps li:last-child{border-bottom:none}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:9px;width:23px;height:23px;border-radius:50%;background:var(--blue-bg);color:var(--blue);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.tree{margin:16px 0}
+.tree .node{display:grid;grid-template-columns:1fr 1.25fr;gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-bottom:10px;background:var(--card)}
+.tree .cond{padding:12px 16px;background:var(--gray-bg);font-size:13.5px;color:var(--ink-2);border-right:1px solid var(--line)}
+.tree .res{padding:12px 16px;font-size:13.5px}
+.tree .res b{color:var(--blue)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);line-height:1.75}
+footer h4{font-size:13px;color:var(--ink-2);margin:16px 0 6px}
+.tag{display:inline-block;font-size:11.5px;padding:1px 6px;border:1px solid var(--line);border-radius:3px;color:var(--muted);margin-right:4px}
+@media (max-width:720px){
+  .wrap{padding:32px 18px 60px}
+  .kv{grid-template-columns:repeat(2,1fr)}
+  .pros-cons,.two{grid-template-columns:1fr}
+  .tree .node{grid-template-columns:1fr}
+  .tree .cond{border-right:none;border-bottom:1px solid var(--line)}
+  h1{font-size:24px}
+}
+@media print{
+  body{background:#fff}
+  .wrap{max-width:none;padding:0}
+  .card,.kv div,.pros-cons>div{break-inside:avoid}
+  h2{break-after:avoid}
+  .tbl-wrap{overflow:visible}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="sub">南京 · 秦淮区 大校场 / 南部新城</div>
+  <h1>保利堂悦 vs 明都雅苑：<br>250 万，你要 64㎡ 的 2018 年，还是 92㎡ 的 2005 年</h1>
+
+  <div class="meta">
+    <span>预算参照 <b>250 万</b></span>
+    <span>面积下限 <b>80㎡ 建面</b></span>
+    <span>车辆 <b>1 辆</b>（2 辆为翻转条件）</span>
+    <span>取数日 <b>2026-10-20</b></span>
+    <span>价格口径 <b>成交中位（区间）+ 挂牌中位</b></span>
+  </div>
+
+  <!-- 结论先说 -->
+  <div class="verdict">
+    <p><strong>一句话结论：这不是"谁更好"的选择题，是"学区与房龄溢价"的计价题。</strong>250 万在保利堂悦买到约 <b>64㎡ 套内</b>，在明都雅苑买到约 <b>92㎡ 套内</b>——差 28㎡，等于一个主卧加一个小房间。保利为此收你每平米约 6,500 元的溢价。</p>
+    <p>七项硬指标加权后，<b>居住优先 7.57 : 7.43</b>（差 0.14，按规则视为并列），<b>教育优先 7.50 : 7.03</b>（保利领先 0.47）。也就是说：不要求学区，两家打平；要求学区，保利赢，但赢的是"一个新校的预期"，不是"已验证的成绩"。</p>
+    <p>最反直觉的一条：<b>明都雅苑 2026 年 9 月 29 日刚变成双地铁口（6 号线市中医院站 258m、10 号线机场跑道旧址站 479m），但它的挂牌价同期还在同比跌 15%。</b>地铁通车的利好，已经被房价提前消化掉了。</p>
+  </div>
+
+  <!-- 先立口径 -->
+  <div class="fix">
+    <h4>先立口径 · 五条铁律（每条配本案例的反例）</h4>
+    <ol>
+      <li><b>只用成交中位，不用挂牌均价。</b>保利堂悦挂牌中位约 3.15 万/㎡，实际成交约 2.95 万；明都雅苑挂牌约 2.50 万，成交约 2.30 万。拿挂牌价倒算"250 万能买多少平"，会系统性少买 6–8㎡。</li>
+      <li><b>面积只认产证/挂牌建面，绝不倒算。</b>保利堂悦 92.19㎡ 是建面，套内约 69㎡；明都雅苑 106.6㎡ 是建面，套内约 90.6㎡。同样是"三房"，套内差 21㎡。</li>
+      <li><b>得房率要单独摆出来。</b>保利 75%（高层板塔）对明都 85%（6 层多层）——10 个百分点，等于 100㎡ 里差 10㎡，按 2.3 万/㎡ 折算约 23 万。</li>
+      <li><b>学区只认施教区公告原文。</b>保利堂悦在《南外明远小学》施教区名单里（"果园村、夹岗村、汇景家园、保利堂悅、复地宴南都"，边界以卡子门大街—机场大道—神机营路—绕城公路为界）；<b>明都雅苑不在南外明远范围内</b>（它在机场大道以西），对口秦淮实验小学 + 二十七初中/十八中。中介说"1 公里内有南外"不等于学区。</li>
+      <li><b>平台的"上月成交 N 套"多半是"在售 N 套"的错位数据。</b>链家小区页给保利堂悦写"上月成交 176 套"，而该小区住宅仅 2,063 户——月成交 176 套不可能，那是挂牌量。本报告一律按在售套数与月成交区间分别标注。</li>
+    </ol>
+  </div>
+
+  <!-- 01 硬条件 -->
+  <h2><span class="no">01</span>硬条件：250 万这一档，真实房源长什么样</h2>
+  <p class="lead">下面每一行都是 2026 年 9–10 月在售的真实挂牌，建面取自房源页，套内为按形态推算的估值（置信度中）。这一层就能淘汰大半选项。</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>小区</th><th class="n">建面㎡</th><th>户型</th><th>楼层</th><th class="n">总价万</th><th class="n">单价元/㎡</th><th class="n">套内估㎡</th><th>判定</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>保利堂悦</td><td class="n">84.26</td><td>3室1厅1卫</td><td>—</td><td class="n">199</td><td class="n">23,618</td><td class="n">63.2</td><td><span class="badge b-amber">低价位，需核采光</span></td></tr>
+        <tr><td>保利堂悦</td><td class="n">89.80</td><td>3室2厅</td><td>—</td><td class="n">250</td><td class="n">27,840</td><td class="n">67.4</td><td><span class="badge b-green">符合</span></td></tr>
+        <tr><td>保利堂悦</td><td class="n">92.19</td><td>3室2厅</td><td>—</td><td class="n">258</td><td class="n">27,986</td><td class="n">69.1</td><td><span class="badge b-green">符合（略超）</span></td></tr>
+        <tr><td>保利堂悦</td><td class="n">95.36</td><td>3室1厅1卫</td><td>高/28</td><td class="n">288</td><td class="n">30,202</td><td class="n">71.5</td><td><span class="badge b-red">超预算 15%</span></td></tr>
+        <tr><td>保利堂悦</td><td class="n">160.82</td><td>4室2厅2卫</td><td>中/25</td><td class="n">598</td><td class="n">37,184</td><td class="n">120.6</td><td><span class="badge b-red">超预算</span></td></tr>
+        <tr><td>明都雅苑</td><td class="n">79.12</td><td>2室2厅1卫</td><td>低/6</td><td class="n">190</td><td class="n">24,015</td><td class="n">67.3</td><td><span class="badge b-green">符合</span></td></tr>
+        <tr><td>明都雅苑</td><td class="n">87.50</td><td>2室1厅</td><td>—</td><td class="n">200</td><td class="n">22,857</td><td class="n">74.4</td><td><span class="badge b-green">符合</span></td></tr>
+        <tr><td>明都雅苑</td><td class="n">106.60</td><td>3室1厅</td><td>—</td><td class="n">240</td><td class="n">22,515</td><td class="n">90.6</td><td><span class="badge b-green">符合，性价比最高</span></td></tr>
+        <tr><td>明都雅苑</td><td class="n">123.93</td><td>3室2厅</td><td>带露台</td><td class="n">258</td><td class="n">20,819</td><td class="n">105.3</td><td><span class="badge b-amber">符合，顶楼露台须核渗漏</span></td></tr>
+        <tr><td>明都雅苑</td><td class="n">152.77</td><td>4室2厅</td><td>中/6</td><td class="n">310</td><td class="n">20,291</td><td class="n">129.9</td><td><span class="badge b-red">超预算</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">数据源：贝壳/链家南京站小区页、365 淘房、南京市房屋租赁服务监管平台房源挂牌信息。套内 = 建面 × 75%（保利堂悦，开发商口径得房率）/ 85%（明都雅苑 6 层多层，估值）。</p>
+
+  <div class="callout amber">
+    <p><b>这一层改变了什么：</b>250 万在保利堂悦只能落在 84–92㎡ 的小三房，且 84㎡ 那套单价仅 2.36 万、明显低于小区中位——低价通常对应低楼层、临高架或采光被挡，必须现场核。在明都雅苑，同样的钱能直接上 106–124㎡，总价还更低。</p>
+  </div>
+
+  <!-- 02 成交价 -->
+  <h2><span class="no">02</span>成交价与剩余空间：谁在跌，谁接近出清</h2>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>小区</th><th class="n">挂牌中位元/㎡</th><th class="n">成交中位元/㎡</th><th class="n">落差</th><th class="n">同比</th><th class="n">在售套数</th><th class="n">月成交估</th><th>置信度</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>保利堂悦</td><td class="n">30,800 – 32,600</td><td class="n">28,500 – 30,500</td><td class="n warn">−6.3%</td><td class="n bad">−8.1%</td><td class="n">92（住宅）/ 280（含公寓）</td><td class="n">5 – 15</td><td><span class="badge b-amber">中</span></td></tr>
+        <tr><td>明都雅苑</td><td class="n">22,700 – 26,200</td><td class="n">21,000 – 24,000</td><td class="n warn">−8.0%</td><td class="n bad">−15.0%</td><td class="n">22 – 31</td><td class="n">1 – 2</td><td><span class="badge b-red">中低</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">保利堂悦：58 同城 2026-10 挂牌 31,494 元/㎡（同比 −8.1%，近 3 个月从 34,029 跌到 31,494）、365 住宅均价 31,200、克而瑞 31,433（2025-12）。明都雅苑：中国房价行情 2026-09 均价 22,745、365 住宅均价 24,768、贝壳 9 月参考均价 26,211、中指 7 月 24,930；贝壳成交记录显示 2026-06/07/08/09 各 1 套。逐套成交明细需登录平台，本报告未绕过访问控制，价格一律给区间。</p>
+
+  <h3>议价策略</h3>
+  <div class="two">
+    <div class="callout blue">
+      <p><b>保利堂悦：从 95 折起谈。</b>落差只有 6%，接近出清，业主不会大让。真正的空间在"临高架楼栋"和"满两年/满五年"的税费差上——7、8、9 幢临卡子门高架，同户型可差 3–5%。</p>
+    </div>
+    <div class="callout amber">
+      <p><b>明都雅苑：从 88 折起谈，但别指望快。</b>同比 −15%，还在下跌通道，理论上空间更大；可在售只有 22–31 套、月成交 1–2 套，业主不急、也不缺时间。挑"挂牌超过 90 天"的那几套。</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><b>这一节最重要的一条：</b>明都雅苑 6 号线通车（2026-09-29）至今三周，价格没反应。这说明两件事——一是通车预期早在 2023–2025 年就被交易过一轮；二是<b>单条地铁通车不足以扭转一个 21 年房龄小区的价格趋势</b>。反过来，保利堂悦虽然 6 号线夹岗站只有 1.1km，但它的价格支撑来自学区与房龄，不是地铁。</p>
+  </div>
+
+  <!-- 03 同价套内 -->
+  <h2><span class="no">03</span>专项：28㎡ 的套内差，是从哪三个地方跑出来的</h2>
+
+  <div class="kv">
+    <div><div class="k">250 万 · 保利堂悦</div><div class="v">≈64<small>㎡套内</small></div></div>
+    <div><div class="k">250 万 · 明都雅苑</div><div class="v">≈92<small>㎡套内</small></div></div>
+    <div><div class="k">套内单价 · 保利</div><div class="v">3.93<small>万/㎡</small></div></div>
+    <div><div class="k">套内单价 · 明都</div><div class="v">2.71<small>万/㎡</small></div></div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>差距来源</th><th>保利堂悦</th><th>明都雅苑</th><th class="n">对 100㎡ 建面的影响</th></tr></thead>
+      <tbody>
+        <tr><td>① 建面单价</td><td>约 29,500 元/㎡</td><td>约 23,000 元/㎡</td><td class="n bad">+65 万</td></tr>
+        <tr><td>② 得房率</td><td>75%（高层板塔、两梯四户）</td><td>85%（6 层多层、一梯两户）</td><td class="n bad">−10㎡ 套内</td></tr>
+        <tr><td>③ 户型效率</td><td>84–92㎡ 做三房，餐客一体的紧凑型</td><td>98–107㎡ 做两房/三房，老式大方厅</td><td class="n warn">同房数，面积大 15–20%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">"每 100 万买到的套内面积"：保利堂悦 ≈ 25.4㎡；明都雅苑 ≈ 36.9㎡。差 45%。这不是谁坑谁，是两种产品的定价逻辑——一个卖"新"，一个卖"面积与位置"。</p>
+
+  <!-- 04 户型与得房率 -->
+  <h2><span class="no">04</span>户型与得房率：同样是三房，差 21㎡</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>对标对象</th><th class="n">建面㎡</th><th class="n">套内㎡</th><th class="n">得房率</th><th>形态</th><th class="n">每 100 万买套内㎡</th></tr></thead>
+      <tbody>
+        <tr><td>保利堂悦 3室2厅</td><td class="n">92.19</td><td class="n">69.1</td><td class="n warn">75%</td><td>25–31 层板塔，两梯四户</td><td class="n">25.4</td></tr>
+        <tr><td>保利堂悦 3室2厅</td><td class="n">89.80</td><td class="n">67.4</td><td class="n warn">75%</td><td>同上，开间较窄</td><td class="n">25.5</td></tr>
+        <tr><td>明都雅苑 3室1厅</td><td class="n">106.60</td><td class="n">90.6</td><td class="n ok">85%</td><td>6 层多层，一梯两户</td><td class="n">37.8</td></tr>
+        <tr><td>明都雅苑 2室1厅</td><td class="n">98.54</td><td class="n">83.8</td><td class="n ok">85%</td><td>同面积只做两房，房间少但厅大</td><td class="n">36.4</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">得房率：保利堂悦取开发商公示 75%（365 楼盘档案），实际高层板塔通常在 73–78%；明都雅苑按 6 层多层取 85%，区间 83–88%，须现场量套内或调取产证附图。明都雅苑 98.54㎡ 只做两房，是 2005 年"大两房"做法，房间数少、得房率高，适合两口/三口但不利于二孩。</p>
+
+  <div class="callout amber">
+    <p><b>这一项改变了什么：</b>如果你要的是"三房 + 孩子一间 + 老人偶尔来住"，保利 92㎡ 的 69㎡ 套内会显得紧；明都 106㎡ 的 90㎡ 套内是另一种生活尺度。<b>但明都的 98.54㎡ 两房不要碰</b>——同面积本可做三房，未来转手客群窄。</p>
+  </div>
+
+  <!-- 05 地铁 -->
+  <h2><span class="no">05</span>地铁与通勤：一个"号称双地铁"，一个真的在站口</h2>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>小区</th><th>线路 / 站点</th><th class="n">步行距离</th><th>状态</th><th>判定</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="4">保利堂悦</td><td>3 号线 · 明发广场</td><td class="n">670 – 903m</td><td><span class="badge b-green">已运营</span></td><td>可接受，8–12 分钟</td></tr>
+        <tr><td>3 号线 · 大明路</td><td class="n">988 – 1,053m</td><td><span class="badge b-green">已运营</span></td><td>勉强，不算地铁房</td></tr>
+        <tr><td>6 号线 · 夹岗</td><td class="n">1,141m</td><td><span class="badge b-green">2026-09-29 通车</span></td><td>超过 1.1km，不计入通勤评分</td></tr>
+        <tr><td>南京南站（1/3/S1/S3/6）</td><td class="n">1,784m</td><td><span class="badge b-green">五线换乘</span></td><td>需骑车或一站公交</td></tr>
+        <tr><td rowspan="4">明都雅苑</td><td>6 号线 · 市中医院</td><td class="n">187 – 294m</td><td><span class="badge b-green">2026-09-29 通车</span></td><td class="ok">步行友好，地铁房</td></tr>
+        <tr><td>10 号线 · 机场跑道旧址</td><td class="n">479m</td><td><span class="badge b-green">2025-12-19 通车</span></td><td class="ok">第二条线，500m 内</td></tr>
+        <tr><td>5/10 号线 · 大校场</td><td class="n">1,194m</td><td><span class="badge b-green">已运营</span></td><td>接万象城 TOD（未开业）</td></tr>
+        <tr><td>3 号线 · 卡子门</td><td class="n">1,758m</td><td><span class="badge b-green">已运营</span></td><td>不计入</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">距离取自贝壳/链家小区页（百度地图测距）与幸福里，为步行路径近似值，非直线距离。中介常说的"保利堂悦 500 米到明发广场站""明都雅苑 2025 年通地铁"两处口径均不准确——前者实测 670–903m，后者是 2026-09-29 才通车。</p>
+
+  <div class="callout green">
+    <p><b>这一项改变了什么：</b>通勤是两家的最大分水岭，也是很多人凭印象会判反的一项。明都雅苑 258m + 479m 双线，按评分锚点是 10 分；保利堂悦 903m 单线，7.5 分。<b>如果你每天坐地铁通勤，这一项就足以抹平学区差。</b></p>
+  </div>
+
+  <!-- 06 医疗 -->
+  <h2><span class="no">06</span>医疗：一个在院墙边，一个要开车</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>小区</th><th>最近三甲</th><th class="n">距离</th><th>等级 / 状态</th><th class="n">得分</th></tr></thead>
+      <tbody>
+        <tr><td>明都雅苑</td><td>南京市中医院（大明路院区）</td><td class="n ok">258 – 450m</td><td>三甲，2019 年整体迁入，已运营</td><td class="n ok">10.0</td></tr>
+        <tr><td>保利堂悦</td><td>南京市中医院（大明路院区）</td><td class="n warn">约 1.5km</td><td>三甲，已运营；小区旁另有南京城南医院（非三甲）</td><td class="n warn">7.5</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">南京城南医院为二级综合/专科，不计入"三甲距离"评分。保利堂悦到市中医院直线约 1.5km，实际驾车 5–8 分钟；明都雅苑步行 4 分钟。</p>
+
+  <!-- 07 商圈 -->
+  <h2><span class="no">07</span>商圈：三层分级，别混着算</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>层级</th><th>保利堂悦</th><th>明都雅苑</th></tr></thead>
+      <tbody>
+        <tr><td><b>日常（≤500m）</b></td><td class="ok">复地活力广场 200m、汇景大菜市场 300m、便利店/底商密集、自带保利若比邻</td><td class="warn">底商 + 苏果，菜场约 1.3km；盒马 NB 大明东路店 2026-03-20 已开业</td></tr>
+        <tr><td><b>区域级（0.5–2km）</b></td><td class="ok">麦德龙、宜家、迪卡侬、中闽百汇均在 575m 左右；明发商业广场</td><td class="warn">绿国万象都荟 1.6km；大明路社区中心（1.17 万㎡ 商业）2026 年内落成</td></tr>
+        <tr><td><b>高能级（2km+）</b></td><td>金陵万象城（25 万㎡，华东最大万象城）约 1.5km，<span class="badge b-red">延期至 2027 下半年</span></td><td>同左，约 1.2km，<span class="badge b-red">同上</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <p><b>这一项改变了什么：</b>保利堂悦的"日常生活"是已经跑起来的——复地活力广场 200m，买菜、吃饭、看电影不用开车。明都雅苑的日常要靠底商和大明路沿街，菜场 1.3km 是实打实的短板，2026 年内的社区中心和盒马会补一部分，但补不到"下楼就有"。</p>
+  </div>
+
+  <!-- 08 学区 -->
+  <h2><span class="no">08</span>学区：一个在名单里，一个在边界外</h2>
+
+  <h3>保利堂悦 · 南京外国语学校明远小学 + 南外明远初中</h3>
+  <p>施教区原文边界：<b>卡子门大街以东—机场大道以南—明贤路以西—汇景南路以南—神机营路以西—绕城公路以北</b>；划片小区名单明确包含<b>保利堂悦</b>、复地宴南都、汇景家园、果园村、夹岗村。学校为公办，原秦淮第二实验小学（挂牌五老村小学分校）于 2022 年更名，分南北两校区。</p>
+  <p class="note">风险点：① 这是 2022 年才更名的新校，2026 年尚无完整中考成绩，南外集团派驻的是管理团队而非本部师资；② 大校场未来以跑道公园为界形成"北侧南师系、南侧南外系"，保利堂悦在跑道南侧，短期稳定，但南师附中富华路分校（在建）落成后片区可能整体重划；③ 2026 年秦淮区学区划分"无重大变化"。</p>
+
+  <h3>明都雅苑 · 南京市秦淮实验小学 + 二十七初中 / 十八中</h3>
+  <p>施教区原文边界：<b>龙蟠南路（铁路）以东、宏光路弘学路以南、大明路两侧、大校场机场以西</b>；名单明确包含<b>明都雅苑</b>、九龙雅苑、丽景华庭、风光里、阳光里等。对口初中为第二十七初级中学 / 第十八中学。</p>
+  <p class="note">风险点：① 该施教区名单近年未见调整，确定性高，但南外明远以机场大道为界把明都雅苑划在外面——同样"挨着大校场"，学区完全不同；② 秦淮实验小学为区属普通小学，二十七初中在秦淮区属中游；③ 若跑道公园两侧教育格局重构，明都雅苑存在被划入新校（不确定好坏）的可能，但不存在"丢掉现有学区"的风险。</p>
+
+  <div class="callout blue">
+    <p><b>这一项改变了什么：</b>学区是保利堂悦每平米 6,500 元溢价的主要来源，但买的是"南外系新校的预期"。按经验法则，<b>不要为学区支付超过总价 15% 的溢价</b>——保利对明都的学区溢价约 25%（按建面单价差 28% 计），已经超过这条线。</p>
+  </div>
+
+  <!-- 09 梯户比与环境 -->
+  <h2><span class="no">09</span>梯户比与居住环境：4.0 的容积率 vs 1.13 的多层</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>指标</th><th>保利堂悦</th><th>明都雅苑</th><th>怎么读</th></tr></thead>
+      <tbody>
+        <tr><td>容积率</td><td class="bad">4.00</td><td class="ok">1.13</td><td>4.0 属高密大盘；1.13 是真正低密</td></tr>
+        <tr><td>绿化率</td><td class="warn">30%</td><td class="ok">46%</td><td>30% 是高层及格线；46% 在老小区里罕见</td></tr>
+        <tr><td>建筑形态</td><td>25–31 层板塔结合，13 栋（12 栋住宅 + 1 栋公寓）</td><td>6 层多层，15 栋；一期二期楼梯房，三期 2 幢电梯洋房</td><td>—</td></tr>
+        <tr><td>梯户比</td><td class="warn">两梯四户 × 31 层 ≈ 每梯 62 户</td><td class="ok">一梯两户 × 6 层 ≈ 每梯 12 户</td><td>62 户/梯：早高峰要等；12 户/梯：几乎不排队</td></tr>
+        <tr><td>得房率</td><td class="bad">75%</td><td class="ok">约 85%</td><td>差 10 个点，等于 100㎡ 差 10㎡</td></tr>
+        <tr><td>房龄</td><td class="ok">8 年（2018 交付）</td><td class="warn">21 年（2005 竣工）</td><td>明都须预留 8–15 万翻新预算</td></tr>
+        <tr><td>总户数</td><td>住宅约 2,063 户（含公寓合计 2,551–3,735 户，口径不一）</td><td>480 – 549 户</td><td>户数少 = 邻里稳定、也 = 流动性差</td></tr>
+        <tr><td>人车分流</td><td class="ok">是，地下车库 2,727 位</td><td class="bad">否，地面停车为主</td><td>明都楼下能看到车</td></tr>
+        <tr><td>噪音</td><td class="bad">7/8/9 幢临卡子门高架，南侧临绕城高速</td><td class="warn">临大明路（汽车一条街），旁有在建项目施工</td><td>两家都要挑楼栋</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <p><b>这一项改变了什么：</b>如果"容积率、梯户比、得房率"是你的核心偏好，明都雅苑在居住密度上明显更舒服——1.13 的容积率、46% 绿化、一梯两户，是 2005 年那批地级市住宅才有的配比。代价是房龄、无电梯（一、二期）和地面停车。保利堂悦则是典型的"高层大盘"体验：电梯快、物业好、但楼间距 50–60m、得房率 75%。</p>
+  </div>
+
+  <!-- 10 车位物业 -->
+  <h2><span class="no">10</span>车位与物业（参考项，不进总分）</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>项目</th><th>保利堂悦</th><th>明都雅苑</th></tr></thead>
+      <tbody>
+        <tr><td>车位 / 配比</td><td class="ok">2,727 个 / 约 1:1.32（每百户 132）</td><td class="bad">140 个 / 约 1:0.26（每百户 26）<span class="badge b-amber">另有 440 个口径，须现场核</span></td></tr>
+        <tr><td>产权 / 租赁</td><td>地下产权位可售可租，月租约 225 元</td><td>地面为主，月租约 150–400 元，无固定位保障</td></tr>
+        <tr><td>人车分流</td><td class="ok">是</td><td class="bad">否</td></tr>
+        <tr><td>物业公司</td><td>保利物业（江苏分公司），央企自持</td><td>南京百市物业，本地公司</td></tr>
+        <tr><td>物业费</td><td>1.9 元/㎡·月（住宅），1.9–5.6（含商业/公寓）</td><td>0.5 – 0.7 元/㎡·月</td></tr>
+        <tr><td>年物业费总额（估）</td><td class="ok">约 470 万元</td><td class="bad">约 39 万元（低于 50 万，难养专业工程与客服团队）</td></tr>
+        <tr><td>第三方评分（克而瑞居住服务）</td><td class="ok">9.9 / 10</td><td class="warn">8.1 / 10</td></tr>
+        <tr><td>十年持有成本（100㎡）</td><td>物业费约 2.3 万 + 车位租金约 2.7 万</td><td>物业费约 0.7 万 + 车位租金约 2.4–4.8 万（且不一定有位）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">车位数据存在源冲突：百度百科/早期资料记 140 个地下车位，幸福里与 365 记 440 个、配比 1:0.8，克而瑞记 1:0.5。本报告按保守值 1:0.26 计分，实际以物业公示的《车位配建表》为准。</p>
+
+  <h3>什么情况下会翻转结论</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>家庭画像</th><th>翻转结果</th><th>原因</th></tr></thead>
+      <tbody>
+        <tr><td><b>家里 2 辆车</b></td><td class="bad">明都雅苑直接出局</td><td>每百户 26 个位，第二辆车只能停大明路路边</td></tr>
+        <tr><td>有学龄子女、5 年内要用</td><td class="ok">锁定保利堂悦</td><td>南外明远施教区名单明确、九年一贯同集团</td></tr>
+        <tr><td>纯自住、不用学区、每天坐地铁</td><td class="ok">明都雅苑明显更优</td><td>258m 双线 + 258m 三甲 + 同价多 28㎡ 套内</td></tr>
+        <tr><td>父母同住、需要电梯</td><td class="ok">保利堂悦</td><td>明都一、二期为 6 层楼梯房，三期电梯洋房放盘极少</td></tr>
+        <tr><td>5 年内可能置换</td><td class="ok">保利堂悦</td><td>明都月成交 1–2 套，出货周期可能超过 6 个月</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 11 规划 -->
+  <h2><span class="no">11</span>规划与兑现：三态标注</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>项目</th><th>状态</th><th>时间 / 依据</th><th>对两个小区的影响</th></tr></thead>
+      <tbody>
+        <tr><td>地铁 6 号线（市中医院、机场跑道旧址、夹岗、应天东街）</td><td><span class="badge b-green">已兑现</span></td><td>2026-09-29 开通初期运营，与 S1 贯通</td><td>明都雅苑最大受益，保利堂悦次之（夹岗 1.1km）</td></tr>
+        <tr><td>地铁 10 号线二期 / 5 号线</td><td><span class="badge b-green">已兑现</span></td><td>2025-12-19 / 2025-08-06 通车</td><td>明都雅苑第二条线；大校场站 TOD</td></tr>
+        <tr><td>南京市中医院（大明路院区）</td><td><span class="badge b-green">已兑现</span></td><td>2019 年整体迁入运营</td><td>明都雅苑 258–450m，核心加分项</td></tr>
+        <tr><td>中芬合作交流中心 + 丽笙酒店</td><td><span class="badge b-green">已兑现</span></td><td>2026-01 投用 / 2026-03-20 开业</td><td>板块能级，非日常配套</td></tr>
+        <tr><td>南外南部新城校区（高中本部）</td><td><span class="badge b-green">已兑现</span></td><td>已启用</td><td>支撑"南外系"预期</td></tr>
+        <tr><td>机场跑道公园启动区（1 公里样板段、16 公顷草坪）</td><td><span class="badge b-amber">在建</span></td><td>2026 年内完成部分区域实景</td><td>明都雅苑步行可达，长期利好</td></tr>
+        <tr><td>南师附中富华路分校（暂命名）</td><td><span class="badge b-amber">在建</span></td><td>大校场富华路旁，建成后引入南师附中资源</td><td>可能触发片区学区重划，两家都要盯</td></tr>
+        <tr><td>3 座社区中心（国际路 / 大明路东侧 / 机场三路）</td><td><span class="badge b-amber">在建</span></td><td>2026 年内落成</td><td>补明都雅苑"日常配套弱"的短板</td></tr>
+        <tr><td><b>金陵万象城（25 万㎡，华东最大万象城）</b></td><td><span class="badge b-red">延期</span></td><td>官方 12345 回复 2026-03-16：未停工，<b>预计 2027 年下半年开业</b>；原口径为 2026 年 6 月，推迟至少一年</td><td>两家共同的高能级商业，都别按"明年开业"定价</td></tr>
+        <tr><td>大校场跑道公园整体</td><td><span class="badge b-red">长期延期</span></td><td>2005 年提出概念，2026 年才交 1 公里样板段，全线开放无时间表</td><td>规划溢价已被反复消费，不宜再计入房价</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber">
+    <p><b>这一节改变了什么：</b>南部新城是南京兑现度最高的新城之一（四线地铁、三甲、南外、中芬中心都是真的），但它同时也是"规划讲太久"的板块——跑道公园讲了 20 年、万象城推了一年。<b>已兑现的按 100% 计价，在建的按 50% 计价，延期的按 0 计价。</b>按这个原则，万象城对两个小区当前房价的贡献应当是 0。</p>
+  </div>
+
+  <!-- 12 评分 -->
+  <h2><span class="no">12</span>综合评分：两套权重，两个结论</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>维度</th><th class="n">权重<br>居住/教育</th><th class="n">保利堂悦</th><th class="n">明都雅苑</th><th>分差产生在哪</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>预算可得性 / 户型匹配</td><td class="n">20% / 15%</td><td class="n">8.5</td><td class="n">7.5</td><td>保利在售 92 套、可选多；明都仅 22–31 套，符合面积段的只有 2–3 套</td></tr>
+        <tr><td>价格合理性与抗跌</td><td class="n">15% / 10%</td><td class="n">6.5</td><td class="n">5.5</td><td>明都同比 −15% 且月成交 1–2 套，流动性差于保利</td></tr>
+        <tr><td>通勤</td><td class="n">20% / 15%</td><td class="n">7.5</td><td class="n ok">10.0</td><td>258m + 479m 双线 vs 903m 单线</td></tr>
+        <tr><td>学区</td><td class="n">15% / 30%</td><td class="n">7.5</td><td class="n">5.5</td><td>南外明远（新校，名单明确）vs 秦淮实验小（普通，名单明确）</td></tr>
+        <tr><td>商圈与日常</td><td class="n">12% / 10%</td><td class="n">8.5</td><td class="n">6.5</td><td>复地活力广场 200m vs 菜场 1.3km</td></tr>
+        <tr><td>医疗</td><td class="n">8% / 5%</td><td class="n">7.5</td><td class="n ok">10.0</td><td>1.5km vs 258m 三甲</td></tr>
+        <tr><td>居住环境</td><td class="n">10% / 15%</td><td class="n">6.5</td><td class="n">7.0</td><td>容积率 4.0 / 得房 75% vs 1.13 / 85% / 21 年房龄无电梯</td></tr>
+        <tr style="background:var(--gray-bg)">
+          <td><b>总分</b></td><td class="n">—</td>
+          <td class="n"><b>7.57 / 7.50</b></td>
+          <td class="n"><b>7.43 / 7.03</b></td>
+          <td><b>居住优先差 0.14（并列）；教育优先差 0.47（保利胜）</b></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">总分格式：居住优先分 / 教育优先分。分差 &lt; 0.2 视为并列（两套权重下保利均在前，但居住维度的 0.14 不具备决策意义）。保利堂悦领先的分全部来自学区（+30% 权重下放大）、商圈与房龄；明都雅苑领先的分全部来自通勤与医疗——这两项恰好是每天都要用、且无法通过后期装修改善的硬条件。</p>
+
+  <!-- 13 逐个说清 -->
+  <h2><span class="no">13</span>逐个说清</h2>
+
+  <h3>保利堂悦</h3>
+  <div class="kv">
+    <div><div class="k">成交中位</div><div class="v">2.95<small>万/㎡</small></div></div>
+    <div><div class="k">得房率</div><div class="v">75<small>%</small></div></div>
+    <div><div class="k">最近地铁</div><div class="v">903<small>m</small></div></div>
+    <div><div class="k">房龄</div><div class="v">8<small>年</small></div></div>
+  </div>
+  <div class="pros-cons">
+    <div class="p"><h4>优点</h4><ul>
+      <li>南外明远小学 + 初中，施教区名单明确写有"保利堂悦"</li>
+      <li>2018 年交付，开发商精装带地暖新风，拎包入住</li>
+      <li>复地活力广场 200m、麦德龙/宜家 575m，日常不用开车</li>
+      <li>保利物业自持，克而瑞居住服务 9.9，人车分流</li>
+      <li>车位 1:1.32，两辆车也够</li>
+      <li>南京南站 1.8km，五线换乘，出差高频人群友好</li>
+    </ul></div>
+    <div class="c"><h4>缺点</h4><ul>
+      <li>容积率 4.0、得房率 75%，92㎡ 只有 69㎡ 套内</li>
+      <li>7/8/9 幢临卡子门高架，南侧临绕城高速，噪音是硬伤</li>
+      <li>最近地铁 903m（3 号线），6 号线夹岗 1.1km，不算地铁房</li>
+      <li>小区内含 1 栋酒店式公寓（翡翠公馆，44㎡ LOFT 约 1.6 万/㎡），居住人群混杂</li>
+      <li>学区是 2022 年更名的新校，无中考成绩，溢价已透支</li>
+      <li>住宅 2,063 户 + 公寓，挂牌 92–280 套，卖压不小</li>
+    </ul></div>
+  </div>
+  <p><b>怎么买：</b>优先 1–6 幢（远离卡子门高架），89–92㎡ 三房，认准"满五年 + 无抵押"，把价格谈到 2.8 万/㎡ 以内；<b>不要碰 44㎡ LOFT 公寓</b>——40 年产权、商水商电、不落户、不对应学区，与住宅是两个产品。</p>
+
+  <h3>明都雅苑</h3>
+  <div class="kv">
+    <div><div class="k">成交中位</div><div class="v">2.30<small>万/㎡</small></div></div>
+    <div><div class="k">得房率</div><div class="v">约85<small>%</small></div></div>
+    <div><div class="k">最近地铁</div><div class="v">258<small>m</small></div></div>
+    <div><div class="k">房龄</div><div class="v">21<small>年</small></div></div>
+  </div>
+  <div class="pros-cons">
+    <div class="p"><h4>优点</h4><ul>
+      <li>6 号线市中医院站 258m + 10 号线机场跑道旧址站 479m，双线双站</li>
+      <li>南京市中医院（三甲）258–450m，步行 4 分钟，老人家庭刚需</li>
+      <li>容积率 1.13、绿化 46%、一梯两户，居住密度远优于高层大盘</li>
+      <li>得房率约 85%，同价多 28㎡ 套内</li>
+      <li>总价低：106.6㎡ 三房 240 万，79㎡ 两房 190 万，首付门槛低</li>
+      <li>车位/物业持有成本低，物业费仅 0.5–0.7 元</li>
+    </ul></div>
+    <div class="c"><h4>缺点</h4><ul>
+      <li>2005 年竣工，21 年房龄，外立面破损、楼道杂物、景观老化</li>
+      <li>一、二期为 6 层楼梯房，无电梯；三期仅 2 幢电梯洋房，放盘极少</li>
+      <li>车位每百户 26 个，地面停车，无固定位保障</li>
+      <li>学区为秦淮实验小学，区属普通，初中二十七中/十八中属中游</li>
+      <li>月成交 1–2 套，在售 22–31 套，置换时出货慢</li>
+      <li>日常配套弱：菜场 1.3km，区域级商业 1.6km；临大明路有噪音</li>
+      <li>物业年费总额约 39 万，低于 50 万门槛，难维持专业团队</li>
+    </ul></div>
+  </div>
+  <p><b>怎么买：</b>只挑三期电梯洋房或一、二期的 2–3 层；优先 106.6㎡ 边户三房（南北通透、无西晒），把 15 万翻新预算算进总价；<b>98.54㎡ 的大两房不要买</b>——同面积本可做三房，未来客群窄。</p>
+
+  <!-- 14 决策路径 -->
+  <h2><span class="no">14</span>决策路径</h2>
+  <div class="tree">
+    <div class="node"><div class="cond">家里有学龄子女，3 年内要用小学学位</div><div class="res">→ 选 <b>保利堂悦</b>，代价是多付约 25% 单价、少 28㎡ 套内</div></div>
+    <div class="node"><div class="cond">每天坐地铁通勤，或在市中医院/城南上班</div><div class="res">→ 选 <b>明都雅苑</b>，代价是接受 21 年房龄与楼梯</div></div>
+    <div class="node"><div class="cond">家里 2 辆车</div><div class="res">→ <b>明都雅苑出局</b>，直接看保利堂悦（1:1.32）</div></div>
+    <div class="node"><div class="cond">有老人同住，或未来 5 年可能接老人来住</div><div class="res">→ <b>保利堂悦</b>（电梯 + 三甲 1.5km 可驾车）；若能买到明都三期电梯洋房则重新评估</div></div>
+    <div class="node"><div class="cond">预算卡死 200 万以内</div><div class="res">→ <b>明都雅苑 79㎡ 两房（190 万）</b>，保利堂悦 84㎡ 那套 199 万虽有，但须核采光与噪音</div></div>
+    <div class="node"><div class="cond">5 年内大概率置换</div><div class="res">→ <b>保利堂悦</b>，明都月成交 1–2 套，出货周期可能超 6 个月</div></div>
+    <div class="node"><div class="cond">只看"每平米买到多少能用的面积"</div><div class="res">→ <b>明都雅苑 106.6㎡</b>，每 100 万买 37.8㎡ 套内，是保利的 1.49 倍</div></div>
+  </div>
+
+  <!-- 15 看房清单 -->
+  <h2><span class="no">15</span>看房核实清单（可打印）</h2>
+  <ol class="steps">
+    <li><b>产证附图</b>：调取不动产登记簿，核对建筑面积与套内面积，两家都要——得房率是本报告最大的估值假设。</li>
+    <li><b>施教区公告</b>：去秦淮区教育局官网查当年 5 月发布的《小学入学公告》，确认"保利堂悦"或"明都雅苑"出现在对应学校名单里，不要看中介的宣传页。</li>
+    <li><b>噪音实测</b>：保利堂悦重点测 7、8、9 幢（临卡子门高架）与南排（临绕城高速）；明都雅苑测临大明路一侧。白天、晚上 9 点各去一次。</li>
+    <li><b>产权性质</b>：明都雅苑贝壳标注"商品房/动迁安置房"，逐套确认产证性质与土地出让金是否已缴；保利堂悦确认是 70 年住宅还是 40 年公寓。</li>
+    <li><b>车位</b>：向物业索取《车位配建表》与近半年租金成交记录。明都雅苑的 140 / 440 两个口径必须现场问清，并确认能否长租固定位。</li>
+    <li><b>电梯</b>：明都雅苑逐栋确认有无电梯；一、二期 6 层楼梯房，4 层以上要考虑父母上下楼。</li>
+    <li><b>房龄与翻新</b>：明都雅苑看外立面、楼道、单元门、屋顶防水；顶层与带露台的房源必须查渗漏与防水保修。</li>
+    <li><b>税费</b>：明都雅苑多数房源标"无增值税、无个税"（满五唯一），要核房产证登记日期；保利堂悦部分房源 2024 年才交易过，可能不满两年。</li>
+    <li><b>物业费欠缴</b>：要求物业出具欠费清单，老小区常见历史欠费随房转移。</li>
+    <li><b>小区外围</b>：明都雅苑旁有在建项目，问清施工周期与夜间施工许可；保利堂悦西侧卡子门大街高峰拥堵情况，早晚各走一次。</li>
+    <li><b>对口初中</b>：保利堂悦确认南外明远初中是否九年一贯直升；明都雅苑确认二十七初中/十八中的实际派位规则。</li>
+    <li><b>万象城与跑道公园</b>：不要按"2026 年开业"谈价，官方口径已是 2027 年下半年；把它当"未来可能有的利好"，不计入当前出价。</li>
+  </ol>
+
+  <footer>
+    <h4>数据来源与取数日</h4>
+    <p>取数日 2026-10-20。价格与房源：贝壳/链家南京站小区页与挂牌页、58 同城、安居客、365 淘房、中国房价行情（creprice）、中指研究院、克而瑞好房评测、南京市房屋租赁服务监管平台（njzl.njhouse.com.cn）。地铁：南京地铁官网、南京市人民政府 2026-09-29 通车公告、百度百科线路条目。学区：秦淮区人民政府《2026 年秦淮区小学招生入学工作实施办法》、南外明远小学施教区公告原文、秦淮实验小学施教区名单。规划：南京南部新城管委会、南京市规划和自然资源局公示、12345 热线公开答复。物业与车位：克而瑞好房评测、物业公示信息、各平台小区档案。</p>
+    <h4>口径说明</h4>
+    <p>① 成交价一律取中位数或区间，不使用挂牌均价替代；保利堂悦、明都雅苑的逐套成交明细需登录平台查看，本报告未绕过访问控制，价格均标注置信度。② 面积一律为产证/挂牌建筑面积，套内面积为按建筑形态推算的估值（保利 75%、明都 85%），非实测。③ 明都雅苑月成交 1–2 套，价格只给区间不给单点。④ 车位数据存在源冲突（140 / 440 两个口径），按保守值计分并标注。⑤ 已排除保利堂悦内的 40 年产权酒店式公寓（翡翠公馆）房源，其单价约 1.6–2.0 万/㎡，与住宅不可比。</p>
+    <h4>免责声明</h4>
+    <p>本报告为公开信息整理与量化对比，不构成投资建议，不推荐任何中介或渠道。价格、学区、规划与产权信息在签约前请以官方渠道（不动产登记中心、区教育局、街道社区、物业公司）复核为准。房地产市场存在波动风险，本报告不对涨跌作任何承诺或预测。</p>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -388,13 +388,12 @@ function KW_TEXT(kw){return kw ? ` · 命中 ${FILES.filter(f=>(f.title+f.path+(
 
 /* ---------- 预览 / 返回 ----------
    file:// 下 pushState 会抛 SecurityError，所以只用 hash 做路由。
-   返回：优先 history.back()，直接带 hash 打开页面时退回列表。 */
+   返回列表不依赖 history.back()，直接把地址换成列表状态。 */
 const frame = document.getElementById('frame');
 const hint = document.getElementById('hint');
 let hintTimer = null;
 let frameLoaded = false;
 let currentPath = null;
-let cameFromList = false;
 
 frame.addEventListener('load', () => { frameLoaded = true; });
 
@@ -403,8 +402,11 @@ function titleOf(p){
   return f ? f.title : p;
 }
 
+let listScroll = 0;
+
 function showDoc(path){
   const title = titleOf(path);
+  if (!document.body.classList.contains('viewing')) listScroll = window.scrollY || 0;
   document.body.classList.add('viewing');
   document.getElementById('vName').textContent = title;
   document.getElementById('vFile').textContent = path;
@@ -427,6 +429,8 @@ function hideDoc(){
   document.title = '买房研究 · 资料库';
   hint.classList.remove('show');
   clearTimeout(hintTimer);
+  const y = listScroll;
+  requestAnimationFrame(() => window.scrollTo(0, y));  // 回到列表原来的位置
 }
 
 /* hash 是唯一状态源：点卡片改 hash，hashchange 驱动界面 */
@@ -435,24 +439,24 @@ function route(){
   if (m) {
     const p = decodeURIComponent(m[1]);
     if (currentPath !== p) { currentPath = p; showDoc(p); }
-  } else if (currentPath !== null) {
+  } else if (currentPath !== null || document.body.classList.contains('viewing')) {
     currentPath = null;
     hideDoc();
   }
 }
 
 function openDoc(path){
-  cameFromList = true;
   location.hash = '#/' + encodeURIComponent(path);
   route(); // hashchange 也会触发，route 幂等
 }
 
+/* 返回列表：不依赖 history.back()，直接把当前记录换成列表地址，
+   这样无论重复打开多少次都能稳定回到首页 */
 function goBack(){
-  if (cameFromList && history.length > 1) {
-    cameFromList = false;
-    history.back();          // 退回上一条列表记录
-  } else {
-    location.hash = '';      // 直接带 hash 进入时，退回列表
+  if (location.hash) {
+    const base = location.href.replace(/#.*$/, '');
+    try { location.replace(base); } catch (err) { /* 某些环境禁止 replace */ }
+    if (location.hash) location.hash = '';
   }
   route();
 }
