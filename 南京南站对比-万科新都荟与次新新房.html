@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南京南站 · 万科新都荟体检与次新/新房替代清单</title>
+<meta name="description" content="200 万在南站板块只有一条路：万科新都荟 90㎡ 三房（挂 229 万，谈到 210 万）。新房完全进不去——禧樾府 105㎡ 285 万起、嘉宏峰 94㎡ 298 万。而且这个板块被行政区切成两半：江宁学籍与雨花学籍，学区差一个档。">
+<style>
+  :root{
+    --ink:#1c1c1a; --ink-2:#4a4a46; --muted:#7a7a74; --line:#e4e2dc;
+    --bg:#faf9f6; --card:#ffffff;
+    --blue:#185FA5; --blue-bg:#E6F1FB;
+    --green:#3B6D11; --green-bg:#EAF3DE;
+    --red:#A32D2D; --red-bg:#FCEBEB;
+    --amber:#854F0B; --amber-bg:#FAEEDA;
+    --gray-bg:#f4f2ec;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.72;font-size:15px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:56px 28px 80px;}
+
+  header{border-bottom:2px solid var(--ink);padding-bottom:28px;margin-bottom:36px;}
+  .kicker{font-size:12px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-bottom:14px;}
+  h1{font-size:30px;font-weight:600;letter-spacing:-.01em;line-height:1.35;margin-bottom:14px;}
+  .sub{font-size:15px;color:var(--ink-2);max-width:790px;}
+  .meta{margin-top:20px;font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:18px;}
+
+  .verdict{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:2px;padding:24px 26px;margin-bottom:26px;}
+  .verdict h2{font-size:13px;letter-spacing:.1em;color:var(--blue);margin-bottom:12px;font-weight:600;}
+  .verdict p{font-size:15.5px;margin-bottom:10px;}
+  .verdict p:last-child{margin-bottom:0;}
+  .verdict strong{background:linear-gradient(transparent 62%,#d8e6f4 62%);font-weight:600;}
+
+  .fix{background:#fffdf6;border:1px solid #e8dfc4;border-left:3px solid var(--amber);border-radius:2px;padding:22px 24px;margin-bottom:44px;}
+  .fix h2{font-size:13px;letter-spacing:.1em;color:var(--amber);margin-bottom:12px;font-weight:600;}
+  .fix p{font-size:14.5px;color:var(--ink-2);margin-bottom:10px;}
+  .fix p:last-child{margin-bottom:0;}
+  .fix b{color:var(--ink);font-weight:600;}
+
+  section{margin-bottom:50px;}
+  h2.sec{font-size:20px;font-weight:600;margin-bottom:8px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:12px;}
+  h2.sec span.num{font-size:12px;color:var(--muted);font-weight:400;letter-spacing:.1em;}
+  .lead{font-size:14.5px;color:var(--ink-2);margin:14px 0 20px;}
+  h3.sub-h{font-size:15px;font-weight:600;margin:26px 0 6px;}
+
+  .tbl-wrap{overflow-x:auto;margin:18px 0 10px;border:1px solid var(--line);border-radius:3px;background:var(--card);}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:760px;}
+  th{text-align:left;padding:11px 13px;background:var(--gray-bg);font-weight:600;font-size:12px;color:var(--ink-2);border-bottom:1px solid var(--line);white-space:nowrap;}
+  td{padding:11px 13px;border-bottom:1px solid #f0eee8;vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  td.n{font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .big{font-weight:600;}
+  .ok{color:var(--green);font-weight:600;}
+  .warn{color:var(--amber);font-weight:600;}
+  .bad{color:var(--red);font-weight:600;}
+  .flat{color:var(--muted);font-weight:400;font-size:12px;}
+
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:2px;font-weight:500;white-space:nowrap;}
+  .b-green{background:var(--green-bg);color:var(--green);}
+  .b-amber{background:var(--amber-bg);color:var(--amber);}
+  .b-red{background:var(--red-bg);color:var(--red);}
+  .b-gray{background:var(--gray-bg);color:var(--muted);}
+  .b-blue{background:var(--blue-bg);color:var(--blue);}
+
+  .note{font-size:12.5px;color:var(--muted);line-height:1.7;padding:14px 16px;background:var(--gray-bg);border-radius:3px;margin:14px 0;}
+  .note b{color:var(--ink-2);font-weight:600;}
+
+  .callout{border-left:3px solid var(--red);background:var(--red-bg);padding:16px 20px;border-radius:2px;font-size:13.5px;color:#5c2222;line-height:1.72;margin:18px 0;}
+  .callout b{font-weight:600;}
+  .callout.amber{border-left-color:var(--amber);background:var(--amber-bg);color:#5a3a10;}
+  .callout.blue{border-left-color:var(--blue);background:var(--blue-bg);color:#123a63;}
+  .callout.green{border-left-color:var(--green);background:var(--green-bg);color:#2a4d0d;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:3px;margin-bottom:22px;overflow:hidden;}
+  .card-head{padding:16px 22px 13px;border-bottom:1px solid var(--line);}
+  .card-head .row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .card-head h3{font-size:16.5px;font-weight:600;}
+  .rank{font-size:11.5px;color:#fff;background:var(--ink);padding:3px 10px;border-radius:2px;letter-spacing:.06em;white-space:nowrap;}
+  .card-body{padding:16px 22px 18px;}
+  .card-body p{font-size:14px;color:var(--ink-2);margin-bottom:9px;}
+  .card-body p:last-child{margin-bottom:0;}
+  .card-body b{color:var(--ink);font-weight:600;}
+
+  .kv{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-bottom:1px solid var(--line);}
+  .kv .c{background:var(--card);padding:11px 15px;}
+  .kv .k{font-size:11.5px;color:var(--muted);margin-bottom:2px;}
+  .kv .v{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;}
+  .kv .v small{font-size:11.5px;font-weight:400;color:var(--muted);}
+
+  .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);}
+  .pros-cons > div{background:var(--card);padding:16px 22px;}
+  .pros-cons h4{font-size:12px;letter-spacing:.08em;margin-bottom:10px;font-weight:600;}
+  .pros-cons .p h4{color:var(--green);}
+  .pros-cons .c h4{color:var(--red);}
+  .pros-cons ul{list-style:none;}
+  .pros-cons li{font-size:13.5px;color:var(--ink-2);padding-left:14px;position:relative;margin-bottom:7px;line-height:1.65;}
+  .pros-cons li::before{content:"·";position:absolute;left:3px;top:0;font-weight:700;}
+  .pros-cons .p li::before{color:var(--green);}
+  .pros-cons .c li::before{color:var(--red);}
+
+  ol.steps{list-style:none;counter-reset:s;}
+  ol.steps li{counter-increment:s;position:relative;padding-left:40px;margin-bottom:14px;font-size:14px;color:var(--ink-2);}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:24px;height:24px;background:var(--blue-bg);color:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;}
+  ol.steps li b{color:var(--ink);font-weight:600;}
+
+  .tree{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:8px 0;margin:18px 0;}
+  .tree .node{display:grid;grid-template-columns:250px 1fr;gap:14px;padding:14px 22px;border-bottom:1px solid #f0eee8;align-items:start;}
+  .tree .node:last-child{border-bottom:none;}
+  .tree .cond{font-size:13px;color:var(--muted);}
+  .tree .res{font-size:14px;}
+  .tree .res b{font-weight:600;}
+
+  footer{border-top:1px solid var(--line);padding-top:22px;margin-top:50px;font-size:12px;color:var(--muted);line-height:1.8;}
+
+  @media (max-width:720px){
+    .wrap{padding:36px 18px 60px;}
+    h1{font-size:24px;}
+    .kv{grid-template-columns:repeat(2,1fr);}
+    .card-body,.card-head{padding-left:18px;padding-right:18px;}
+    .pros-cons{grid-template-columns:1fr;}
+    .tree .node{grid-template-columns:1fr;gap:4px;}
+    .pros-cons > div{padding:16px 18px;}
+  }
+  @media print{body{background:#fff;font-size:12px;}.wrap{max-width:100%;padding:0;}.card,section{page-break-inside:avoid;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">南京 · 单小区体检 + 板块替代清单 · 江宁 / 雨花 · 南京南站</div>
+  <h1>200 万在南站只有一条路：万科新都荟 90㎡。新房这个预算一平米都进不去</h1>
+  <p class="sub">万科新都荟在江宁秣陵街道梅香路 22 号，2017 年万科交付的 8 幢、约 700 户小社区，90㎡ 三房挂 229–239 万。本报告沿用「200 万 / 80㎡ 以上 / 成交中位价」的统一口径，把南站板块能碰到的次新与新房一次性列清，取数日 2026-10-21。</p>
+  <div class="meta">
+    <span>预算口径 200 万</span>
+    <span>面积门槛 ≥ 80㎡</span>
+    <span>单价一律取成交中位</span>
+    <span>取数 2026-10-21</span>
+  </div>
+</header>
+
+<div class="verdict">
+  <h2>结论先说</h2>
+  <p><strong>预算硬卡 200 万，南站板块只有万科新都荟 90㎡ 三房这一条路。</strong>挂 229–239 万，按 25,300 元/㎡ 的成交口径约 227 万，谈到 210–215 万才有机会，需要把预算顶到上限。其余四个候选最低也要 250 万，差 40 万起。</p>
+  <p><strong>新房完全不在这个预算里。</strong>禧樾府 105㎡ 备案均价 31,000 元/㎡（总价 325 万，折后最低约 285 万），嘉宏峰 94㎡ 挂 298 万。200 万想买新房，只能退到江宁其他板块或缩小到 60㎡ 以下——后者在南站基本只有商办公寓。</p>
+  <p><strong>如果预算能到 250–260 万，答案会变：万科都荟南苑 97㎡（成交 250 万）质量最优。</strong>2019 年交付、456 户、容积率 2.37、雨花学籍，比新都荟晚两年、学区高一档，只贵 20 万。</p>
+  <p><strong>这个板块最容易被忽略的一件事：它被行政区切成两半。</strong>站东、南广场那一片是<strong>雨花台区</strong>（对口雨花外国语小学体系），站西梅香路这一片是<strong>江宁区</strong>（对口晓庄学院滨河实验学校，东外分校）。名字都叫「南站」、都叫「万科都荟」，学区差一整个档。<strong>万科新都荟属于江宁那半。</strong></p>
+</div>
+
+<div class="fix">
+  <h2>先立三条口径，否则这个板块的数据会互相打脸</h2>
+  <p><b>1. 「南站」不是一个板块，是四个片区。</b>站东（雨花，南广场周边）、站西（江宁，绿都大道—梅香路）、南部新城（秦淮，大校场）、宁南软件大道（雨花）。四片的学区、房龄、单价都不同，中介口中的「南站」通常指最近在卖的那一个。比较前先问：<b>这套房属于哪个区、对口哪所小学。</b></p>
+  <p><b>2. 平台的「小区均价」在这个板块虚高得离谱。</b>万科都荟南苑中指引挂 34,882，而 6 月实际成交 97㎡ 是 250 万（25,774 元/㎡），差 26%。万科新都荟中指挂 28,262，实际 90㎡ 挂 229 万（25,288）。<b>一律用成交价与在售房源的挂牌总价反推，不用「均价」做任何测算。</b></p>
+  <p><b>3. 新房的「均价」和「优惠价」差 3,000–5,000 元/㎡。</b>禧樾府对外有四个数字：吉屋「参考均价 20,000」、备案均价 31,000、吉屋「优惠单价 3.4 万」、现房成交 36,000–38,000。只有最后一个是真的。<b>新房只用「一房一价表 + 当场能签的总价」，其余都当广告。</b></p>
+</div>
+
+<section>
+  <h2 class="sec">预算边界：200 万在这四个层级分别能买到什么 <span class="num">01</span></h2>
+  <p class="lead">这是本次分析最关键的一张表。先把「能不能买」这件事定下来，再谈好坏。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>档位</th><th>代表房源</th><th>建面</th><th>挂牌 / 成交总价</th><th>距 200 万</th><th>判定</th></tr>
+    <tr>
+      <td class="big">次新 · 江宁学籍</td><td><b>万科新都荟</b> 3室2厅1卫</td><td class="n">90.54–90.56㎡</td>
+      <td class="n">挂 229–239 万<br><span class="flat">成交口径约 227 万</span></td>
+      <td class="n ok">+10～15 万</td><td><span class="badge b-green">顶预算可及</span></td>
+    </tr>
+    <tr>
+      <td class="big">次新 · 雨花学籍</td><td>万科都荟南苑 3室</td><td class="n">97.00㎡</td>
+      <td class="n">6 月成交 250 万</td>
+      <td class="n warn">+50 万</td><td><span class="badge b-amber">需加预算</span></td>
+    </tr>
+    <tr>
+      <td class="big">次新 · 雨花学籍</td><td>万科尚都荟 3室2厅1卫</td><td class="n">91.55㎡</td>
+      <td class="n">挂 260 万<br><span class="flat">28,400 元/㎡</span></td>
+      <td class="n warn">+60 万</td><td><span class="badge b-amber">需加预算</span></td>
+    </tr>
+    <tr>
+      <td class="big">新房 · 江宁学籍</td><td>禧樾府 3室2厅2卫（现房）</td><td class="n">105㎡</td>
+      <td class="n">备案均价 3.1 万 → 325 万<br><span class="flat">折后最低约 285 万</span></td>
+      <td class="n bad">+85～125 万</td><td><span class="badge b-red">进不去</span></td>
+    </tr>
+    <tr>
+      <td class="big">新房 · 雨花学籍</td><td>嘉宏峰 3室（现房）</td><td class="n">93.98㎡</td>
+      <td class="n">挂 298 万<br><span class="flat">31,709 元/㎡</span></td>
+      <td class="n bad">+98 万</td><td><span class="badge b-red">进不去</span></td>
+    </tr>
+    <tr>
+      <td class="big">商办公寓 · 不算住宅</td><td>万科都荟天地 1室</td><td class="n">26.27㎡</td>
+      <td class="n">31 万<br><span class="flat">11,801 元/㎡，物业费 9.8 元</span></td>
+      <td class="n">—</td><td><span class="badge b-red">不能落户、不能划学区</span></td>
+    </tr>
+  </table>
+  </div>
+  <div class="callout amber">
+    <b>注意最后一行。</b>南站板块「200 万以内」的房源，绝大多数是 40 年产权商办公寓（万科都荟天地、证大喜玛拉雅、绿地之窗）。它们单价 1.2 万看着诱人，但<b>不能落户、不能划学区、物业费 9.8 元、转手税费高</b>。如果你的 200 万是为了「在南站有个房子」，这一类会把你带进一个完全不同的坑。本报告不把它算进任何候选。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">南站板块的价格带：四个梯度，相邻差 3,000 元 <span class="num">02</span></h2>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>梯度</th><th>单价（成交口径）</th><th>代表小区</th><th>房龄</th><th>学籍</th></tr>
+    <tr><td class="big">新房 / 高端现房</td><td class="n bad">3.1–3.9 万</td><td>禧樾府、嘉宏峰</td><td class="n">2023–2026 交付</td><td>江宁 / 雨花</td></tr>
+    <tr><td class="big">次新二手</td><td class="n warn">2.5–2.8 万</td><td>万科新都荟、万科都荟南苑、万科尚都荟、万科九都荟、绿地玉晖</td><td class="n">2016–2019</td><td>江宁 / 雨花</td></tr>
+    <tr><td class="big">普通二手</td><td class="n">1.5–2.0 万</td><td>龙西新寓、景明佳园等安置/老小区</td><td class="n">2010–2018</td><td>—</td></tr>
+    <tr><td class="big">商办公寓</td><td class="n">1.1–1.3 万</td><td>万科都荟天地、证大喜玛拉雅、绿地之窗</td><td class="n">2016–2021</td><td>无</td></tr>
+  </table>
+  </div>
+  <p class="note"><b>梯度之间的价差，几乎全部由「房龄 + 物业 + 学籍」解释，与「离南站多远」关系不大。</b>禧樾府离南站 300–670 米，单价 3.1–3.4 万；万科新都荟离南站 1.3 公里，单价 2.5 万。差的 6,000 元里，一半是「新房 + 精装三件套 + 万科物业 3.1 元」，另一半是「你多走 800 米」并不值钱——真正值钱的是新房的交付标准，不是位置。</p>
+  <p class="note"><b>大盘坐标。</b>南京二手均价 2026 年 10 月约 18,890 元/㎡，同比 −3.77%；新房公示均价 29,909。南站次新 2.5–2.8 万约为主城均价的 1.35 倍，属于「枢纽溢价」正常区间，没有明显泡沫，但也没有被低估。</p>
+</section>
+
+<section>
+  <h2 class="sec">万科新都荟：数据、优点、缺点 <span class="num">03</span></h2>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="row">
+        <h3>万科新都荟 · 梅香路 22 号</h3>
+        <span class="rank">200 万预算内唯一可行</span>
+      </div>
+    </div>
+    <div class="kv">
+      <div class="c"><div class="k">推荐房源</div><div class="v">90.56㎡ <small>3室2厅1卫</small></div></div>
+      <div class="c"><div class="k">挂牌 / 目标价</div><div class="v">229 万 <small>→ 210–215 万</small></div></div>
+      <div class="c"><div class="k">成交单价口径</div><div class="v">约 25,300 <small>元/㎡</small></div></div>
+      <div class="c"><div class="k">得房率</div><div class="v">约 78% <small>套内约 70㎡</small></div></div>
+    </div>
+    <div class="pros-cons">
+      <div class="p">
+        <h4>优点</h4>
+        <ul>
+          <li>2017 年万科交付，房龄 9 年，管线电梯都在寿命前半段</li>
+          <li>8 幢、约 700 户小社区，容积率 2.90、绿化 35%，人不杂</li>
+          <li>万科物业，物业费 2.7 元，服务口碑在江宁属于第一档</li>
+          <li>90㎡ 就做三房两厅，功能完整；精装交付带地暖，多数房源可直接住</li>
+          <li>在售仅 53 套、挂牌率约 7.6%，供给不算踩踏</li>
+          <li>楼下就是晓庄学院滨河实验学校（梅香路 102 号），目送式上学</li>
+          <li>价格是南站次新里最低一档，同比只 −0.5%，比江宁老盘抗跌</li>
+        </ul>
+      </div>
+      <div class="c">
+        <h4>缺点</h4>
+        <ul>
+          <li><b>地铁不近</b>：南京南站 1.3 公里、3 号线宏运大道 1.6 公里、S3 景明佳园 1.2 公里，步行都要 15–20 分钟</li>
+          <li><b>江宁学籍</b>：对口滨河实验学校（东外分校），不是雨花外国语小学体系</li>
+          <li><b>初中去向要重新确认</b>：滨河实验 2023 年 9 月由九年一贯制改为完全小学，原初中部不再承接，这届孩子初中划到哪所必须核</li>
+          <li>月成交 1–2 套（8 月仅 1 套 119㎡），静态去化 26–53 个月，不算快</li>
+          <li>高铁与南站枢纽在东侧，临线楼栋低楼层有噪音，必须现场听</li>
+          <li>周边以安置房（龙西新寓、景明佳园）为主，城市界面一般</li>
+          <li>最近三甲约 3–4 公里，日常只有社区卫生服务站</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-body">
+      <p><b>怎么买：</b>90.54㎡ 挂 239 万（26,398）、90.56㎡ 挂 229 万（25,288），同一户型同小区差 10 万，说明挂牌里还有水分。按 25,300 的口径，90.56㎡ 的合理价约 229 万，谈到 215 万以内是合理目标；若业主要 225 万以上，宁可等下一套。119.01㎡ 挂 299 万（25,124）单价反而更低，如果能到 260 万、且你接受总价上浮，那套是三房里性价比最好的。</p>
+      <p><b>三件签约前必做的事：</b>① 拿楼栋门牌去江宁区教育局核当年施教区公告，并单独问一句「滨河实验改完全小学后，本校毕业生初中划到哪」；② 晚上 8 点站在目标楼栋阳台听高铁与南站噪音，靠东侧楼栋必听；③ 实测一次到南京南站地铁口的步行时间，不要按地图直线距离算。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">替代清单：南站板块的次新与新房，一次列全 <span class="num">04</span></h2>
+  <p class="lead">按预算门槛从低到高。注意「学籍」这一列——它是同板块内最容易被忽略、又最影响长期价值的一项。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>区 / 学籍</th><th>交付</th><th>规模</th><th>容积率 / 绿化</th><th>物业费</th><th>参考房源与价格</th><th>门槛</th></tr>
+    <tr>
+      <td class="big">万科新都荟</td><td>江宁 · 滨河实验（东外分校）</td><td class="n">2017</td><td class="n">8 幢 / 约 700 户</td><td class="n">2.90 / 35%</td><td class="n">2.7</td>
+      <td class="n">90.56㎡ 挂 229 万<br><span class="flat">25,288 元/㎡</span></td><td class="n ok">约 210 万</td>
+    </tr>
+    <tr>
+      <td class="big">万科都荟南苑</td><td>雨花 · 雨外体系</td><td class="n">2019</td><td class="n">456 户</td><td class="n">2.37 / 25.2%</td><td class="n">2.7</td>
+      <td class="n">97.00㎡ 成交 250 万<br><span class="flat">25,774 元/㎡</span></td><td class="n warn">约 250 万</td>
+    </tr>
+    <tr>
+      <td class="big">万科尚都荟</td><td>雨花 · 雨外体系</td><td class="n">2016–2017</td><td class="n">约 1,892 户</td><td class="n">2.64 / 35%</td><td class="n">2.0</td>
+      <td class="n">91.55㎡ 挂 260 万<br><span class="flat">28,400 元/㎡</span></td><td class="n warn">约 250 万</td>
+    </tr>
+    <tr>
+      <td class="big">万科九都荟</td><td>雨花 · 雨外体系</td><td class="n">2017</td><td class="n">1,213 户</td><td class="n">2.00 / 30%</td><td class="n">2.7</td>
+      <td class="n">121.31㎡ 成交 339 万<br><span class="flat">27,945 元/㎡</span></td><td class="n bad">约 300 万</td>
+    </tr>
+    <tr>
+      <td class="big">绿地玉晖</td><td>雨花 · 雨外体系</td><td class="n">2019-10</td><td class="n">—</td><td class="n">人车分流</td><td class="n">—</td>
+      <td class="n">141.5㎡ 挂 356 万<br><span class="flat">25,159 元/㎡</span></td><td class="n bad">约 340 万</td>
+    </tr>
+    <tr>
+      <td class="big">禧樾府 <span class="badge b-blue">新房现房</span></td><td>江宁 · 宣传「东外双书包」</td><td class="n ok">2026-01 已交付</td><td class="n">7 幢 / 416 户</td><td class="n">2.59 / 25%</td><td class="n">3.1</td>
+      <td class="n">105㎡ 备案 3.1 万 → 325 万<br><span class="flat">折后最低约 285 万</span></td><td class="n bad">约 285 万</td>
+    </tr>
+    <tr>
+      <td class="big">嘉宏峰 <span class="badge b-blue">新房现房</span></td><td>雨花 · 雨外体系</td><td class="n ok">现房</td><td class="n">2 幢 / 381 户</td><td class="n">3.2 / 27%</td><td class="n">自持嘉英物业</td>
+      <td class="n">93.98㎡ 挂 298 万<br><span class="flat">31,709 元/㎡</span></td><td class="n bad">约 298 万</td>
+    </tr>
+  </table>
+  </div>
+  <div class="callout blue">
+    <b>读这张表的两个要点。</b>第一，<b>门槛从 210 万到 298 万，中间是断档的</b>——200 万出头只有新都荟一个选项，再往上要直接跳到 250 万（都荟南苑）与 260 万（尚都荟），中间没有 220–240 万的次新三房。<br>
+    第二，<b>同一价格带里，雨花学籍的比江宁学籍的贵 10–20%。</b>都荟南苑 97㎡ 25,774 元/㎡ 对 新都荟 90㎡ 25,288 元/㎡，单价差不到 2%，但房龄晚两年、学区高一档——这反而是本次分析里最被低估的一套房。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">新房专项：禧樾府 vs 嘉宏峰，值不值那 4,000 元/㎡ 溢价 <span class="num">05</span></h2>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>维度</th><th>禧樾府</th><th>嘉宏峰</th></tr>
+    <tr><td class="big">状态</td><td class="ok">2026 年 1 月已全盘交付，现房，园区与精装可实地验</td><td class="ok">现房销售，无装修包</td></tr>
+    <tr><td class="big">开发商</td><td>南京交通置业（市属国企）</td><td>香港嘉华国际</td></tr>
+    <tr><td class="big">规模</td><td class="n">7 幢 19–27 层，416 户</td><td class="n">2 幢 27–32 层，381 户</td></tr>
+    <tr><td class="big">容积率 / 绿化</td><td class="n">2.59 / 25%</td><td class="n bad">3.2 / 27%</td></tr>
+    <tr><td class="big">户型</td><td class="n">105㎡、135㎡ 三房两卫</td><td class="n">93–137㎡ 三房</td></tr>
+    <tr><td class="big">交付标准</td><td class="ok">中央空调 + 地暖 + 新风，三层中空窗</td><td class="ok">港式精装，一线品牌，Low-E 双层玻璃</td></tr>
+    <tr><td class="big">车位</td><td class="n ok">471 个 / 416 户 ≈ 1:1.13，全地下人车分流</td><td class="n">—</td></tr>
+    <tr><td class="big">物业</td><td class="ok">万科物业，3.1 元</td><td>嘉英物业自持</td></tr>
+    <tr><td class="big">到南京南站</td><td class="n ok">宣传 300 米，实测 670 米</td><td class="n ok">紧邻南站，步行可达</td></tr>
+    <tr><td class="big">单价 / 105㎡ 总价</td><td class="n">备案 3.1 万 → 325 万，折后约 285–350 万</td><td class="n bad">3.2–3.9 万 → 298–359 万</td></tr>
+  </table>
+  </div>
+  <div class="callout">
+    <b>新房的「均价」要先打到地板上再算。</b>禧樾府在公开渠道同时出现 20,000、31,000、34,000、36,000–38,000 四个数字。20,000 是引流价，31,000 是备案均价，34,000 是「优惠单价」，36,000–38,000 是现房实际成交。<strong>按 105㎡ 算，四个口径对应 210 万 / 325 万 / 357 万 / 380 万——差 170 万。</strong>新房谈判只有一句话有用：把「一房一价表」和「当天能签的总价」拍下来，其余全是话术。
+  </div>
+  <p class="note"><b>值不值：</b>禧樾府比同板块次新贵 4,000–6,000 元/㎡。这笔钱买到的是「2026 年交付 + 精装三件套 + 万科物业 + 车位 1:1.13 + 人车分流 + 国企现房无交付风险」。如果这五样你都用得上（尤其是不想再花钱装修、家里有车），溢价部分可以从装修费和十年停车成本里找回来一半；如果你打算三年内卖，新房溢价在二手市场通常会先被打掉 2,000–3,000 元。嘉宏峰的容积率 3.2、绿化 27%，是四家里最密的，同样价格可以优先禧樾府。</p>
+</section>
+
+<section>
+  <h2 class="sec">学区：南站板块真正的分水岭是行政区，不是距离 <span class="num">06</span></h2>
+  <p class="lead">同一个「南站」，江宁那半与雨花那半，对口学校不是一个体系。这一点比房龄、比物业、比离站远近都更能决定十年后的价值。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>片区</th><th>行政区</th><th>小学</th><th>初中</th><th>评价</th></tr>
+    <tr>
+      <td class="big">站东 / 南广场</td><td>雨花台区</td><td>雨花外国语小学（花神庙分校）</td><td>雨花台中学体系</td>
+      <td class="ok">雨花区内第一梯队，板块内最强</td>
+    </tr>
+    <tr>
+      <td class="big">站西 / 梅香路</td><td>江宁区</td><td>晓庄学院滨河实验学校<br><span class="flat">东山外国语学校分校，2018 建校</span></td><td class="warn">待核<br><span class="flat">2023-09 由九年一贯制改为完全小学</span></td>
+      <td class="warn">东外集团，区内中上；但初中口径因改制而变动</td>
+    </tr>
+  </table>
+  </div>
+  <div class="callout">
+    <b>万科新都荟的学区有一处必须现场问清的断点。</b>滨河实验学校 2018 年建校时是九年一贯制（小学 + 初中），2023 年 9 月转型为完全小学，只办小学。这意味着<strong>原来「小学直升本校初中」的路径已经不存在</strong>，毕业生要按当年初中施教区重新划片。<b>买这套房子如果是为了孩子上学，签约前必须问三句话：这栋楼对口哪所小学？该校毕业生今年划到哪所初中？这个划片近三年有没有变过？</b>学校就在小区隔壁（梅香路 102 号 vs 22 号），小学的便利性是真实的；初中的确定性不是。
+  </div>
+  <p class="note"><b>另一个常见误区：</b>「万科都荟」是一个系列名，不是一所学校。新都荟（江宁）、尚都荟（雨花）、都荟南苑（雨花）、九都荟（雨花）、都荟天地（商办公寓）五个体量、房龄、学籍全不同，中介常用「万科都荟」四个字打包推荐。看到这个名字，第一句先问：<b>哪个区、哪一所小学。</b></p>
+</section>
+
+<section>
+  <h2 class="sec">噪音：这是南站板块独有的、无法通过装修解决的硬伤 <span class="num">07</span></h2>
+  <p class="lead">南京南站是亚洲最大高铁站之一，京沪、宁杭、宁安等线路在此汇集。板块内几乎所有小区都在高铁线的某一段旁边。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>小区</th><th>与高铁线 / 枢纽的相对位置</th><th>风险楼栋</th><th>可做的验证</th></tr>
+    <tr><td class="big">万科新都荟</td><td>站西，梅香路，距站场约 1.3km</td><td class="warn">靠东侧、朝站场方向的楼栋与低楼层</td><td>晚 8 点在阳台与卧室各听 5 分钟</td></tr>
+    <tr><td class="big">万科尚都荟 / 都荟南苑</td><td>站东，紧邻南广场</td><td class="bad">临站场与线路一侧</td><td>同上，另加高层复核（越高越直射）</td></tr>
+    <tr><td class="big">禧樾府</td><td>站西，距站 300–670m</td><td class="warn">靠站场一侧；已用三层中空窗</td><td>要求关窗与开窗各听一次</td></tr>
+    <tr><td class="big">嘉宏峰</td><td>紧邻南站，南向临秦淮河</td><td class="bad">低楼层与临线一侧</td><td>同上；南向河景面通常较安静</td></tr>
+  </table>
+  </div>
+  <p class="note"><b>一个实操建议：</b>高铁噪音不是连续的，而是「每几分钟一次、持续 20–40 秒」的间歇性噪音，比持续噪音更扰人。看房时不要只听 1 分钟——<b>在房间里待满 15 分钟，数一数过去几列车。</b>另外低楼层比高楼层安静（声源在头顶掠过），这一点与「楼层越高越好」的直觉相反。</p>
+</section>
+
+<section>
+  <h2 class="sec">通勤、商业、医疗 <span class="num">08</span></h2>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th></th><th>万科新都荟</th><th>禧樾府</th><th>万科尚都荟 / 都荟南苑</th></tr>
+    <tr><td class="big">地铁</td><td class="warn">南京南站 1.3km<br>3 号线宏运大道 1.6km<br>S3 景明佳园 1.2km</td><td class="ok">南站 300–670m<br>3 号线宏运大道 900m</td><td class="ok">南京南站步行可达<br>1 / 3 / S1 / S3 四线</td></tr>
+    <tr><td class="big">通勤实质</td><td class="bad">步行 15–20 分钟，日常需骑行或公交接驳</td><td class="ok">真正「出门即站」</td><td class="ok">五轨枢纽，到新街口约 20 分钟</td></tr>
+    <tr><td class="big">商业</td><td>证大喜玛拉雅约 1km、麦德龙、明发商业广场</td><td class="ok">自带约 7,000㎡ 底商；喜玛拉雅 1km</td><td class="ok">喜玛拉雅、绿地之窗、百万方商业环绕</td></tr>
+    <tr><td class="big">医疗</td><td class="warn">社区卫生服务站；三甲约 3–4km</td><td>南京市中医院南部新城院区约 2.8km（三甲，1,500 床）</td><td>南部新城医疗中心约 2–3km</td></tr>
+    <tr><td class="big">不利因素</td><td>周边安置房为主，界面一般</td><td>临站场，绿化率仅 25%</td><td>容积率偏高、单价高</td></tr>
+  </table>
+  </div>
+  <p class="note"><b>「名字在南站」和「住在南站」是两件事。</b>万科新都荟到南京南站地铁口 1.3 公里，走路 15–20 分钟——这个距离每天通勤是能感觉到的。如果通勤是首要需求，禧樾府和尚都荟才是「真南站」；如果只是偶尔坐高铁出差，1.3 公里反而不是问题，而且能换来更安静的居住环境和更低 5,000–6,000 的单价。</p>
+</section>
+
+<section>
+  <h2 class="sec">综合评分 <span class="num">09</span></h2>
+  <p class="lead">七项硬指标加权，车位与物业不计分。注意：本次五套房源预算不同，<b>「预算可得性」这一项是按 200 万口径打的分</b>，所以总分高低不等于「该买哪个」，还要看你能不能加预算。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>维度</th><th>标准权重</th><th>学区优先</th><th>新都荟 90㎡</th><th>都荟南苑 97㎡</th><th>尚都荟 91.55㎡</th><th>禧樾府 105㎡</th><th>嘉宏峰 94㎡</th></tr>
+    <tr><td>预算可得性（按 200 万）</td><td class="n">20%</td><td class="n">15%</td><td class="n ok">8.0</td><td class="n">5.0</td><td class="n">4.0</td><td class="n">2.0</td><td class="n">1.5</td></tr>
+    <tr><td>价格合理性与抗跌</td><td class="n">15%</td><td class="n">10%</td><td class="n">6.0</td><td class="n">6.0</td><td class="n">5.5</td><td class="n">5.0</td><td class="n">4.5</td></tr>
+    <tr><td>通勤（距离 + 线路）</td><td class="n">20%</td><td class="n">15%</td><td class="n warn">6.5</td><td class="n">8.5</td><td class="n">9.0</td><td class="n">9.0</td><td class="n">8.5</td></tr>
+    <tr><td>学区</td><td class="n">15%</td><td class="n">30%</td><td class="n warn">6.0</td><td class="n">7.5</td><td class="n">7.5</td><td class="n">6.0</td><td class="n">7.5</td></tr>
+    <tr><td>商圈与日常</td><td class="n">12%</td><td class="n">10%</td><td class="n">7.5</td><td class="n">8.5</td><td class="n">8.5</td><td class="n">8.0</td><td class="n">8.5</td></tr>
+    <tr><td>医疗</td><td class="n">8%</td><td class="n">5%</td><td class="n">6.0</td><td class="n">6.5</td><td class="n">6.5</td><td class="n">6.5</td><td class="n">6.5</td></tr>
+    <tr><td>居住环境（容积率/房龄/梯户比/车位）</td><td class="n">10%</td><td class="n">15%</td><td class="n">7.5</td><td class="n">7.5</td><td class="n">7.0</td><td class="n ok">8.0</td><td class="n">7.0</td></tr>
+    <tr><td class="big">加权总分</td><td class="n big">100%</td><td class="n big">100%</td><td class="big">6.83 / 6.75</td><td class="big ok">7.02 / 7.18</td><td class="big">6.79 / 6.98</td><td class="big">6.13 / 6.28</td><td class="big">6.04 / 6.43</td></tr>
+  </table>
+  </div>
+  <div class="callout blue">
+    <b>这张表有一个「矛盾」需要说清楚：质量最好的不是你可能买的那个。</b>万科都荟南苑 7.02 分最高（2019 年交付、456 户、容积率 2.37、雨花学籍），但它要 250 万，超出预算 50 万；万科新都荟 6.83 分排第二，是唯一 200 万能够到的。<strong>如果你只能出 200 万，比较的对象不是「谁分高」，而是「新都荟值不值得为它顶到 215 万」——答案是值得，因为同价位段里没有第二个南站次新房。</strong>如果你能加 40 万，都荟南苑就把学区、房龄、密度三项一起解决了，那 40 万花得比装修值。
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">决策路径 <span class="num">10</span></h2>
+  <div class="tree">
+    <div class="node"><div class="cond">预算硬卡 200 万，就要南站</div><div class="res">→ <b>万科新都荟 90.56㎡</b>，谈到 210–215 万。这是唯一选项，没有第二个</div></div>
+    <div class="node"><div class="cond">能加到 250 万</div><div class="res">→ <b>万科都荟南苑 97㎡</b>（成交 250 万）。多 40 万，换来晚两年房龄 + 雨花学籍 + 容积率 2.37</div></div>
+    <div class="node"><div class="cond">能加到 285 万以上，且不想再装修</div><div class="res">→ <b>禧樾府 105㎡ 现房</b>。精装三件套 + 万科物业 + 车位 1:1.13，但只核「一房一价表」上的总价</div></div>
+    <div class="node"><div class="cond">孩子 2–3 年内上小学，学区第一</div><div class="res">→ <b>站东雨花学籍那半</b>（尚都荟 / 都荟南苑 / 嘉宏峰），不要选江宁那半；预算要准备 250 万以上</div></div>
+    <div class="node"><div class="cond">每天通勤靠地铁，高铁只是偶尔</div><div class="res">→ <b>禧樾府 / 尚都荟</b>；新都荟 1.3 公里那段路每天走会后悔</div></div>
+    <div class="node"><div class="cond">不接受高铁噪音</div><div class="res">→ 南站板块要谨慎；非要选，只考虑距站场 1 公里以上、且不朝站场那一侧的楼栋</div></div>
+    <div class="node"><div class="cond">200 万、80㎡+、学区与面积都要</div><div class="res">→ <b>南站板块解不了这个问题</b>。回到此前那条线：江宁百家湖 / 九龙湖（水月秦淮、万科金域蓝湾）或主城南外明远施教区</div></div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec">看房核实清单 <span class="num">11</span></h2>
+  <ol class="steps">
+    <li><b>这套房属于哪个行政区、对口哪所小学。</b>新都荟是江宁，尚都荟/都荟南苑/嘉宏峰是雨花。这一条决定后面所有事，不要听「南站」两个字。</li>
+    <li><b>滨河实验学校改制后的初中去向。</b>2023 年 9 月起只办小学，原九年一贯制的初中部不再承接。问清这届毕业生划到哪所初中、近三年有没有变过。</li>
+    <li><b>产证上的建筑面积与套内面积。</b>拍照片。新都荟 90㎡ 得房率约 78%，套内约 70㎡，与雨花那几个盘差别不大，但直接决定你 220 万买到多少可用空间。</li>
+    <li><b>到南京南站地铁口的实测步行时间。</b>从楼下大门开始走，不要按直线距离。新都荟宣传「近南站」，实测 15–20 分钟。</li>
+    <li><b>高铁噪音：在房间里待满 15 分钟。</b>数过去几列车。低楼层通常比高楼层安静。靠站场一侧的楼栋必听。</li>
+    <li><b>新房：要「一房一价表」和「当天能签的总价」。</b>禧樾府公开渠道有 2 万 / 3.1 万 / 3.4 万 / 3.6–3.8 万四个价，105㎡ 对应 210 万到 380 万。只认纸上那个数。</li>
+    <li><b>新房：确认是否「无装修包、无捆绑车位」。</b>禧樾府与嘉宏峰都宣传无装修包，要在认购书里写明，不接受口头承诺。</li>
+    <li><b>车位：产权位还是租赁位，月租多少，剩余可租年限。</b>禧樾府 471 个对 416 户，是本次唯一车位宽裕的；新都荟要问是否带固定位。</li>
+    <li><b>物业费与收缴率。</b>新都荟 2.7、禧樾府 3.1 元。近五年是否换过物业、维修基金余额多少，决定十年后的公共设施状态。</li>
+    <li><b>上一手交易时间与价格。</b>两年内二次转手的必问原因，并去不动产登记簿查抵押与查封。</li>
+    <li><b>是住宅还是商办公寓，产权 70 年还是 40 年。</b>南站板块「200 万以内」的房源大量是 40 年商办（都荟天地 1.18 万/㎡、物业费 9.8 元），不能落户、不能划学区。</li>
+    <li><b>税费：是否满五唯一、是否满两年。</b>200 万总价，满两年与不满两年的增值税加个税能差 10 万以上，比房价谈判更值钱。</li>
+  </ol>
+</section>
+
+<footer>
+  <p><b>数据来源：</b>中指研究院小区月报与成交明细（万科新都荟 2026-08、万科都荟南苑 2026-06、万科九都荟 2026-07、禧樾府）、贝壳 / 链家 / 365 淘房 / 幸福里 / 安居客在售房源页与小区页（含套内面积、梯户比、挂牌时间、在售套数）、南京市住房保障和房产管理局预售许可与备案公示（禧樾府备案均价 31,000 元/㎡，预售证 2023200072）、南京市江宁区教育局 2026 年小学招生入学实施细则与施教区一览、南京晓庄学院滨河实验学校公开资料（2018 建校、2023-09 改为完全小学）、安居客南京房价走势（2026-10-20：二手 18,890 元/㎡，同比 −3.77%）。取数日 2026-10-21。</p>
+  <p><b>口径说明：</b>① 单价一律取成交单价或具体房源的挂牌单价反推，平台「小区均价」只用于说明虚高幅度，不进任何预算测算；② 「门槛」按该小区最小可成交三房总价估算，非最低挂牌价；③ 「预算可得性」按 200 万口径打分，因此总分不能直接跨预算比较；④ 新房价格存在多个公开口径，正文已并列，未取单一值；⑤ 商办公寓不计入任何候选。</p>
+  <p><b>已知不确定性：</b>万科新都荟的初中对口学校在公开信息中未明确（滨河实验 2023 年改制后口径变动），本报告按「待核」处理、未按任何一方结论计分；禧樾府「东外双书包」为项目宣传口径，未取得当年施教区公告原文，需以教育局公示为准；万科新都荟总户数在不同来源为 697 / 700 / 941 户，本报告按 700 户计算挂牌率与去化。</p>
+  <p style="margin-top:14px">本报告为决策参考，不构成投资建议。所有价格与规划时点在签约前请以官方渠道复核。</p>
+</footer>
+
+</div>
+</body>
+</html>
