@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>成交查询 · 南京二手房成交明细</title>
+<style>
+  :root{
+    --bg:#f6f4ef; --bg-soft:#fbfaf7; --card:#ffffff;
+    --ink:#1f2328; --ink-2:#5b6168; --ink-3:#8b9098;
+    --line:#e6e2d9; --line-2:#efece4;
+    --accent:#b1503a; --accent-soft:#f6e9e4;
+    --shadow:0 1px 2px rgba(31,35,40,.04), 0 8px 24px -12px rgba(31,35,40,.14);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  /* ---------- 顶部页签导航 ---------- */
+  .topnav{
+    position:sticky;top:0;z-index:40;
+    background:rgba(246,244,239,.9);
+    backdrop-filter:saturate(180%) blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{max-width:1080px;margin:0 auto;padding:10px 28px;display:flex;align-items:center;gap:18px}
+  .brand{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;letter-spacing:-.01em}
+  .brand .dot{width:8px;height:8px;border-radius:3px;background:linear-gradient(135deg,var(--accent),#d98b6f)}
+  .tabs{margin-left:auto;display:flex;gap:6px}
+  .tab{
+    padding:7px 16px;border-radius:9px;font-size:13.5px;color:var(--ink-2);
+    border:1px solid transparent;transition:background .15s,border-color .15s,color .15s;
+  }
+  .tab:hover{background:#fff;border-color:var(--line);color:var(--ink)}
+  .tab.on{background:#fff;border-color:var(--line);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(31,35,40,.05)}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, #fdf7f2 0%, rgba(253,247,242,0) 60%),
+      radial-gradient(900px 500px at 100% 0%, #eef4f1 0%, rgba(238,244,241,0) 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.55;
+  }
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 28px 80px}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;
+    color:var(--accent);background:var(--accent-soft);
+    border:1px solid rgba(177,80,58,.16);padding:5px 12px;border-radius:999px;font-weight:600;
+  }
+  .eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+  h1{font-size:clamp(26px,4vw,38px);line-height:1.15;letter-spacing:-.02em;margin:18px 0 10px;font-weight:700}
+  .lede{color:var(--ink-2);font-size:14.5px;max-width:72ch;margin:0}
+  .lede b{color:var(--ink)}
+
+  .sec-h{display:flex;align-items:baseline;gap:10px;font-size:16px;font-weight:700;margin:42px 0 4px;letter-spacing:-.01em}
+  .sec-h:first-of-type{margin-top:26px}
+  .sec-h .sub{font-size:11.5px;font-weight:400;color:var(--ink-3);letter-spacing:.02em}
+  .sec-h .hint{margin-left:auto;font-size:11.5px;font-weight:400;color:var(--ink-3)}
+
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin:10px 2px 8px}
+  .legend i{font-style:normal;display:inline-flex;align-items:center;gap:6px}
+  .legend .sw{width:18px;height:0;border-top:2.5px solid var(--accent);border-radius:2px}
+  .legend .sw.dash{border-top-style:dashed;border-top-color:var(--ink-2)}
+  .legend .sw.ref{border-top-style:dotted;border-top-color:var(--ink-3)}
+  .chartcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px 8px}
+  .chartcard svg{width:100%;height:auto;display:block}
+  .chart-note{font-size:11.5px;color:var(--ink-3);margin:8px 2px 0;line-height:1.7}
+  .chart-note b{color:var(--ink-2);font-weight:600}
+
+  .tstats{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 14px}
+  .tstat{flex:1 1 130px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;box-shadow:var(--shadow)}
+  .tstat b{display:block;font-size:19px;font-weight:700;letter-spacing:-.01em;margin-top:2px}
+  .tstat span{font-size:11.5px;color:var(--ink-3);letter-spacing:.04em}
+
+  .chipbar{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;margin:14px 0 4px}
+  .chipgroup{display:flex;flex-wrap:wrap;gap:6px;align-items:center;flex:1 1 480px}
+  .chipgroup .glabel{font-size:11.5px;color:var(--ink-3);letter-spacing:.06em;margin-right:2px;white-space:nowrap}
+  .chip{
+    padding:6px 14px;border-radius:999px;border:1px solid var(--line);
+    background:var(--card);font-size:13px;color:var(--ink-2);cursor:pointer;
+    transition:all .15s;font-family:inherit;display:inline-flex;align-items:center;gap:6px;
+    position:relative;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation;
+  }
+  .chip:hover{border-color:#d8d1c2;color:var(--ink)}
+  .chip.on{background:var(--ink);border-color:var(--ink);color:#fff;font-weight:600}
+  .chip .star{color:var(--accent);font-size:11px}
+  .chip.on .star{color:#f3b8a5}
+  .chip .x{
+    display:none;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;
+    font-size:11px;line-height:1;color:var(--ink-3);border:1px solid var(--line);background:var(--card);
+  }
+  .chip.del{border-style:dashed;border-color:var(--accent);color:var(--accent)}
+  .chip.del .x{display:inline-flex;color:var(--accent);border-color:rgba(177,80,58,.4);animation:pop .15s ease-out}
+  .chip.del.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .chip .x:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+  @keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+  .chip-empty{font-size:12px;color:var(--ink-3)}
+
+  .search{position:relative;flex:0 1 300px;min-width:220px;margin:0}
+  .search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.4}
+  .search input{
+    width:100%;padding:9px 14px 9px 36px;border:1px solid var(--line);
+    background:var(--card);border-radius:10px;font-size:14px;color:var(--ink);
+    outline:none;transition:border-color .16s, box-shadow .16s;font-family:inherit;
+  }
+  .search input::placeholder{color:var(--ink-3)}
+  .search input:focus{border-color:rgba(177,80,58,.45);box-shadow:0 0 0 3px rgba(177,80,58,.1)}
+  .search .kbd{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:10.5px;color:var(--ink-3);border:1px solid var(--line);border-radius:5px;padding:1px 6px;background:var(--bg-soft)}
+
+  .tscroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow)}
+  table.tx{width:100%;border-collapse:collapse;font-size:13px;min-width:760px}
+  table.tx th{
+    text-align:left;font-size:11.5px;font-weight:600;color:var(--ink-3);letter-spacing:.06em;
+    padding:11px 14px;border-bottom:1px solid var(--line);background:var(--bg-soft);
+    white-space:nowrap;position:sticky;top:0;
+  }
+  table.tx td{padding:10px 14px;border-bottom:1px solid var(--line-2);white-space:nowrap;vertical-align:top}
+  table.tx tr:last-child td{border-bottom:none}
+  table.tx tbody tr{transition:background .12s}
+  table.tx tbody tr:hover{background:#faf7f2}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  td .src{display:block;font-size:11px;color:var(--ink-3);margin-top:1px}
+  td .note{display:block;font-size:11.5px;color:var(--ink-3);white-space:normal;max-width:260px}
+  td .sub{display:block;font-size:11px;color:var(--ink-3);margin-top:1px}
+  .na{color:var(--ink-3)}
+  .tsum{font-size:11.5px;color:var(--ink-3);margin:14px 2px 0;line-height:1.7}
+  .tsum b{color:var(--ink-2);font-weight:600}
+  .dist{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 0}
+  .dist b{font-weight:600;color:var(--ink)}
+  .dist i{font-style:normal;display:inline-flex;gap:5px;align-items:baseline;font-size:11.5px;color:var(--ink-3);background:var(--bg-soft);border:1px solid var(--line);border-radius:8px;padding:4px 9px}
+  .foot{margin-top:40px;font-size:12px;color:var(--ink-3);display:flex;gap:16px;flex-wrap:wrap}
+  @media (max-width:640px){ .wrap{padding:36px 16px 60px} .search{flex:1 1 100%} }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <div class="nav-inner">
+    <span class="brand"><span class="dot"></span>买房研究</span>
+    <div class="tabs">
+      <a class="tab" href="index.html">每日成交</a>
+      <a class="tab on" href="deals.html">成交明细</a>
+      <a class="tab" href="library.html">资料库</a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+  <span class="eyebrow" style="margin-top:8px"><span class="dot"></span>成交明细</span>
+  <h1>成交明细 · 按小区查</h1>
+  <p class="lede">按小区筛选关注盘源与全市的<b>公开成交快照</b>：签约日期、户型面积、总价与单价，逐条注明来源与检索时点。全市每日趋势见<b>每日成交</b>页。数据<b>非实时核验</b>，不同平台口径差异大，交易决策请以平台实时页面与经纪人核验为准。</p>
+
+  <!-- ============ 成交明细 ============ -->
+  <div class="sec-h" style="margin-top:26px">成交明细<span class="sub">按小区 · 全市</span><span class="hint"><span id="txHint"></span>长按标签可删除</span></div>
+  <div class="tstats" id="txStats"></div>
+
+  <div class="chipbar">
+    <div class="chipgroup" id="watchChips"><span class="glabel">关注小区</span></div>
+    <div class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="搜小区 / 户型 / 日期 / 备注，回车记为标签" autocomplete="off">
+      <span class="kbd">Enter 记标签</span>
+    </div>
+  </div>
+  <div class="chipbar" style="margin-top:2px">
+    <div class="chipgroup" id="histChips"><span class="glabel">搜索记录</span></div>
+  </div>
+
+  <div class="tscroll">
+    <table class="tx">
+      <thead>
+        <tr>
+          <th>成交/签约日期</th>
+          <th>小区</th>
+          <th>户型</th>
+          <th class="num">面积㎡</th>
+          <th>楼层</th>
+          <th class="num">总价(万)</th>
+          <th class="num">单价(元/㎡)</th>
+          <th>备注 / 来源</th>
+        </tr>
+      </thead>
+      <tbody id="txBody"></tbody>
+    </table>
+  </div>
+  <p class="tsum" id="txNote"></p>
+
+  <div class="foot">
+    <span>数据文件：transactions.js（同目录，手工维护）</span>
+    <span id="stamp"></span>
+  </div>
+</main>
+
+<script src="transactions.js"></script>
+<script>
+const TX = window.TX_DEALS || [];
+const TXSTATS = window.TX_STATS || [];
+const WATCH = ["明月港湾","汇景家园","百家湖国际花园","保利堂悦","明都雅苑","万科金域蓝湾","水月秦淮","都会四季","万科新都荟","翡翠公园","临淮铂悦府","复地宴南都"];
+const HIST_KEY = "txSearchHistory";
+const HIDE_KEY = "txWatchHidden";
+
+const txBody  = document.getElementById('txBody');
+const txStatsEl = document.getElementById('txStats');
+const txNote  = document.getElementById('txNote');
+const txHint  = document.getElementById('txHint');
+const watchChips = document.getElementById('watchChips');
+const histChips = document.getElementById('histChips');
+const q = document.getElementById('q');
+let txSel = 'all';
+
+document.getElementById('stamp').textContent = '页面生成于 2026-10-30';
+
+const median = a => { if(!a.length) return null; const s=[...a].sort((x,y)=>x-y), m=s.length>>1; return s.length%2 ? s[m] : (s[m-1]+s[m])/2; };
+const fmt = (v,suffix) => v==null ? '<span class="na">未公示</span>' : Number(Math.round(v)).toLocaleString('zh-CN') + (suffix||'');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- localStorage：搜索记录 + 隐藏的关注小区 ---------- */
+const loadJson = k => { try { return JSON.parse(localStorage.getItem(k)) || []; } catch(e){ return []; } };
+const saveJson = (k,v) => localStorage.setItem(k, JSON.stringify(v.slice(0,12)));
+let hist = loadJson(HIST_KEY);
+let watchHidden = loadJson(HIDE_KEY);
+
+function communityNames(){ return [...new Set(TX.map(d => d.community))]; }
+function canonicalTag(text){
+  const t = text.trim(); if(!t) return null;
+  const names = communityNames();
+  if(names.includes(t)) return t;
+  const hits = names.filter(n => n.includes(t));
+  return hits.length === 1 ? hits[0] : t;   // 唯一命中记小区名，否则记原词
+}
+function addHist(text){
+  const tag = canonicalTag(text); if(!tag) return;
+  hist = [tag, ...hist.filter(h => h !== tag)].slice(0,12);
+  saveJson(HIST_KEY, hist); renderHistChips();
+}
+function delHist(tag){ hist = hist.filter(h => h !== tag); saveJson(HIST_KEY, hist); renderHistChips(); renderTx(); }
+function delWatch(name){ watchHidden = [...watchHidden, name]; saveJson(HIDE_KEY, watchHidden); renderWatchChips(); renderTx(); }
+
+/* ---------- 长按出现删除 × ---------- */
+let pressTimer = null, suppressClick = false, openDelChip = null;
+const clearDel = () => { if(openDelChip){ openDelChip.classList.remove('del'); openDelChip = null; } };
+function attachLongPress(chip, onDelete){
+  let sx = 0, sy = 0;
+  chip.addEventListener('pointerdown', e => {
+    if(e.target.closest('.x') || e.button > 0) return;
+    suppressClick = false; sx = e.clientX; sy = e.clientY;
+    clearDel();
+    pressTimer = setTimeout(() => {
+      suppressClick = true;
+      chip.classList.add('del');
+      openDelChip = chip;
+      if(navigator.vibrate) navigator.vibrate(15);
+    }, 420);
+  });
+  chip.addEventListener('pointermove', e => {
+    if(Math.hypot(e.clientX - sx, e.clientY - sy) > 8) clearTimeout(pressTimer);
+  });
+  ['pointerup','pointerleave','pointercancel'].forEach(ev => chip.addEventListener(ev, () => clearTimeout(pressTimer)));
+  chip.addEventListener('contextmenu', e => { if(chip.classList.contains('del')) e.preventDefault(); });
+  // 长按后松手产生的 click 不触发筛选
+  chip.addEventListener('click', e => {
+    if(suppressClick){ suppressClick = false; e.stopImmediatePropagation(); return; }
+    if(!e.target.closest('.x')) clearDel();
+  }, true);
+  chip.querySelector('.x').addEventListener('click', e => { e.stopPropagation(); onDelete(); });
+}
+document.addEventListener('pointerdown', e => { if(!e.target.closest('.chip')) clearDel(); });
+
+/* ---------- 筛选 ---------- */
+function txFiltered(){
+  const kw = q.value.trim().toLowerCase();
+  return TX
+    .filter(d => txSel==='all' || d.community === txSel || d.community.startsWith(txSel))
+    .filter(d => !kw || (d.community + (d.dist||'') + (d.loc||'') + d.layout + d.date + (d.note||'') + (d.source||'')).toLowerCase().includes(kw))
+    .sort((a,b) => (b.date||'').localeCompare(a.date||'') || (a.community||'').localeCompare(b.community||''));
+}
+
+/* ---------- 明细区 ---------- */
+function renderTx(){
+  const rows = txFiltered();
+  const units = rows.filter(d => d.unit != null).map(d => d.unit);
+  const totals = rows.filter(d => d.total != null).map(d => d.total);
+  const latest = rows.length ? rows[0].date : '—';
+
+  txStatsEl.innerHTML = [
+    ['成交条目', rows.length],
+    ['单价中位', median(units) ? fmt(median(units),'') : '—'],
+    ['总价中位', median(totals) ? fmt(median(totals),' 万') : '—'],
+    ['最近一条', latest]
+  ].map(([l,v]) => `<div class="tstat"><span>${l}</span><b>${v}</b></div>`).join('');
+
+  txHint.textContent = (txSel==='all' && !q.value.trim() ? '显示全部' :
+    `${txSel==='all' ? '关键词' : '小区「'+txSel+'」'}${q.value.trim() ? ' + 关键词' : ''} · ${rows.length} 条`) + ' · ';
+
+  txBody.innerHTML = rows.length ? rows.map(d => `
+    <tr>
+      <td>${esc(d.date||'—')}</td>
+      <td>${esc(d.community)}${d.kind==='公寓' ? ' <span class="tag" style="display:inline-block;padding:1px 8px;font-size:11px;border:1px solid var(--line);border-radius:999px;color:var(--ink-3);margin-left:4px">公寓</span>' : ''}
+        ${d.dist ? `<span class="sub">${esc(d.dist)}${d.loc ? ' · '+esc(d.loc) : ''}</span>` : ''}</td>
+      <td>${esc(d.layout||'—')}</td>
+      <td class="num">${d.area != null ? d.area : '—'}</td>
+      <td>${esc(d.floor||'—')}</td>
+      <td class="num">${fmt(d.total,'')}</td>
+      <td class="num">${fmt(d.unit,'')}</td>
+      <td style="white-space:normal">
+        ${d.note ? `<span class="note">${esc(d.note)}</span>` : ''}
+        <span class="src">${esc(d.source||'')} · 检索 ${esc(d.checked||'')}</span>
+      </td>
+    </tr>`).join('') : '<tr><td colspan="8" style="text-align:center;color:var(--ink-3);padding:28px">没有匹配的成交记录。</td></tr>';
+
+  const sel = txSel==='all' ? null : txSel;
+  const stats = TXSTATS.filter(s => !sel || s.community === sel || s.community.startsWith(sel));
+  txNote.innerHTML = '<b>口径说明：</b>以上为公开渠道检索快照，非实时核验；部分平台隐藏成交价，记为「未公示」。' +
+    (stats.length ? '<br><b>小区概览：</b><br>' + stats.map(s => `· ${esc(s.community)}｜${esc(s.label)}：${esc(s.value)}（${esc(s.source)}）`).join('<br>') : '');
+}
+
+function renderWatchChips(){
+  const list = WATCH.filter(w => !watchHidden.includes(w));
+  const chips = ['all', ...list];
+  watchChips.querySelectorAll('.chip,.chip-empty').forEach(c => c.remove());
+  if(!list.length){
+    const e = document.createElement('span');
+    e.className = 'chip-empty';
+    e.textContent = '关注小区已全部移除，可用搜索找回';
+    watchChips.appendChild(e);
+  }
+  chips.forEach(c => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip' + (txSel===c ? ' on' : '');
+    b.innerHTML = (c==='all' ? '全部小区' : `<span class="star">★</span>${esc(c)}<span class="x" title="删除标签">×</span>`);
+    b.addEventListener('click', () => { txSel = c; renderWatchChips(); renderHistChips(); renderTx(); });
+    if(c !== 'all') attachLongPress(b, () => delWatch(c));
+    watchChips.appendChild(b);
+  });
+}
+
+function renderHistChips(){
+  histChips.querySelectorAll('.chip,.chip-empty').forEach(c => c.remove());
+  if(!hist.length){
+    const e = document.createElement('span');
+    e.className = 'chip-empty';
+    e.textContent = '还没有搜索记录：输入小区名后回车即可保存为标签，长按标签可删除';
+    histChips.appendChild(e);
+    return;
+  }
+  hist.forEach(tag => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    const kw = q.value.trim();
+    const active = txSel===tag || (kw && tag===canonicalTag(kw));
+    b.className = 'chip' + (active ? ' on' : '');
+    b.innerHTML = `${esc(tag)}<span class="x" title="删除标签">×</span>`;
+    b.addEventListener('click', () => {
+      const isCommunity = communityNames().includes(tag);
+      if(isCommunity){ txSel = tag; q.value=''; }
+      else { q.value = tag; txSel = 'all'; }
+      renderWatchChips(); renderHistChips(); renderTx();
+    });
+    attachLongPress(b, () => delHist(tag));
+    histChips.appendChild(b);
+  });
+}
+
+q.addEventListener('input', () => { renderHistChips(); renderTx(); });
+q.addEventListener('keydown', e => { if(e.key === 'Enter'){ addHist(q.value); renderTx(); } });
+
+renderWatchChips();
+renderHistChips();
+renderTx();
+</script>
+</body>
+</html>

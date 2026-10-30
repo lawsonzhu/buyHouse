@@ -20,8 +20,8 @@ from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-INDEX = ROOT / "index.html"
-SKIP = {"index.html"}
+INDEX = ROOT / "library.html"
+SKIP = {"index.html", "deals.html", "library.html"}  # index=每日成交 / deals=成交明细 独立页签；library 是资料卡片页
 DESC_LIMIT = 64
 
 
@@ -42,6 +42,8 @@ def first(html: str, pattern: str) -> str:
 
 def kind_of(name: str) -> str:
     n = name.lower()
+    if "成交" in name:
+        return "成交查询"
     if "体检" in name:
         return "小区体检"
     if "vs" in n or "对比" in name or "对撞" in name:

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>明月港湾 v3｜贝壳真实成交 + 贝壳挂牌房源 + 楼层成交锚定参考价</title>
+<meta name="description" content="明月港湾学区/医院/交通/物业/车位/环境六维分析；以同组团、近楼层、近面积成交样本锚定每套挂牌房源参考价；结合挂牌天数与降价次数给出出手优先级。">
+<style>
+:root{
+  --ink:#1c1c1a; --ink-2:#4a4a46; --muted:#7a7a74; --line:#e4e2dc;
+  --bg:#faf9f6; --card:#ffffff;
+  --blue:#185FA5; --blue-bg:#E6F1FB;
+  --green:#3B6D11; --green-bg:#EAF3DE;
+  --red:#A32D2D; --red-bg:#FCEBEB;
+  --amber:#854F0B; --amber-bg:#FAEEDA;
+  --gray-bg:#f4f2ec;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:14.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:40px 24px 64px}
+header{border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:24px}
+h1{font-size:25px;line-height:1.35;margin:0 0 8px;letter-spacing:-.3px}
+.meta{color:var(--muted);font-size:12.5px}
+.meta b{color:var(--ink-2);font-weight:600}
+.verdict{background:var(--card);border-left:3px solid var(--blue);padding:14px 18px;margin:0 0 28px;border-radius:0 6px 6px 0}
+.verdict p{margin:2px 0}
+.verdict b{color:var(--blue)}
+h2{font-size:16px;margin:32px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+h2 .num{float:right;color:var(--muted);font-size:12px;font-weight:400;letter-spacing:1px}
+.tbl-wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:820px}
+th{background:var(--gray-bg);text-align:left;font-weight:600;color:var(--ink-2);
+  padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap;font-size:12.5px}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.big{font-weight:600}
+.ok{color:var(--green)} .warn{color:var(--amber)} .bad{color:var(--red)}
+.badge{display:inline-block;padding:1px 6px;border-radius:4px;font-size:11.5px;white-space:nowrap}
+.b-green{background:var(--green-bg);color:var(--green)}
+.b-amber{background:var(--amber-bg);color:var(--amber)}
+.b-red{background:var(--red-bg);color:var(--red)}
+.b-blue{background:var(--blue-bg);color:var(--blue)}
+.b-gray{background:var(--gray-bg);color:var(--muted)}
+tr.tier td{background:#f7f6f1;font-weight:600;color:var(--ink-2);font-size:12.5px}
+.note{color:var(--muted);font-size:12px;margin:7px 0 0}
+ol.pts{margin:10px 0 0;padding-left:20px}
+ol.pts li{margin-bottom:8px}
+ol.pts li b{color:var(--red)}
+.callout{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);
+  padding:12px 16px;border-radius:0 6px 6px 0;margin:14px 0 0;font-size:13px}
+.callout b{color:var(--amber)}
+.score{font-weight:600;white-space:nowrap}
+.s-hi{color:var(--green)} .s-mid{color:var(--amber)} .s-lo{color:var(--red)}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:11.5px;line-height:1.8}
+@media (max-width:720px){.wrap{padding:24px 14px 48px}h1{font-size:20px}table{font-size:12.5px}}
+@media print{body{background:#fff}.tbl-wrap{border-color:#ccc}tr{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>明月港湾 v3：贝壳真实成交 + 贝壳挂牌房源 + 每套的“成交锚定参考价”</h1>
+  <div class="meta">
+    南京 · 江宁区岔路口 · 明月港湾（5 组团 / 4,057 户）· 参考价口径 <b>同组团 · 近楼层 · 近面积成交样本</b>
+    · 成交中位 <b>≈11,930 元/㎡</b>（10 条实价）· 取数 <b>2026-10-30</b>
+  </div>
+</header>
+
+<div class="verdict">
+  <p><b>v3 新增</b>：贝壳系真实成交价突破登录墙——通过贝壳授权的成交日报（公众号每日更新）拿到 <b>10 月旭日湾 85㎡ 两房实价 94 万（11,064 元/㎡）</b>，并把 8 月翠堤湾 96㎡/121 万的成交锚补上了第二个独立来源。全小区成交中位从 12,690 <b>下修至 ≈11,930</b>：两房和小面积在 11,000 出头，三房 10,600–12,800。</p>
+  <p><b>新增判断 1</b>：楼层对成交价的影响被验证了——<b>高楼层比中楼层成交单价低约 11%</b>（星河湾高/6 成交 10,591 vs 中/6 11,947）。全小区步梯 6 层无电梯，楼层就是最大的折价变量。</p>
+  <p><b>新增判断 2</b>：贝壳挂牌价和实价的落差大到可以直接淘汰房源——旭日湾 89.35㎡ 挂 155 万（17,348），比同组团两房实锚 11,064 高 <b>57%</b>；63㎡ 跃层挂 129 万已挂 <b>760 天</b>。旭日湾 8 月有 3 套真实签约（87–103㎡），价格全未公开，但 10 月实价说明成交都发生在 11,000 档。</p>
+  <p><b>新增判断 3</b>：降价行为有规律——本小区<b>挂龄超过 90 天才出现实质降价，单次降幅 7–10%</b>；挂 1.5 年不降价的（星河湾 88.99㎡，挂 168 万）、挂 2 年不降价的（旭日湾 63㎡）是“心理价位不落地”，有价无市。</p>
+  <p><b>数据边界</b>：贝壳/链家网页版有登录墙和验证码，本页贝壳数据来自<b>移动端小区页快照 + 授权转载的成交日报</b>；好好选房小程序数据仍需你截图补充，可把参考价从区间收窄到点值。</p>
+</div>
+
+<h2>一、小区六维体检：优缺点与价格含义 <span class="num">2026-10-30</span></h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr>
+  <th style="min-width:64px">维度</th><th>事实</th><th style="min-width:70px">评分</th><th>对价格 / 决策的含义</th>
+</tr></thead>
+<tbody>
+<tr>
+  <td class="big">交通</td>
+  <td>地铁 5 号线东山香樟园站 511–1,235 米（各平台口径 8–18 分钟步行），神机营站 1.3–1.9 公里；公交 706/764/812，明月港湾站 231–336 米；双龙大道/金盛路自驾，<b>南京南站约 2 公里、15 分钟车程</b></td>
+  <td class="score s-hi">8.5/10</td>
+  <td class="ok">本小区最大的地段价值。通勤南站、软件大道、主城都顺；5 号线全线开通时点以官方公告为准，开通前 500 米内房源仍是“准地铁房”定价</td>
+</tr>
+<tr>
+  <td class="big">环境</td>
+  <td>绿化率 50–56%，容积率 1.03–1.24，32 栋低密多层+小高层，“曲水流觞”水景园林，外秦淮河畔；外立面米黄涂料、维护尚可；人车不分流，路面停车多</td>
+  <td class="score s-hi">8/10</td>
+  <td class="ok">环境是本小区最强卖点，岔路口中介原话“环境比较好的小区就是明月港湾”；同价位里环境难有对手，但<b>房龄 18–26 年是环境之外的一切</b></td>
+</tr>
+<tr>
+  <td class="big">医院</td>
+  <td>江宁医院天地新城分院（二级，800 米–1.1 公里）；东山街道社区卫生服务中心及邵圣/城北/中水路站点（500 米–1.5 公里）；南京南部新城医疗中心（新建三级，2–3 公里）；江宁区中医院、妇保所</td>
+  <td class="score s-hi">8/10</td>
+  <td class="ok">小病社区、大病三级 15 分钟车程，就医便利度在江宁属于第一梯队</td>
+</tr>
+<tr>
+  <td class="big">学区</td>
+  <td>幼儿园：明月港湾幼儿园（小区内，私立）、晶贝贝、佳营幼儿园（一幼分园）；小学：<b>南京市佳营小学（五老村小学分校，公立，655–668 米）</b>；中学：岔路学校（752 米，九年一贯）、南师附中江宁分校（2.3 公里，民办）、雨花台中学南站校区（2.3 公里）</td>
+  <td class="score s-mid">6.5/10</td>
+  <td class="warn">佳营小学有五老村“名校血统”但是新分校，成绩未经时间验证；初中对口以当年教育局划片为准。<b>学区是“够用不拔尖”，别指望它保值，也别为它付溢价</b></td>
+</tr>
+<tr>
+  <td class="big">物业</td>
+  <td>南京明月物业（开发商自持）；物业费 0.64–1.2 元/㎡/月（分组团）；24 小时门禁+电子巡更，2019 年装智能门禁；58 平台物业服务评分 <b>6.0/10</b></td>
+  <td class="score s-mid">6/10</td>
+  <td class="warn">便宜但服务一般。0.8 元的费率对应不了高服务，公共区域维护靠“低成本循环”，看房时重点看水景是否干涸、绿化是否斑秃——那是物业真实水平的镜子</td>
+</tr>
+<tr>
+  <td class="big">车位</td>
+  <td>总车位约 1,500–1,610 个（地上 210 + 地下 1,400）；<b>车位比 1:0.37</b>；停车费地上 80–150 元/月；问答区确认“不是人车分流，路面停车位很多，地下产权车位比较少”</td>
+  <td class="score s-lo">5/10</td>
+  <td class="bad">地面停车为主、产权车位稀缺——<b>带产权车位的房源溢价是真实的</b>（翠堤湾 100.39㎡ 那套），但也要警惕把“车位”包装成涨价理由</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2>二、成交样本库：楼层单价锚（带实价 10 条）</h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr>
+  <th>组团</th><th class="n">面积㎡</th><th>楼层</th><th class="n">成交总价</th><th class="n">成交单价</th><th>时点</th><th>来源</th><th>可靠性</th>
+</tr></thead>
+<tbody>
+<tr><td>旭日湾</td><td class="n">85</td><td>—（2室2厅）</td><td class="n">94 万</td><td class="n big">11,064</td><td>2026-10 下旬</td><td>成交日报（贝壳口径）</td><td><span class="badge b-green">高</span>（两房锚）</td></tr>
+<tr><td>星河湾</td><td class="n">103.79</td><td>低/6</td><td class="n">132 万</td><td class="n big">12,814</td><td>2026-07-01</td><td>房天下</td><td><span class="badge b-green">高</span></td></tr>
+<tr><td>翠堤湾</td><td class="n">96</td><td>中/6</td><td class="n">121 万</td><td class="n big">12,566</td><td>2026-08 中</td><td>成交日报（贝壳口径）</td><td><span class="badge b-green">高</span>（双源确认）</td></tr>
+<tr><td>星河湾</td><td class="n">105.47</td><td>中/6</td><td class="n">126 万</td><td class="n big">11,947</td><td>2026-04-26</td><td>房天下</td><td><span class="badge b-green">高</span></td></tr>
+<tr><td>星河湾</td><td class="n">103.86</td><td>高/6</td><td class="n">109 万</td><td class="n big">10,591</td><td>2026-05-10</td><td>房天下</td><td><span class="badge b-green">高</span></td></tr>
+<tr><td>星河湾</td><td class="n">62.81</td><td>高/6</td><td class="n">80 万</td><td class="n">12,896</td><td>2026-06-27</td><td>房天下</td><td><span class="badge b-green">高</span>（小面积）</td></tr>
+<tr><td>月亮湾</td><td class="n">126.00</td><td>—</td><td class="n">150 万</td><td class="n">11,905</td><td>2026-01</td><td>中指月报</td><td><span class="badge b-blue">中</span></td></tr>
+<tr><td>月亮湾</td><td class="n">127.88</td><td>—</td><td class="n">150 万</td><td class="n">11,730</td><td>2026-01</td><td>中指月报</td><td><span class="badge b-blue">中</span></td></tr>
+<tr><td>月亮湾</td><td class="n">127.82</td><td>—</td><td class="n">≈169 万</td><td class="n">13,221</td><td>2026-10</td><td>365 房源描述引用</td><td><span class="badge b-amber">存疑</span></td></tr>
+<tr><td>月亮湾</td><td class="n">124.8</td><td>—</td><td class="n">190 万</td><td class="n">15,224</td><td>2026 下半年</td><td>365 房源描述引用</td><td><span class="badge b-amber">存疑</span></td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout">
+  <b>成交中位下修</b>：8 条可靠实价（剔除 2 条存疑）排序后中位 <b>≈11,930 元/㎡</b>，比 v2 的 12,690 低 6%——旭日湾 10 月两房实价 11,064 把中位数拉了下来。<b>两房锚 ≈11,000–12,900</b>；三房按楼层：低/6 ≈ 12,800（比中/6 高 5%）｜中/6 ≈ 11,900–12,600，锚 12,250｜高/6 ≈ 10,600（比中/6 低 11%）。<br>
+  装修修正：本小区房龄 18–26 年，成交多为简装/毛坯；<b>精装溢价按 +3–5% 估</b>，超 5% 的“豪华装”报价都是业主自我感动。
+</div>
+
+<h2>三、贝壳挂牌房源一览（贝壳 / 链家口径）<span class="num">v3 新增</span></h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr>
+  <th>组团（贝壳参考价）</th><th>户型</th><th class="n">面积㎡</th><th>楼层/特点</th><th class="n">挂牌价</th><th class="n">挂牌单价</th><th>对照实锚后的判断</th>
+</tr></thead>
+<tbody>
+<tr class="tier"><td colspan="7">星河湾 — 贝壳参考成交均价 14,281（该口径偏高，以实价锚为准）</td></tr>
+<tr><td>星河湾</td><td>2室1厅 满五</td><td class="n">80.89</td><td>低楼层，大门口</td><td class="n big">105 万</td><td class="n">12,981</td><td class="ok">对照小面积实锚 12,896（62.81㎡ 高/6）→ <b>报价即在成交位</b>，两房捡漏候选</td></tr>
+<tr><td>星河湾</td><td>2室1厅</td><td class="n">80.47</td><td>中间楼层</td><td class="n">120 万</td><td class="n">14,913</td><td class="warn">比同面积段实锚高 16%，等降价</td></tr>
+<tr><td>星河湾</td><td>4室2厅 电梯</td><td class="n">140.98</td><td>好楼层，南部新城直达</td><td class="n">300 万</td><td class="n">21,280</td><td class="bad">电梯大户型，超预算不议</td></tr>
+<tr class="tier"><td colspan="7">旭日湾 — 链家 8 月挂牌均价 16,945；8 月真实签约 3 套（87.98 / 87.29 / 103.17㎡），价格未公开</td></tr>
+<tr><td>旭日湾</td><td>2室1厅</td><td class="n">89.35</td><td>精装婚装</td><td class="n">155 万</td><td class="n">17,348</td><td class="bad">比两房实锚 11,064 高 <b>57%</b> → 劝退级，除非业主腰斩式降价</td></tr>
+<tr><td>旭日湾</td><td>3室1厅 一楼带小院</td><td class="n">102.24</td><td>南部新城</td><td class="n">220 万</td><td class="n">21,520</td><td class="bad">一楼带院溢价 60–80 万，仅适合养老自住客</td></tr>
+<tr><td>旭日湾</td><td>4室2厅 新上</td><td class="n">140.68</td><td>南北采光</td><td class="n">210 万</td><td class="n">14,930</td><td class="warn">大面积四房，超预算</td></tr>
+<tr><td>旭日湾</td><td>2室2厅 跃层 精装满五</td><td class="n">63</td><td>高/6，2024-09-28 挂</td><td class="n">129 万</td><td class="n">20,477</td><td class="bad">挂龄 <b>≈760 天</b>，比实锚高 85%，有价无市实锤</td></tr>
+<tr class="tier"><td colspan="7">翠堤湾 — 9 月挂牌均价 17,597；8 月签约 3 套（68.47 / 96.29 / 69.12㎡），其中 96.29㎡ 有实价 12,566</td></tr>
+<tr><td>翠堤湾</td><td>3室2厅</td><td class="n">100.07</td><td>南</td><td class="n">165 万</td><td class="n">16,486</td><td class="bad">比实锚 12,566 高 31% → 劝退</td></tr>
+<tr><td>翠堤湾</td><td>3室2厅 边户通透</td><td class="n">100.39</td><td>满五唯一+车位</td><td class="n">149 万</td><td class="n">14,843</td><td class="warn">较此前 155 万已降 6 万（−3.9%），仍比锚高 18%，继续观察</td></tr>
+<tr><td>翠堤湾</td><td>3室2厅 带露台</td><td class="n">69.51</td><td>总价最低</td><td class="n">95 万</td><td class="n">13,666</td><td class="ok">小面积+露台，单价比锚高 9%，两房预算内的可看选项</td></tr>
+<tr class="tier"><td colspan="7">彩云湾 — 8 月挂牌均价 18,306（电梯 4 栋拉高）；8/1 签约 108.58㎡ 低/11，价格未公开</td></tr>
+<tr><td>彩云湾</td><td>2室2厅 精装</td><td class="n">90.81</td><td>中间好楼层</td><td class="n">227 万</td><td class="n">24,997</td><td class="bad">报价离谱（约为实锚 2.2 倍），疑含车位/其他，不议</td></tr>
+<tr><td>彩云湾</td><td>3室2厅 平层带阁楼 满五唯一</td><td class="n">129.48</td><td>前排别墅旁</td><td class="n">198 万</td><td class="n">15,292</td><td class="warn">超 160 万预算，除非砍到 160 内</td></tr>
+<tr><td>彩云湾</td><td>3室2厅 河景电梯</td><td class="n">109.24</td><td>精装平层</td><td class="n">240 万</td><td class="n">21,970</td><td class="bad">电梯河景溢价段，不议</td></tr>
+<tr class="tier"><td colspan="7">月亮湾 — 贝壳 9 月参考均价 16,781、在售 53 套、历史成交 106 套；10 月第 1 周周报 16,716 持平</td></tr>
+<tr><td>月亮湾</td><td>4室3厅 满五</td><td class="n">152.86</td><td>东，南部新城视野</td><td class="n">180 万</td><td class="n">11,776</td><td class="ok">单价已贴近大面积实锚 11,730–11,905，<b>贝壳挂牌里大面积单价最实的</b>（超预算但可议）</td></tr>
+<tr><td>月亮湾</td><td>3室2厅 精装</td><td class="n">116.36</td><td>南</td><td class="n">175 万</td><td class="n">15,040</td><td class="warn">比锚高 26%，超预算</td></tr>
+<tr><td>月亮湾</td><td>4室1厅 顶跃带露台</td><td class="n">134.94</td><td>南北满五精装</td><td class="n">238 万</td><td class="n">17,638</td><td class="bad">顶跃稀缺盘，不议</td></tr>
+</tbody>
+</table>
+</div>
+<p class="note">贝壳小区页为移动端快照，每组团仅展示优质房源前 3 套，全量在售需 App 内查看；“对照实锚”列以第二部分楼层锚计算。已剔除的异常：彩云湾 90.81㎡ 227 万（24,997/㎡，约为实锚 2.2 倍）。</p>
+
+<h2>四、挂牌房源参考价：同组团 · 近楼层 · 近面积匹配 <span class="num">核心表</span></h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr>
+  <th>房源</th><th class="n">面积㎡</th><th>楼层</th><th class="n">挂牌</th><th class="n">挂牌单价</th>
+  <th>匹配的成交样本</th><th class="n">参考价区间</th><th class="n">参考中值</th><th class="n">需砍</th>
+</tr></thead>
+<tbody>
+<tr class="tier"><td colspan="9">报价已在成交区间（不用砍，直接出）</td></tr>
+<tr>
+  <td>星河湾 精装 急售</td><td class="n">88.6</td><td>中/6</td><td class="n big">109 万</td><td class="n">12,302</td>
+  <td>中/6 锚 12,250 + 精装 5% ≈ 12,860</td><td class="n">108 – 120 万</td><td class="n big">114 万</td><td class="n ok"><b>0 ~ −4%</b></td>
+</tr>
+<tr class="tier"><td colspan="9">砍 7–10% 即到锚（最现实的一批）</td></tr>
+<tr>
+  <td>星河湾 96.96㎡ 满二</td><td class="n">96.96</td><td>高/6</td><td class="n">128 万</td><td class="n">13,202</td>
+  <td>高/6 锚 10,591–12,896（小面积取高）</td><td class="n">114 – 125 万</td><td class="n">119 万</td><td class="n ok">6.7%</td>
+</tr>
+<tr>
+  <td>星河湾 110.83㎡ 满二</td><td class="n">110.83</td><td>高/6</td><td class="n">135 万</td><td class="n">12,181</td>
+  <td>高/6 锚 10,591；中/6 11,947</td><td class="n">117 – 132 万</td><td class="n">125 万</td><td class="n ok">7.6%</td>
+</tr>
+<tr>
+  <td>月亮湾 102.38㎡ 低/6 精装</td><td class="n">102.38</td><td>低/6</td><td class="n">140 万</td><td class="n">13,674</td>
+  <td>低/6 锚 12,814（星河湾 2006）− 房龄 3% ≈ 12,430</td><td class="n">121 – 134 万</td><td class="n">127 万</td><td class="n ok">9.3%</td>
+</tr>
+<tr>
+  <td>彩云湾 106.06㎡ 低/6 精装（2008）</td><td class="n">106.06</td><td>低/6</td><td class="n">155 万</td><td class="n">14,614</td>
+  <td>低/6 锚 12,814 + 房龄最新 + 精装 ≈ 13,300–13,800</td><td class="n">136 – 146 万</td><td class="n">141 万</td><td class="n ok">9.0%</td>
+</tr>
+<tr class="tier"><td colspan="9">砍 12–15%（要靠挂龄和业主心态硬磨）</td></tr>
+<tr>
+  <td>明月港湾 124.86㎡ 3室2厅2卫</td><td class="n">124.86</td><td>中/6</td><td class="n">180 万</td><td class="n">14,417</td>
+  <td>月亮湾 125㎡ 段 11,730–11,905（1 月）</td><td class="n">149 – 158 万</td><td class="n">153 万</td><td class="n warn">12.8–15%</td>
+</tr>
+<tr>
+  <td>明月港湾 96.94㎡ 中/11 电梯</td><td class="n">96.94</td><td>中/11 电梯</td><td class="n">149 万</td><td class="n">15,371</td>
+  <td>步梯中/6 12,250 + 电梯溢价 8–10%（电梯房成交 07-22 有签约无价）</td><td class="n">128 – 133 万</td><td class="n">130 万</td><td class="n warn">12.5%</td>
+</tr>
+<tr>
+  <td>星河湾 104.54㎡ 高/6 错层简装</td><td class="n">104.54</td><td>高/6</td><td class="n">136 万</td><td class="n">13,010</td>
+  <td><b>直接对标同组团 103.86㎡ 高/6 成交 10,591</b></td><td class="n">111 – 118 万</td><td class="n">115 万</td><td class="n warn">13.6–15.4%</td>
+</tr>
+<tr>
+  <td>星河湾 104.53㎡ 高/6 满五</td><td class="n">104.53</td><td>高/6</td><td class="n">139 万</td><td class="n">13,298</td>
+  <td>同上</td><td class="n">111 – 118 万</td><td class="n">115 万</td><td class="n warn">15.1%</td>
+</tr>
+<tr class="tier"><td colspan="9">砍 18–21% 才到锚（业主预期不落地，劝退）</td></tr>
+<tr>
+  <td>旭日湾 89.35㎡ 精装婚装</td><td class="n">89.35</td><td>—</td><td class="n">155 万</td><td class="n">17,348</td>
+  <td><b>同组团两房实锚 11,064（85㎡ 10 月成交）</b></td><td class="n">94 – 100 万</td><td class="n">97 万</td><td class="n bad">37%+</td>
+</tr>
+<tr>
+  <td>翠堤湾 100.39㎡ 满五唯一+车位</td><td class="n">100.39</td><td>中/6</td><td class="n big">149 万 <span class="badge b-amber">已降 6 万</span></td><td class="n">14,843</td>
+  <td><b>同组团 96.29㎡ 中/6 成交 12,566</b> → 100.39 × 12,566</td><td class="n">126 万</td><td class="n">126 万</td><td class="n bad">15.5%</td>
+</tr>
+<tr>
+  <td>明月港湾 101.55㎡ 中/6</td><td class="n">101.55</td><td>中/6</td><td class="n">152 万</td><td class="n">14,968</td>
+  <td>中/6 锚 11,947–12,566</td><td class="n">121 – 128 万</td><td class="n">125 万</td><td class="n bad">18.0%</td>
+</tr>
+<tr>
+  <td>明月港湾 102.2㎡ 高/6 精装</td><td class="n">102.2</td><td>高/6</td><td class="n">145 万</td><td class="n">14,188</td>
+  <td>高/6 锚 10,591 + 精装 5% ≈ 11,100–11,600</td><td class="n">108 – 122 万</td><td class="n">115 万</td><td class="n bad">20.6%</td>
+</tr>
+<tr>
+  <td>明月港湾 83.35㎡ 满五唯一</td><td class="n">83.35</td><td>中层/5</td><td class="n">129 万</td><td class="n">15,477</td>
+  <td>中/6 锚 12,256（+小面积）</td><td class="n">102 – 107 万</td><td class="n">105 万</td><td class="n bad">18.8%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="note">参考价 = 匹配成交样本单价 × 面积，按楼层（低 +5% / 高 −11%）、装修（精装 +3–5%）、组团房龄（彩云湾 +、月亮湾 −3%）修正。样本 10 条（8 条可靠）且装修信息缺失，<b>区间比点值可信，点值仅供谈判起点</b>。</p>
+
+<h2>五、挂牌天数 × 降价次数：谁在真降，谁在硬扛 <span class="num">2026-10-30</span></h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr>
+  <th>房源</th><th class="n">挂龄</th><th>调价证据</th><th>行为解读</th><th>谈判策略</th>
+</tr></thead>
+<tbody>
+<tr>
+  <td>旭日湾 63㎡ 2室2厅 跃层 精装满五</td><td class="n bad">≈760 天（2024-09-28 挂）</td>
+  <td>贝壳在架价 129 万（20,477/㎡）至今未动；同组团 85㎡ 两房 10 月实价 11,064</td>
+  <td><span class="badge b-red">有价无市</span>：挂 2 年多、报价比实锚高 85%，业主完全不落地。这是本小区挂龄最长的一套</td>
+  <td>不值得谈。它的存在再次验证：本小区业主普遍要 6–12 个月才接受市场价</td>
+</tr>
+<tr>
+  <td>翠堤湾 100.39㎡ 中/6 满五唯一+车位</td><td class="n">≤30 天（贝壳在架）</td>
+  <td><b>贝壳价 149 万 vs 此前 155 万：已实质降价 6 万（−3.9%）</b></td>
+  <td><span class="badge b-green">开始松口</span>：从“高挂+零调价”转入降价通道，符合“挂龄 90 天后单次降 7–10%”规律的前半段</td>
+  <td>从劝退名单移回观察名单<b>首位</b>：降价通道已开，第二刀大概率在 138–142 万，出 130 万以下可谈</td>
+</tr>
+<tr>
+  <td>星河湾 88.99㎡ 中/6 南北（未满二）</td><td class="n bad">≈576 天（2025-04-02 挂）</td>
+  <td>当前报价 168 万（2026-08-10 更新）；上次交易 2025-04-05；单价 18,879，高出高/6 成交锚 <b>62%</b></td>
+  <td><span class="badge b-red">有价无市</span>：挂 1.5 年、浏览 95 人、带看 3 次、关注 4 人，仍不降到 13,000 以下，业主心理价位完全不落地</td>
+  <td>不值得谈。它唯一的用处是当反面教材：同组团真实成交在 10,600–12,800</td>
+</tr>
+<tr>
+  <td>月亮湾 91.44㎡ 2室2厅 高/5</td><td class="n">≥46 天（多平台并存）</td>
+  <td>三个平台三条报价并存：<b>150 万（满五不唯一）/ 116 万（急售）/ 99 万（页面价，标题曾写 138 万）</b></td>
+  <td><span class="badge b-amber">疑似连环降价</span>：若同一房源，半年内 150→116→99，累计 −34%；若不同业主，说明 90㎡ 段已经在 116 万以下互相踩踏</td>
+  <td>先让经纪确认真房东底价。若 116 万那条还在，它是 90㎡ 段的议价新锚点，其他 90㎡ 房源一律按它压</td>
+</tr>
+<tr>
+  <td>翠堤湾 83.8㎡ 2室2厅（满五）</td><td class="n">≥22 天</td>
+  <td>两个平台两个价：118 万（365，10-08）与 <b>110 万（链家，13,127）</b>，同面积同税费标签</td>
+  <td><span class="badge b-amber">疑似已降价 8 万（−6.8%）</span>，符合“单次降 7–10%”的规律</td>
+  <td>按 110 万为新锚再谈 5%，目标 104–105 万；顺带验证：降价后的房源再砍的空间反而小</td>
+</tr>
+<tr>
+  <td>彩云湾 106.06㎡ 低/6 精装</td><td class="n">31 天（首挂 09-29）</td>
+  <td>三个平台同价 155 万，无调价记录</td>
+  <td><span class="badge b-gray">新挂高位</span>：刚满一个月，业主预期还在 14,600</td>
+  <td>参考价 141 万。现在出 138–140 万试探，<b>再挂 30 天没带看就是你的窗口</b></td>
+</tr>
+<tr>
+  <td>星河湾 104.54㎡ 高/6 错层</td><td class="n">19 天（10-11 挂）</td>
+  <td>无调价记录；单价 13,010 已较 8 月该组团挂牌均值低</td>
+  <td><span class="badge b-green">低开挂法</span>：业主一上来就按 13,000 挂，接近“报价即成交价”型，大概率 60 天内成交</td>
+  <td>参考价 111–118 万，出 115 万左右，动作要快，别磨</td>
+</tr>
+<tr>
+  <td>星河湾 88.6㎡ 中/6 精装 急售</td><td class="n">34 天（09-26 挂）</td>
+  <td>标题“新上 急售 捡漏”，109 万 = 12,302，低于精装参考价 114 万</td>
+  <td><span class="badge b-green">报价即成交价</span>：可能是全小区唯一挂得比成交锚还低的在售房源</td>
+  <td><b>不砍或只砍到 105 万</b>，先约看再谈钥匙；这种房源通常活不过 60 天</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="note">挂龄以平台发布时间计（≤48 天，非首次挂牌日）；调价记录来自多平台报价差异与房天下“当前报价”更新字段，<b>均标注“疑似”，须经纪端核实</b>。规律：本小区降价动作集中在挂龄 90 天后，单次 7–10%，且降价后的房源议价余量反而收窄。</p>
+
+<h2>六、更新后的出手优先级 <span class="num">结合贝壳实价与挂龄</span></h2>
+<ol class="pts">
+  <li><b>第一优先：星河湾 88.6㎡ / 109 万（中/6 精装急售）</b>。参考价 108–120 万，报价已在区间下沿，<b>挂牌 34 天没被消化本身就是砍价筹码</b>——说明小区买家少，而不是房有问题（税费干净：满五、双方各付税）。出 105 万封顶，成交即捡漏。</li>
+  <li><b>第二优先：星河湾 104.54㎡ / 136 万（高/6 错层）</b>。它和 5 月成交的 103.86㎡/109 万（10,591）几乎同户型，<b>这是全小区唯一能“逐字对标”的成交</b>。按 10,591 + 简装修正，出 112–115 万，落地 117–120 万，比 160 万预算省 40 万。代价是错层和有抵押。</li>
+  <li><b>第三优先（新增）：星河湾 80.89㎡ / 105 万（低楼层 2室1厅 满五）</b>。贝壳挂牌单价 12,981，对照小面积实锚 12,896（62.81㎡ 高/6 成交）——<b>又一套“报价即在成交位”的房源</b>。若两房够住，105 万落地约 110 万，预算直接省 50 万；两房出租也好租。</li>
+  <li><b>观察名单首位：翠堤湾 100.39㎡ / 149 万（已降 6 万）</b>。降价通道已开（−3.9%），按本小区“单次 7–10%”的规律，第二刀在 138–142 万；参考价 126 万，等它降到 140 以下再出 130 万以下。</li>
+  <li><b>拉黑：旭日湾 89.35㎡（155 万，比实锚高 57%）</b>、旭日湾 63㎡（129 万，挂 760 天）、星河湾 88.99㎡（168 万，挂 576 天）——挂龄一年以上不降价，说明业主不是缺钱，是缺现实。</li>
+</ol>
+
+<h2>七、好好选房：怎么用、我这边卡在哪</h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr>
+  <th>项</th><th>说明</th>
+</tr></thead>
+<tbody>
+<tr><td class="big">它是什么</td><td>微信小程序“好好选房”，成交数据源自贝壳（成交时间、面积、单价、总价与贝壳内网一致），另有部分挂牌与降价记录；VIP 约 499 元/年</td></tr>
+<tr><td class="big">网页端现状</td><td>无公开网页接口，本次尝试检索未能直接取数——<b>需要你在微信里操作</b></td></tr>
+<tr><td class="big">请你做三步</td><td>① 微信搜索“好好选房”小程序 → ② 搜“明月港湾”（或分别搜翠堤湾/彩云湾/星河湾/月亮湾/旭日湾）→ ③ 把<b>成交列表页和任一套成交详情页截图发我</b></td></tr>
+<tr><td class="big">我能做什么</td><td>用截图里的真实成交逐条替换本页 9 条样本，把参考价从区间收窄到点值，并补齐“装修一致 + 楼层相同”的严格匹配；同时核对挂牌天数与降价次数</td></tr>
+<tr><td class="big">风险提示</td><td>该小程序数据为网络抓取 + 中介上报的聚合估算，<b>不是居间合同到手价</b>，议价时仍要与 3 家中介内网成交记录交叉核对</td></tr>
+</tbody>
+</table>
+</div>
+
+<footer>
+  数据来源：真实成交——<b>成交日报（公众号每日更新，贝壳授权口径）2026-10-29 期（旭日湾 85㎡/94 万）、2026-08-16 期（翠堤湾 96㎡/121 万）</b>、房天下小区成交记录（星河湾 4 套：总价+单价+楼层）、中指研究院月度小区报告（1 月月亮湾 2 套实价）、链家签约记录（日期+面积，价格未公开）；挂牌与挂龄——<b>贝壳移动端小区页（月亮湾/星河湾/翠堤湾/彩云湾/旭日湾优质房源与参考价）</b>、链家、安居客、58 同城、365 淘房、房天下（当前报价更新字段）。小区六维事实——58 同城小区档案、吉屋、百度百科、365 淘房、中指。均为 2026-10-29 ~ 10-30 检索快照。<br>
+  数据处理说明：365 淘房小区列表页存在价格与房源错位问题，全部挂牌价已经“总价 ÷ 面积 = 单价”反推校正；贝壳小区页每组团仅展示前 3 套优质房源，全量在售需 App 核对；月亮湾 145.5㎡ 挂 320 万、彩云湾 90.81㎡ 挂 227 万（≈实锚 2.2 倍）等异常数据未纳入；10 月 127.82㎡ “13,221 元/㎡ 成交”来自房源描述转述，存疑处理。<br>
+  重要局限：① 带实价成交样本 10 条（8 条可靠），装修信息缺失，楼层锚为 2–3 条样本的中值；② 成交日报条目无楼层/装修字段，两房锚 11,064 未做楼层修正；③ 参考价区间供谈判定位，非业主承诺；④ 挂龄以平台发布时间为准，首次挂牌日与完整调价历史须经纪端核验；⑤ 学区划片、税费、贷款以教育局公告、税务核定、银行审批为准。<br>
+  本页为决策参考，不构成价格承诺或投资建议。
+</footer>
+
+</div>
+</body>
+</html>
