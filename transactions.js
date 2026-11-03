@@ -645,6 +645,15 @@ window.TX_DEALS = [
   { community: "育才公寓西片", dist: "鼓楼区", loc: "凤凰西街", date: "2026-10-21", layout: "2室1厅", area: 67, floor: "", total: 182, unit: 27235, kind: "住宅", note: "", source: "微信公众号·南京二手房成交最新数据(2026-10-21)", via: "mp.weixin.qq.com", checked: "2026-11-03" },
   { community: "育才公寓西片", dist: "鼓楼区", loc: "凤凰西街", date: "2026-10-21", layout: "2室1厅", area: 67, floor: "", total: 184, unit: 27538, kind: "住宅", note: "", source: "微信公众号·南京二手房成交最新数据(2026-10-21)", via: "mp.weixin.qq.com", checked: "2026-11-03" },
 
+  /* ---- 明月港湾历史成交补录（2026-01~2026-06，公开平台；价格缺失如实标注） ---- */
+  { community: "明月港湾月亮湾", dist: "江宁区", loc: "岔路口", date: "2026-01", layout: "3室2厅", area: 126, floor: "", total: 150, unit: 11905, kind: "住宅", note: "中指月报口径：2026年1月月亮湾成交 2 套三居，均 150 万；具体日期未公示", source: "中指研究院·明月港湾月亮湾2026年1月房价报告", via: "cih-index.com", checked: "2026-11-03" },
+  { community: "明月港湾月亮湾", dist: "江宁区", loc: "岔路口", date: "2026-01", layout: "3室2厅", area: 127.88, floor: "", total: 150, unit: 11730, kind: "住宅", note: "同月第二套三居，127.88㎡/150万；与 126㎡ 那套同价，单价低 1.5%", source: "中指研究院·明月港湾月亮湾2026年1月房价报告", via: "cih-index.com", checked: "2026-11-03" },
+  { community: "明月港湾月亮湾", dist: "江宁区", loc: "岔路口", date: "2026-03-30", layout: "3室2厅", area: 120.97, floor: "", total: 147, unit: 12152, kind: "住宅", note: "房天下成交记录；120.97㎡/147万", source: "房天下·明月港湾月亮湾成交记录", via: "nanjing.esf.fang.com", checked: "2026-11-03" },
+  { community: "明月港湾月亮湾", dist: "江宁区", loc: "岔路口", date: "2026-03-30", layout: "3室2厅", area: 111.96, floor: "", total: 141, unit: 12594, kind: "住宅", note: "平台标注单价 12,683，与总价/面积反算 12,594 差 0.7%（总价按万元取整所致）", source: "房天下·明月港湾月亮湾成交记录", via: "nanjing.esf.fang.com", checked: "2026-11-03" },
+  { community: "明月港湾月亮湾", dist: "江宁区", loc: "岔路口", date: "2026-04-18", layout: "3室2厅", area: 120.53, floor: "", total: null, unit: null, kind: "住宅", note: "平台仅披露面积与成交日，成交价显示「--」", source: "房天下·明月港湾月亮湾成交记录", via: "nanjing.esf.fang.com", checked: "2026-11-03" },
+  { community: "明月港湾旭日湾", dist: "江宁区", loc: "岔路口", date: "2026-06", layout: "3室2厅", area: 102.11, floor: "", total: null, unit: null, kind: "住宅", note: "中指月报：旭日湾6月成交2套三居（102.11㎡），成交价未披露；当月均价 16,059 元/㎡", source: "中指研究院·明月港湾旭日湾2026年6月小区报告", via: "cih-index.com", checked: "2026-11-03" },
+  { community: "明月港湾旭日湾", dist: "江宁区", loc: "岔路口", date: "2026-06", layout: "3室2厅", area: 102.94, floor: "", total: null, unit: null, kind: "住宅", note: "同月第二套三居（102.94㎡），成交价未披露", source: "中指研究院·明月港湾旭日湾2026年6月小区报告", via: "cih-index.com", checked: "2026-11-03" },
+
   /* ---- 2026-10-29 全市成交明细（117 条，公众号逐条快照，含关注盘以外的全部小区；dist=区 / loc=板块） ---- */
   { community: "城东熙苑", dist: "六合区", loc: "六合其它", date: "2026-10-29", layout: "3室1厅", area: 106, floor: "", total: 39, unit: 3664, kind: "住宅", note: "", source: "微信公众号·南京二手房成交价格明细(2026-10-29)", via: "mp.weixin.qq.com", checked: "2026-10-30" },
   { community: "荣城熙苑", dist: "六合区", loc: "南门新城", date: "2026-10-29", layout: "3室1厅", area: 92, floor: "", total: 65, unit: 7128, kind: "住宅", note: "", source: "微信公众号·南京二手房成交价格明细(2026-10-29)", via: "mp.weixin.qq.com", checked: "2026-10-30" },
@@ -1224,6 +1233,8 @@ window.TX_DAILY = [
 
 /* 小区概览（口径各异，勿混算）：label 指标名 | value 值 | source 来源 */
 window.TX_STATS = [
+  { community: "明月港湾", label: "2026年成交中位", value: "12,373 元/㎡ · 区间 11,064~13,962（含价 8 条，另 3 条未公示）", source: "房天下/中指/公众号成交明细汇总（检索2026-11-03）" },
+  { community: "明月港湾", label: "分小区参考", value: "月亮湾均价16,752（7月）· 翠堤湾成交14,710 · 旭日湾均价16,059（6月）；均高于实际成交中位，含挂牌/估价口径", source: "房天下/我爱我家/中指（检索2026-11-03）" },
   { community: "保利堂悦", label: "成交中位", value: "24,342 元/㎡", source: "南京四小区综合分析-终版（取数2026-10-20）" },
   { community: "保利堂悦", label: "挂牌中位", value: "31,331 元/㎡ · 议价率约22%", source: "南京四小区综合分析-终版（取数2026-10-20）" },
   { community: "明都雅苑", label: "9月参考均价", value: "26,211 元/㎡", source: "贝壳找房（检索2026-10-30）" },

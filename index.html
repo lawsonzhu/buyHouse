@@ -196,10 +196,11 @@ function isoWeek(dstr){
 }
 function periodOf(date, dim){
   if(dim==='day') return date;
-  if(dim==='week') return date.slice(0,4) + '-W' + String(isoWeek(date)).padStart(2,'0');
-  if(dim==='month') return date.slice(0,7);
-  if(dim==='quarter') return date.slice(0,4) + '-Q' + (Math.floor((date.slice(5,7)-1)/3)+1);
-  return date.slice(0,4);
+  const d10 = date.length === 7 ? date + '-01' : date; // 月精度记录（如 2026-01）
+  if(dim==='week') return d10.slice(0,4) + '-W' + String(isoWeek(d10)).padStart(2,'0');
+  if(dim==='month') return d10.slice(0,7);
+  if(dim==='quarter') return d10.slice(0,4) + '-Q' + (Math.floor((d10.slice(5,7)-1)/3)+1);
+  return d10.slice(0,4);
 }
 function periodStartEnd(key, dim){ // 周期首尾日期（周/月/季/年）
   if(dim==='week'){
