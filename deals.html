@@ -124,6 +124,14 @@
   td .note{display:block;font-size:11.5px;color:var(--ink-3);white-space:normal;max-width:260px}
   td .sub{display:block;font-size:11px;color:var(--ink-3);margin-top:1px}
   .na{color:var(--ink-3)}
+  .pager{display:flex;align-items:center;gap:10px;justify-content:flex-end;margin:12px 2px 0;font-size:12.5px;color:var(--ink-2);flex-wrap:wrap}
+  .pager button{
+    padding:6px 14px;border:1px solid var(--line);background:var(--card);border-radius:8px;
+    font-size:12.5px;color:var(--ink);cursor:pointer;font-family:inherit;transition:all .15s;
+  }
+  .pager button:hover:not(:disabled){border-color:#d8d1c2;background:#fff}
+  .pager button:disabled{opacity:.4;cursor:not-allowed}
+  .pager .pginfo{color:var(--ink-3)}
   .tsum{font-size:11.5px;color:var(--ink-3);margin:14px 2px 0;line-height:1.7}
   .tsum b{color:var(--ink-2);font-weight:600}
   .dist{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 0}
@@ -183,6 +191,7 @@
       <tbody id="txBody"></tbody>
     </table>
   </div>
+  <div class="pager" id="txPager"></div>
   <p class="tsum" id="txNote"></p>
 
   <div class="foot">
@@ -275,6 +284,22 @@ function txFiltered(){
     .sort((a,b) => (b.date||'').localeCompare(a.date||'') || (a.community||'').localeCompare(b.community||''));
 }
 
+/* ---------- 分页 ---------- */
+const PAGE_SIZE = 10;
+const txPager = document.getElementById('txPager');
+let txPage = 1;
+function renderPager(total){
+  const pages = Math.max(1, Math.ceil(total/PAGE_SIZE));
+  if(txPage > pages) txPage = pages;
+  txPager.innerHTML = total <= PAGE_SIZE ? '' : `
+    <span class="pginfo">第 ${txPage} / ${pages} 页 · 共 ${total} 条</span>
+    <button type="button" id="pgPrev" ${txPage<=1?'disabled':''}>上一页</button>
+    <button type="button" id="pgNext" ${txPage>=pages?'disabled':''}>下一页</button>`;
+  const p = document.getElementById('pgPrev'), n = document.getElementById('pgNext');
+  if(p) p.addEventListener('click', () => { txPage--; renderTx(); });
+  if(n) n.addEventListener('click', () => { txPage++; renderTx(); });
+}
+
 /* ---------- 明细区 ---------- */
 function renderTx(){
   const rows = txFiltered();
@@ -292,7 +317,9 @@ function renderTx(){
   txHint.textContent = (txSel==='all' && !q.value.trim() ? '显示全部' :
     `${txSel==='all' ? '关键词' : '小区「'+txSel+'」'}${q.value.trim() ? ' + 关键词' : ''} · ${rows.length} 条`) + ' · ';
 
-  txBody.innerHTML = rows.length ? rows.map(d => `
+  const start = (txPage-1)*PAGE_SIZE;
+  const rowsPage = rows.slice(start, start+PAGE_SIZE);
+  txBody.innerHTML = rowsPage.length ? rowsPage.map(d => `
     <tr>
       <td>${esc(d.date||'—')}</td>
       <td>${esc(d.community)}${d.kind==='公寓' ? ' <span class="tag" style="display:inline-block;padding:1px 8px;font-size:11px;border:1px solid var(--line);border-radius:999px;color:var(--ink-3);margin-left:4px">公寓</span>' : ''}
@@ -312,6 +339,8 @@ function renderTx(){
   const stats = TXSTATS.filter(s => !sel || s.community === sel || s.community.startsWith(sel));
   txNote.innerHTML = '<b>口径说明：</b>以上为公开渠道检索快照，非实时核验；部分平台隐藏成交价，记为「未公示」。' +
     (stats.length ? '<br><b>小区概览：</b><br>' + stats.map(s => `· ${esc(s.community)}｜${esc(s.label)}：${esc(s.value)}（${esc(s.source)}）`).join('<br>') : '');
+
+  renderPager(rows.length);
 }
 
 function renderWatchChips(){
@@ -329,7 +358,7 @@ function renderWatchChips(){
     b.type = 'button';
     b.className = 'chip' + (txSel===c ? ' on' : '');
     b.innerHTML = (c==='all' ? '全部小区' : `<span class="star">★</span>${esc(c)}<span class="x" title="删除标签">×</span>`);
-    b.addEventListener('click', () => { txSel = c; renderWatchChips(); renderHistChips(); renderTx(); });
+    b.addEventListener('click', () => { txPage = 1; txSel = c; renderWatchChips(); renderHistChips(); renderTx(); });
     if(c !== 'all') attachLongPress(b, () => delWatch(c));
     watchChips.appendChild(b);
   });
@@ -355,6 +384,7 @@ function renderHistChips(){
       const isCommunity = communityNames().includes(tag);
       if(isCommunity){ txSel = tag; q.value=''; }
       else { q.value = tag; txSel = 'all'; }
+      txPage = 1;
       renderWatchChips(); renderHistChips(); renderTx();
     });
     attachLongPress(b, () => delHist(tag));
@@ -362,8 +392,8 @@ function renderHistChips(){
   });
 }
 
-q.addEventListener('input', () => { renderHistChips(); renderTx(); });
-q.addEventListener('keydown', e => { if(e.key === 'Enter'){ addHist(q.value); renderTx(); } });
+q.addEventListener('input', () => { txPage = 1; renderHistChips(); renderTx(); });
+q.addEventListener('keydown', e => { if(e.key === 'Enter'){ txPage = 1; addHist(q.value); renderTx(); } });
 
 renderWatchChips();
 renderHistChips();

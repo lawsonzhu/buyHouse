@@ -61,6 +61,21 @@
   .chart-note{font-size:11.5px;color:var(--ink-3);margin:8px 2px 0;line-height:1.7}
   .chart-note b{color:var(--ink-2);font-weight:600}
 
+  .dims{display:inline-flex;gap:2px;background:var(--bg-soft);border:1px solid var(--line);border-radius:10px;padding:3px;margin:14px 0 10px}
+  .dims button{
+    padding:6px 16px;border:none;background:transparent;border-radius:8px;
+    font-size:13px;color:var(--ink-2);cursor:pointer;font-family:inherit;transition:all .15s;
+  }
+  .dims button:hover{color:var(--ink)}
+  .dims button.on{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(31,35,40,.08)}
+  .pager{display:flex;align-items:center;gap:10px;justify-content:flex-end;margin:12px 2px 0;font-size:12.5px;color:var(--ink-2);flex-wrap:wrap}
+  .pager button{
+    padding:6px 14px;border:1px solid var(--line);background:var(--card);border-radius:8px;
+    font-size:12.5px;color:var(--ink);cursor:pointer;font-family:inherit;transition:all .15s;
+  }
+  .pager button:hover:not(:disabled){border-color:#d8d1c2;background:#fff}
+  .pager button:disabled{opacity:.4;cursor:not-allowed}
+  .pager .pginfo{color:var(--ink-3)}
   .tscroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow);margin-top:14px}
   table.tx{width:100%;border-collapse:collapse;font-size:13px;min-width:760px}
   table.tx th{
@@ -100,21 +115,22 @@
 <main class="wrap">
   <span class="eyebrow" style="margin-top:8px"><span class="dot"></span>每日成交</span>
   <h1>南京二手房每日成交</h1>
-  <p class="lede">全市每日趋势：网签套数 + 成交价样本中位。网签为网上房地产口径（T+1 披露，当日记「待披露」），价格样本为公开渠道成交明细快照，<b>两套口径不可互换</b>；数据非实时核验，交易决策请以平台实时页面与经纪人核验为准。按小区查成交请到<b>成交明细</b>页。</p>
+  <p class="lede">全市成交趋势：网签套数 + 成交价样本中位，支持<b>日 / 周 / 月 / 季 / 年</b>五种维度切换，下方明细表每页 10 条分页展示。网签为网上房地产口径（T+1 披露且并非每日发布，缺口标注「待披露」），价格样本为公开渠道成交明细快照，<b>两套口径不可互换</b>；数据非实时核验，交易决策请以平台实时页面与经纪人核验为准。按小区查成交请到<b>成交明细</b>页。</p>
 
   <div class="legend">
     <i><span class="sw"></span>二手住宅网签（套）</i>
     <i><span class="sw dash"></span>样本单价中位（元/㎡，右轴）</i>
     <i><span class="sw ref"></span>第 43 周日均 262 套</i>
   </div>
-  <div class="chartcard"><svg id="trendChart" viewBox="0 0 720 280" role="img" aria-label="南京二手房每日成交趋势图"></svg></div>
+  <div class="dims" id="dims" role="tablist" aria-label="时间维度"></div>
+  <div class="chartcard"><svg id="trendChart" viewBox="0 0 720 280" role="img" aria-label="南京二手房成交趋势图"></svg></div>
   <p class="chart-note" id="chartNote"></p>
 
   <div class="tscroll">
     <table class="tx">
       <thead>
         <tr>
-          <th>日期</th>
+          <th id="thPeriod">日期</th>
           <th class="num">网签(套)</th>
           <th class="num">样本(条)</th>
           <th class="num">单价中位</th>
@@ -126,6 +142,7 @@
       <tbody id="dayBody"></tbody>
     </table>
   </div>
+  <div class="pager" id="dayPager"></div>
   <div class="dist" id="dayDist"></div>
   <p class="tsum" id="dayNote"></p>
 
@@ -138,27 +155,129 @@
 <script src="transactions.js"></script>
 <script>
 const TXDAILY = window.TX_DAILY || [];
+const TXDEALS = window.TX_DEALS || [];
 const WEEK_AVG = 262;
+const PAGE_SIZE = 10;
 
 const dayBody = document.getElementById('dayBody');
 const dayDist = document.getElementById('dayDist');
 const dayNote = document.getElementById('dayNote');
 const chartEl = document.getElementById('trendChart');
 const chartNote = document.getElementById('chartNote');
+const dimsEl = document.getElementById('dims');
+const pagerEl = document.getElementById('dayPager');
 
-document.getElementById('stamp').textContent = '页面生成于 2026-11-02';
+document.getElementById('stamp').textContent = '页面生成于 2026-11-03';
 
 const fmt = (v,suffix) => v==null ? '<span class="na">未公示</span>' : Number(Math.round(v)).toLocaleString('zh-CN') + (suffix||'');
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const median = a => { if(!a.length) return null; const s=[...a].sort((x,y)=>x-y), m=s.length>>1; return s.length%2 ? s[m] : (s[m-1]+s[m])/2; };
 
-function renderChart(){
-  const rows = [...TXDAILY].sort((a,b) => (a.date||'').localeCompare(b.date||''));
+/* ---------- 维度定义与周期聚合 ---------- */
+const DIMS = [
+  {key:'day',     label:'日', th:'日期'},
+  {key:'week',    label:'周', th:'周（周一~周日）'},
+  {key:'month',   label:'月', th:'月份'},
+  {key:'quarter', label:'季', th:'季度'},
+  {key:'year',    label:'年', th:'年份'},
+];
+let curDim = 'day';
+let page = 1;
+
+const addDays = (dstr, n) => { const d = new Date(dstr + 'T00:00:00'); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); };
+function isoWeek(dstr){
+  const d = new Date(dstr + 'T00:00:00');
+  const dn = (d.getDay()+6)%7;
+  d.setDate(d.getDate()-dn+3);
+  const f = new Date(d.getFullYear(),0,4);
+  const fn = (f.getDay()+6)%7;
+  f.setDate(f.getDate()-fn+3);
+  return 1 + Math.round((d-f)/(7*864e5));
+}
+function periodOf(date, dim){
+  if(dim==='day') return date;
+  if(dim==='week') return date.slice(0,4) + '-W' + String(isoWeek(date)).padStart(2,'0');
+  if(dim==='month') return date.slice(0,7);
+  if(dim==='quarter') return date.slice(0,4) + '-Q' + (Math.floor((date.slice(5,7)-1)/3)+1);
+  return date.slice(0,4);
+}
+function periodStartEnd(key, dim){ // 周期首尾日期（周/月/季/年）
+  if(dim==='week'){
+    const [y,w] = key.split('-W');
+    const jan1 = new Date(+y,0,1);
+    const dn = (jan1.getDay()+6)%7;
+    const start = new Date(jan1); start.setDate(jan1.getDate()-dn+(w-1)*7);
+    const end = new Date(start); end.setDate(start.getDate()+6);
+    const f = s => s.toISOString().slice(0,10);
+    return [f(start), f(end)];
+  }
+  if(dim==='month'){ const [y,m] = key.split('-').map(Number); return [`${y}-${String(m).padStart(2,'0')}-01`, `${y}-${String(m).padStart(2,'0')}-${new Date(y,m,0).getDate()}`]; }
+  if(dim==='quarter'){ const [y,q] = key.split('-Q').map(Number); const s = q*3-2; const e = q*3; return [`${y}-${String(s).padStart(2,'0')}-01`, `${y}-${String(e).padStart(2,'0')}-${new Date(y,e,0).getDate()}`]; }
+  return [key+'-01-01', key+'-12-31'];
+}
+const daysBetween = (a,b) => Math.round((new Date(b+'T00:00:00') - new Date(a+'T00:00:00'))/864e5) + 1;
+
+function aggregate(dim){
+  const daily = [...TXDAILY].sort((a,b)=>(a.date||'').localeCompare(b.date||'')).filter(d=>d.date);
+  if(!daily.length) return [];
+  if(dim==='day') return daily.map(d => ({...d, key:d.date, partialNet:false}));
+
+  const dates = daily.map(d=>d.date);
+  const dMin = dates[0], dMax = dates[dates.length-1];
+  const groups = new Map();
+  for(const d of daily){
+    const k = periodOf(d.date, dim);
+    if(!groups.has(k)) groups.set(k, {key:k, net:0, netDays:0, sample:0, dist:{}, dates:[]});
+    const g = groups.get(k);
+    g.dates.push(d.date);
+    if(d.net != null){ g.net += d.net; g.netDays++; }
+    if(d.dist) Object.assign(g.dist, d.dist);
+  }
+  // 合并明细覆盖的周期（早年零星个案也出现在季/年维度里）
+  for(const r of TXDEALS){
+    if(!r.date) continue;
+    const k = periodOf(r.date, dim);
+    if(!groups.has(k)) groups.set(k, {key:k, net:null, netDays:0, sample:0, dist:{}, dates:[]});
+    const g = groups.get(k);
+    if(!g.dates.includes(r.date)) g.dates.push(r.date);
+  }
+  // 价格中位与样本数：取周期内明细原始记录计算，比「日中位的再中位」更准
+  for(const [k,g] of groups){
+    const [ps,pe] = periodStartEnd(k, dim);
+    const rs = TXDEALS.filter(r => r.date >= ps && r.date <= pe);
+    g.sample = rs.length || g.sample;
+    g.unit  = median(rs.map(r=>r.unit).filter(v=>v!=null));
+    g.total = median(rs.map(r=>r.total).filter(v=>v!=null));
+    g.area  = median(rs.map(r=>r.area).filter(v=>v!=null));
+    if(g.unit == null){ // 该周期无原始明细时回退为日中位的中位
+      const dgr = daily.filter(d => periodOf(d.date,dim)===k);
+      g.unit  = median(dgr.map(d=>d.unit).filter(v=>v!=null));
+      g.total = median(dgr.map(d=>d.total).filter(v=>v!=null));
+      g.area  = median(dgr.map(d=>d.area).filter(v=>v!=null));
+      g.sample = g.sample || dgr.reduce((s,d)=>s+(d.sample||0),0);
+    }
+    if(g.netDays === 0) g.net = null; // 周期内官方网签未披露
+    // 网签是否为部分合计（周期在数据范围内的自然日多于有披露的天数）
+    const s = ps < dMin ? dMin : ps, e = pe > dMax ? dMax : pe;
+    const expected = daysBetween(s,e);
+    g.partialNet = g.netDays > 0 && g.netDays < expected;
+    g.note = (g.netDays > 0 && g.netDays < expected)
+      ? `网签 ${g.netDays}/${expected} 天有披露，为部分合计`
+      : (g.netDays === 0 ? '周期内官方网签未披露' : `网签 ${g.netDays} 天均有披露`);
+    g.note += ' · 价格中位按周期内公开成交明细原始记录计算';
+    g.source = '聚合自 TX_DAILY / TX_DEALS';
+  }
+  return [...groups.values()].sort((a,b)=>a.key.localeCompare(b.key));
+}
+
+/* ---------- 图表 ---------- */
+function renderChart(rows){
   if(!rows.length){ chartEl.innerHTML=''; return; }
   const W=720,H=280,P={l:48,r:58,t:22,b:36}, iw=W-P.l-P.r, ih=H-P.t-P.b;
   const xs = i => rows.length>1 ? P.l+iw*i/(rows.length-1) : P.l+iw/2;
   const nets = rows.map(d=>d.net).filter(v=>v!=null);
   const units = rows.map(d=>d.unit).filter(v=>v!=null);
-  const nMax = Math.max(WEEK_AVG, ...nets, 1)*1.2;
+  const nMax = Math.max(curDim==='day' ? WEEK_AVG : 0, ...nets, 1)*1.2;
   const uMax = Math.max(...units,1)*1.18;
   const yN = v => P.t+ih*(1-v/nMax);
   const yU = v => P.t+ih*(1-v/uMax);
@@ -169,9 +288,11 @@ function renderChart(){
     s += `<text x="${P.l-8}" y="${y+4}" text-anchor="end" font-size="10.5" fill="#8b9098">${Math.round(nMax*(1-g/4))}</text>`;
     s += `<text x="${W-P.r+8}" y="${y+4}" font-size="10.5" fill="#b6aa9f">${Math.round(uMax*(1-g/4))}</text>`;
   }
-  const yr = yN(WEEK_AVG);
-  s += `<line x1="${P.l}" y1="${yr}" x2="${W-P.r}" y2="${yr}" stroke="#8b9098" stroke-width="1.2" stroke-dasharray="2 4"/>`;
-  s += `<text x="${W-P.r-4}" y="${yr-5}" text-anchor="end" font-size="10" fill="#8b9098">周均 262 套</text>`;
+  if(curDim==='day'){
+    const yr = yN(WEEK_AVG);
+    s += `<line x1="${P.l}" y1="${yr}" x2="${W-P.r}" y2="${yr}" stroke="#8b9098" stroke-width="1.2" stroke-dasharray="2 4"/>`;
+    s += `<text x="${W-P.r-4}" y="${yr-5}" text-anchor="end" font-size="10" fill="#8b9098">周均 262 套</text>`;
+  }
   let path='', seg=false;
   rows.forEach((d,i)=>{
     if(d.net==null){ seg=false; return; }
@@ -182,53 +303,96 @@ function renderChart(){
   rows.forEach((d,i)=>{
     if(d.net!=null){
       const x=xs(i), y=yN(d.net);
-      s += `<circle cx="${x}" cy="${y}" r="3.5" fill="#fff" stroke="#b1503a" stroke-width="2"/>`;
+      s += `<circle cx="${x}" cy="${y}" r="3.5" fill="${d.partialNet ? '#f3d9d0' : '#fff'}" stroke="#b1503a" stroke-width="2"/>`;
       s += `<text x="${x}" y="${y-9}" text-anchor="middle" font-size="10.5" font-weight="600" fill="#b1503a">${d.net}</text>`;
     }
     if(d.unit!=null){
       const x=xs(i), y=yU(d.unit);
       s += `<circle cx="${x}" cy="${y}" r="3.5" fill="#fff" stroke="#5b6168" stroke-width="2"/>`;
-      s += `<text x="${x}" y="${y-9}" text-anchor="middle" font-size="10" fill="#5b6168">${d.unit.toLocaleString('zh-CN')}</text>`;
+      s += `<text x="${x}" y="${y-9}" text-anchor="middle" font-size="10" fill="#5b6168">${Math.round(d.unit).toLocaleString('zh-CN')}</text>`;
     }
   });
   s += `<line x1="${P.l}" y1="${P.t+ih}" x2="${W-P.r}" y2="${P.t+ih}" stroke="#e6e2d9"/>`;
   rows.forEach((d,i)=>{
-    s += `<text x="${xs(i)}" y="${P.t+ih+18}" text-anchor="middle" font-size="10.5" fill="#5b6168">${(d.date||'').slice(5)}</text>`;
+    s += `<text x="${xs(i)}" y="${P.t+ih+18}" text-anchor="middle" font-size="10.5" fill="#5b6168">${esc(d.key)}</text>`;
   });
   chartEl.innerHTML = s;
 }
 
-function renderDaily(){
-  const rows = [...TXDAILY].sort((a,b) => (b.date||'').localeCompare(a.date||''));
-  dayBody.innerHTML = rows.map(d => `
+/* ---------- 分页 ---------- */
+function renderPager(total){
+  const pages = Math.max(1, Math.ceil(total/PAGE_SIZE));
+  if(page > pages) page = pages;
+  pagerEl.innerHTML = total <= PAGE_SIZE ? '' : `
+    <span class="pginfo">第 ${page} / ${pages} 页 · 共 ${total} 条</span>
+    <button type="button" id="pgPrev" ${page<=1?'disabled':''}>上一页</button>
+    <button type="button" id="pgNext" ${page>=pages?'disabled':''}>下一页</button>`;
+  const p = document.getElementById('pgPrev'), n = document.getElementById('pgNext');
+  if(p) p.addEventListener('click', () => { page--; renderAll(); });
+  if(n) n.addEventListener('click', () => { page++; renderAll(); });
+}
+
+/* ---------- 表格 ---------- */
+function renderTable(rows){
+  const total = rows.length;
+  const start = (page-1)*PAGE_SIZE;
+  const rowsPage = rows.slice().reverse().slice(start, start+PAGE_SIZE); // 倒序展示（最新在前）
+  dayBody.innerHTML = rowsPage.map(d => `
     <tr>
-      <td>${esc(d.date||'—')}</td>
-      <td class="num">${d.net == null ? '<span class="na">待披露</span>' : fmt(d.net)}</td>
-      <td class="num">${d.sample == null ? '<span class="na">—</span>' : d.sample}</td>
+      <td>${esc(d.key||'—')}${curDim!=='day' && d.dates ? (()=>{ const ds=[...d.dates].sort(); return `<span class="src">${esc(ds[0])} ~ ${esc(ds[ds.length-1])}</span>`; })() : ''}</td>
+      <td class="num">${d.net == null ? '<span class="na">待披露</span>' : fmt(d.net) + (d.partialNet ? ' <span class="na">*</span>' : '')}</td>
+      <td class="num">${d.sample == null || d.sample === 0 ? '<span class="na">—</span>' : d.sample}</td>
       <td class="num">${fmt(d.unit)}</td>
       <td class="num">${fmt(d.total)}</td>
-      <td class="num">${d.area == null ? '<span class="na">—</span>' : d.area}</td>
+      <td class="num">${d.area == null ? '<span class="na">—</span>' : Math.round(d.area*10)/10}</td>
       <td style="white-space:normal">
-        ${d.note ? `<span class="note">${esc(d.note)}</span>` : ''}
-        <span class="src">${esc(d.source||'')} · 检索 ${esc(d.checked||'')}</span>
+        ${curDim==='day' && d.note ? `<span class="note">${esc(d.note)}</span>` : ''}
+        ${curDim!=='day' && d.note ? `<span class="note">${esc(d.note)}</span>` : ''}
+        <span class="src">${esc(d.source||'')}${d.checked ? ' · 检索 '+esc(d.checked) : ''}</span>
       </td>
     </tr>`).join('');
+  renderPager(total);
 
-  const latest = rows.find(d => d.dist);
+  const latest = [...rows].reverse().find(d => d.dist && Object.keys(d.dist).length);
   document.getElementById('dayDist').innerHTML = latest
-    ? `<span style="font-size:11.5px;color:var(--ink-3);align-self:center">${esc(latest.date)} 分区单价中位：</span>` +
+    ? `<span style="font-size:11.5px;color:var(--ink-3);align-self:center">${esc(latest.key)} 分区单价中位：</span>` +
       Object.entries(latest.dist).sort((a,b) => b[1]-a[1])
         .map(([k,v]) => `<i>${esc(k)}<b>${Math.round(v).toLocaleString('zh-CN')}</b></i>`).join('')
     : '';
-
-  document.getElementById('chartNote').innerHTML = '<b>读图：</b>红实线为每日二手住宅网签套数（左轴），灰虚线为当日成交价样本的单价中位（右轴），灰点线为最近一周日均网签参考。'
-    + '样本中位由当日公开渠道明细计算，样本量少时波动大，看方向不看绝对值。';
-  dayNote.innerHTML = '<b>口径说明：</b>网签套数取南京网上房地产「存量房·住宅」日成交，公布有 1 日延迟；价格样本取公开渠道当日成交价明细，'
-    + '属「部分房源」非全量，且样本结构偏向老城区高价盘与远郊低价盘，故单价中位<b>不可直接当作全市均价</b>。';
 }
 
-renderChart();
-renderDaily();
+/* ---------- 维度切换 ---------- */
+function renderDims(){
+  dimsEl.innerHTML = DIMS.map(d =>
+    `<button type="button" class="${d.key===curDim?'on':''}" data-d="${d.key}">${d.label}</button>`).join('');
+}
+dimsEl.addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b || b.dataset.d===curDim) return;
+  curDim = b.dataset.d; page = 1;
+  document.getElementById('thPeriod').textContent = DIMS.find(d=>d.key===curDim).th;
+  renderDims(); renderAll();
+});
+
+function renderAll(){
+  const rows = aggregate(curDim);
+  renderChart(rows);
+  renderTable(rows);
+  const dimNote = {
+    day: '<b>读图：</b>红实线为每日二手住宅网签套数（左轴），灰点为当日成交价样本的单价中位（右轴），灰虚线为最近一周日均网签参考。样本中位由当日公开渠道明细计算，样本量少时波动大，看方向不看绝对值。',
+    week: '<b>读图：</b>按自然周（周一~周日）聚合。红实线为周内网签合计（空心点表示周内有缺日、为部分合计），灰点为周内成交明细的单价中位（右轴）。',
+    month: '<b>读图：</b>按自然月聚合。红实线为月内已披露网签合计（空心点为部分合计），灰点为月内成交明细的单价中位（右轴）。',
+    quarter: '<b>读图：</b>按自然季度聚合。红实线为季内已披露网签合计（空心点为部分合计），灰点为季内成交明细的单价中位（右轴）。',
+    year: '<b>读图：</b>按自然年聚合。红实线为年内已披露网签合计（空心点为部分合计），灰点为年内成交明细的单价中位（右轴）。早年数据仅零星个案，仅供定位。',
+  };
+  chartNote.innerHTML = dimNote[curDim];
+  dayNote.innerHTML = '<b>口径说明：</b>网签套数取南京网上房地产「存量房·住宅」日成交，公布有 1 日延迟且<b>并非每日都对外发布</b>，缺口只能留待后续补录；'
+    + '价格样本取公开渠道成交明细，属「部分房源」非全量，样本结构偏向老城区高价盘与远郊低价盘，单价中位<b>不可直接当作全市均价</b>。'
+    + (curDim!=='day' ? '周/月/季/年维度的网签为「已披露日期的合计」，披露不全时标注 <b>*</b>。' : '');
+}
+
+renderDims();
+document.getElementById('thPeriod').textContent = DIMS.find(d=>d.key===curDim).th;
+renderAll();
 </script>
 </body>
 </html>
