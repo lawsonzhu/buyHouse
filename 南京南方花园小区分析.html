@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>南京南方花园小区分析｜江宁岔路口 · 五组团结构 + 挂牌分档 + 160万预算</title>
+<meta name="description" content="南方花园（江宁双龙大道833号，122栋大盘）：A/B/C组团与枫彩园、瑞阳居价格拆解、沉降事件核实、学区边界风险、160万可买100㎡三房、五盘对比。">
+<style>
+:root{
+  --ink:#1c1c1a; --ink-2:#4a4a46; --muted:#7a7a74; --line:#e4e2dc;
+  --bg:#faf9f6; --card:#ffffff;
+  --blue:#185FA5; --blue-bg:#E6F1FB;
+  --green:#3B6D11; --green-bg:#EAF3DE;
+  --red:#A32D2D; --red-bg:#FCEBEB;
+  --amber:#854F0B; --amber-bg:#FAEEDA;
+  --gray-bg:#f4f2ec;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:14.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:40px 24px 64px}
+header{border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:24px}
+h1{font-size:25px;line-height:1.35;margin:0 0 8px;letter-spacing:-.3px}
+.meta{color:var(--muted);font-size:12.5px}
+.meta b{color:var(--ink-2);font-weight:600}
+.verdict{background:var(--card);border-left:3px solid var(--blue);padding:14px 18px;margin:0 0 28px;border-radius:0 6px 6px 0}
+.verdict p{margin:2px 0}
+.verdict b{color:var(--blue)}
+h2{font-size:16px;margin:32px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+h2 .num{float:right;color:var(--muted);font-size:12px;font-weight:400;letter-spacing:1px}
+.tbl-wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:820px}
+th{background:var(--gray-bg);text-align:left;font-weight:600;color:var(--ink-2);
+  padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap;font-size:12.5px}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.big{font-weight:600}
+.ok{color:var(--green)} .warn{color:var(--amber)} .bad{color:var(--red)}
+.badge{display:inline-block;padding:1px 6px;border-radius:4px;font-size:11.5px;white-space:nowrap}
+.b-green{background:var(--green-bg);color:var(--green)}
+.b-amber{background:var(--amber-bg);color:var(--amber)}
+.b-red{background:var(--red-bg);color:var(--red)}
+.b-blue{background:var(--blue-bg);color:var(--blue)}
+.b-gray{background:var(--gray-bg);color:var(--muted)}
+tr.tier td{background:#f7f6f1;font-weight:600;color:var(--ink-2);font-size:12.5px}
+.note{color:var(--muted);font-size:12px;margin:7px 0 0}
+ol.pts{margin:10px 0 0;padding-left:20px}
+ol.pts li{margin-bottom:8px}
+ol.pts li b{color:var(--red)}
+.callout{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);
+  padding:12px 16px;border-radius:0 6px 6px 0;margin:14px 0 0;font-size:13px}
+.callout b{color:var(--amber)}
+.score{font-weight:600;white-space:nowrap}
+.s-hi{color:var(--green)} .s-mid{color:var(--amber)} .s-lo{color:var(--red)}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:11.5px;line-height:1.8}
+@media (max-width:720px){.wrap{padding:24px 14px 48px}h1{font-size:20px}table{font-size:12.5px}}
+@media print{body{background:#fff}.wrap{max-width:none;padding:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>南方花园：160 万能买到 100㎡ 三房，但学区是个问号</h1>
+  <div class="meta">
+    南京 · 江宁区岔路口 · 双龙大道 833 号 · 约 122 栋 / 户数口径 1,731–7,566（极混乱）
+    · 2004 开盘 / 2009 交付 · 成交参考锚 <b>15,400 元/㎡</b> · 取数 <b>2026-11-04</b>
+  </div>
+</header>
+
+<div class="verdict">
+  <p><b>结论一</b>：这是五个盘里<b>"总价—面积—地铁—物业"最均衡的一个</b>。160 万落地（裸价 155 万）能买 <b>102.49㎡ 三房</b>，1 号线双龙大道站已通车、距离 300–800 米，物业是银城——这三项凑在一起，别的盘给不了。</p>
+  <p><b>结论二</b>：代价是<b>学区</b>。对口大概率是<b>岔路学校（东外分校）</b>，该校 2020 年初一统测均分在江宁 28 所初中里排 <b>第 24</b>。而隔壁滨河实验学校（同为东外分校）排第 8。<b>南方花园横跨双龙大道两侧，正好卡在两条施教区分界线上</b>，买哪一栋可能决定上哪所学校。</p>
+  <p><b>结论三</b>：两处必须先排掉的雷。① <b>枫彩园 25 幢</b> 2014 年因隔壁工地挖基坑发生过地面沉降、256 户紧急撤离（结构鉴定安全、已加固，但标签会跟着这栋楼走很久）；② 开发商<b>江苏经纬房地产曾非法吸储 1 亿元、老总 2018 年被判 7 年</b>，涉及部分楼栋办证与维修资金的核验。</p>
+  <p><b>数据边界</b>：2026 年可查 <b>8 条签约记录，价格全部隐藏</b>。中指 7 月报告里那两条"83 万 / 90 万"折算单价 8,832 / 9,363 元/㎡，<b>比挂牌低 45%，明显异常，本页不采用</b>。成交锚 15,400 取自链家 A 组团参考成交均价，属平台推算值。</p>
+</div>
+
+<h2>一、六维体检：物业是五盘里最好的，学区是最弱的 <span class="num">评分 10 分制</span></h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>维度</th><th class="n">评分</th><th>事实</th><th>一句话判断</th></tr></thead>
+<tbody>
+<tr>
+  <td>交通</td><td class="n"><span class="score s-hi">8.5</span></td>
+  <td>1 号线双龙大道站 <b>300–800 米</b>（A 组团约 500 米、西区约 300 米）；7 条公交（701/704/708/792/812/866、Y21/Y27 夜间）；南京南站一站地铁</td>
+  <td><b>单线但站近</b>。比不上左邻右里的"双线"，但双龙大道站比左邻右里的两个站都更近，日常更实用。</td>
+</tr>
+<tr>
+  <td>学区</td><td class="n"><span class="score s-lo">6.0</span></td>
+  <td>主流口径为<b>岔路学校（东山外国语学校分校，九年一贯制）</b>，2026 年施教区：双龙大道以东、秦淮河以西、秦淮新河以北；该校 2020 年初一统测均分 343，江宁 28 所初中排 <b>第 24</b></td>
+  <td><b>本盘最大短板。</b>东外只是挂了牌，成绩没起来。而且<b>施教区边界正好压在双龙大道上</b>，详见第七节。</td>
+</tr>
+<tr>
+  <td>物业</td><td class="n"><span class="score s-hi">7.0</span></td>
+  <td><b>南京银城物业</b>（南京本土口碑较好的物企），费 0.8–1.8 元/㎡·月；枫彩园 2017 年 5 月由仟泰换成银城，A 组团 2024 年 9 月由仟泰换成银城</td>
+  <td><b>五盘里物业最好的一家。</b>各组团陆续统一到银城是加分项，但要确认目标楼栋<b>是否已在银城管理范围内</b>。</td>
+</tr>
+<tr>
+  <td>商业</td><td class="n"><span class="score s-hi">8.0</span></td>
+  <td>小区自带<b>南方花园农贸市场</b> + 苏果社区店；顾家百货、金轮新都汇、新城荟、证大喜玛拉雅在 1–2 公里</td>
+  <td>自带菜场这一项对老人很关键，比纯商场实用。</td>
+</tr>
+<tr>
+  <td>医院</td><td class="n"><span class="score s-mid">7.5</span></td>
+  <td>东山街道社区卫生服务中心、江宁区东山医院、南京健安医院；南医大附属江宁医院（天地新城分院）3 公里内</td>
+  <td>日常够用，三甲要往江宁医院本部或市区。</td>
+</tr>
+<tr>
+  <td>环境</td><td class="n"><span class="score s-mid">6.0</span></td>
+  <td>绿化率 30–40%、容积率 1.55、楼间距约 40 米；约 122 栋大盘，靠秦淮新河、隔学院东路可望河</td>
+  <td>绿化数字不难看，但<b>20 年房龄 + 122 栋的超大体量</b>，靠银城维持。比左邻右里的"绿城底子"差一档。</td>
+</tr>
+<tr>
+  <td>车位</td><td class="n"><span class="score s-lo">4.5</span></td>
+  <td>A 组团地上 420 + 地下 90，配比约 <b>1:0.4</b>；西区约 1:0.6；地面 150 元/月</td>
+  <td>比明月港湾（1:0.37）、金王府（1:0.2–0.37）略好，但<b>仍然紧张</b>，A 组团 1,480 户只有 510 个位。</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2>二、五个组团，五套价格：认组团比认小区重要 <span class="num">单价跨度 15,371–16,148</span></h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>组团</th><th>地址</th><th>建成</th><th class="n">栋数</th><th class="n">户数</th><th>形态</th><th>物业</th><th class="n">挂牌 / 参考成交</th></tr></thead>
+<tbody>
+<tr>
+  <td><b>A 组团</b></td><td>双龙大道 833-1</td><td>2003–2012</td><td class="n">35</td><td class="n">1,480</td>
+  <td>6 层为主，<b>仅 34 号楼有电梯</b>（14 层、一梯六户）</td><td>银城（2024-09 起）</td>
+  <td class="n">16,924–17,201 / <b>15,371</b></td>
+</tr>
+<tr>
+  <td><b>B 组团</b></td><td>双龙路 100 号、双龙大道 838</td><td>—</td><td class="n">19</td><td class="n">740</td>
+  <td>板楼，7 层为主</td><td>银城</td>
+  <td class="n">15,598 / 15,598</td>
+</tr>
+<tr>
+  <td><b>C 组团</b></td><td>双龙大道</td><td>2004</td><td class="n">40</td><td class="n">—</td>
+  <td>板楼，排列规整，70 年商品房</td><td>仟泰 / 银城</td>
+  <td class="n">与 A 组团体量相当</td>
+</tr>
+<tr>
+  <td><b>枫彩园</b>（含南区）</td><td>双龙大道 833 / 100</td><td>2006 建、2007 交付</td><td class="n">23（南区 11）</td><td class="n">1,987（南区 482）</td>
+  <td>18 幢多层 + <b>5 幢 16 层高层</b></td><td>银城（2017-05 起）</td>
+  <td class="n">15,932（南区 9 月）/ 16,148（北区）</td>
+</tr>
+<tr>
+  <td><b>瑞阳居</b></td><td>—</td><td>2009–2010</td><td class="n">4</td><td class="n">1,321</td>
+  <td><span class="badge b-amber">商住塔楼</span> 筒子楼，1-2 栋、3-4 栋相连</td><td>银城</td>
+  <td class="n">15,968（参考成交）</td>
+</tr>
+<tr class="tier"><td colspan="8">合计约 <b>122 栋</b>｜户数五平台口径 <b>1,731 / 2,200 / 7,566</b> 三个数并存，本文不采信单一值</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout">
+  <b>瑞阳居要单独警惕</b>：4 栋装 1,321 户（单栋 330 户），是<b>商住两用塔楼（筒子楼）</b>，产权年限部分为 40 年（枫彩园条目列"70 年、40 年"并存）。它 15,968 的单价看着跟其他组团差不多，但<b>居住品质、贷款年限、转手难度完全是另一档</b>。房本没看清"用途：住宅 / 商住"之前，不要按住宅的价去谈。<br>
+  <b>比价用 A 组团 15,371 做基准</b>：A 组团 35 栋 1,480 户、77 套在售，是最大最典型的样本；B 组团和枫彩园南区分别高 1.5%、3.6%（电梯与房龄差），都在合理范围。
+</div>
+
+<h2>三、成交记录：8 条签约，价格全隐藏；中指那两条数字不可用 <span class="num">链家 + 中指</span></h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>签约日期</th><th>组团</th><th>户型</th><th class="n">面积㎡</th><th>楼层</th><th class="n">成交价</th><th>来源与处理</th></tr></thead>
+<tbody>
+<tr><td>2026-08-08</td><td>B 组团</td><td>4室2厅</td><td class="n">145.84</td><td>高/7</td><td class="n warn">未公开</td><td>链家<span class="badge b-blue"> 仅面积</span></td></tr>
+<tr><td>2026-08-18</td><td>枫彩园南区</td><td>2室2厅</td><td class="n">84.11</td><td>高/6</td><td class="n warn">未公开</td><td>链家<span class="badge b-blue"> 仅面积</span></td></tr>
+<tr><td>2026-07-20</td><td>B 组团</td><td>2室1厅</td><td class="n">86.62</td><td>中/7</td><td class="n warn">未公开</td><td>链家<span class="badge b-blue"> 仅面积</span></td></tr>
+<tr><td>2026-07（同月，中指 5 套）</td><td>整体</td><td>三居 ×3、二居 ×2</td><td class="n">96.21 / 93.97 / 86.62 / 87.60 / 96.12</td><td>—</td><td class="n bad">93.97㎡→83 万<br>96.12㎡→90 万</td><td>中指<span class="badge b-red"> 判定异常，不采用</span></td></tr>
+<tr><td>2026-01-27</td><td>枫彩园南区</td><td>3室1厅</td><td class="n">94.34</td><td>高/6</td><td class="n warn">未公开</td><td>链家<span class="badge b-blue"> 仅面积</span></td></tr>
+<tr><td>2026-01-16</td><td>枫彩园南区</td><td>2室1厅</td><td class="n">89.79</td><td>中/6</td><td class="n warn">未公开</td><td>链家<span class="badge b-blue"> 仅面积</span></td></tr>
+<tr><td>2026-01-30</td><td>B 组团</td><td>1室1厅</td><td class="n">45.83</td><td>中/7</td><td class="n warn">未公开</td><td>链家<span class="badge b-blue"> 仅面积</span></td></tr>
+<tr class="tier"><td colspan="7">近 7 个月可查 <b>8 条签约</b>，<b>7 月一个月就有 5 套</b>（中指口径）——是五个盘里成交最活跃的</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout">
+  <b>为什么弃用中指那两条价格</b>：93.97㎡ 成交 83 万 = <b>8,832 元/㎡</b>，96.12㎡ 成交 90 万 = <b>9,363 元/㎡</b>，而同期挂牌 16,656 元/㎡ —— 差 45%，江宁岔路口不存在 9,000 元/㎡ 的商品房。<br>
+  同一份报告里还写着"<b>最高成交价 90.0 万，最低成交价 90.0 万</b>"（自相矛盾）、"三居<b>平均成交价 57 万</b>"（57 万买 96㎡ = 5,900 元/㎡，更离谱）。三个数字互相打架，判定为模板数据错乱，全部不采用。<br>
+  <b>成交锚怎么定</b>：链家 A 组团参考成交 15,371、B 组团 15,598、枫彩园南区 15,932、瑞阳居 15,968。取 A 组团为主锚并取整 <b>15,400</b>；电梯房与枫彩园按 15,600–15,900 单独算。这是平台推算值，<b>不是实价</b>。
+</div>
+
+<h2>四、价格趋势：横盘微涨，是五个盘里唯一没在跌的 <span class="num">中指月度 + 幸福里周度</span></h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>时点</th><th class="n">均价（元/㎡）</th><th class="n">环比</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>2026-02（百度汇总）</td><td class="n">16,638</td><td class="n">—</td><td>整体挂牌均价；枫彩园南区参考成交 17,179</td></tr>
+<tr><td>2026-07（中指）</td><td class="n big">16,656</td><td class="n ok">+1.64%</td><td><b>环比上涨</b>，报告中明确写"价格稳步上升"</td></tr>
+<tr><td>2026-08-17 ~ 08-23（幸福里，枫彩园北区）</td><td class="n">16,148</td><td class="n ok">+2.6%</td><td>周度挂牌均价，在售 31 套</td></tr>
+<tr><td>2026-09（链家，各区团）</td><td class="n">15,598 / 15,932</td><td class="n">—</td><td>B 组团 / 枫彩园南区 挂牌均价</td></tr>
+<tr class="tier"><td colspan="4">与左邻右里（三年 <b>−33.7%</b>）、明月港湾、金王府相比，南方花园是<b>唯一呈现横盘、局部微涨</b>的样本</td></tr>
+</tbody>
+</table>
+</div>
+<p class="note">横盘的原因可以推：它的绝对单价已经跌到 1.5 万档，比左邻右里低 16%，比金王府低 3%，向下的空间被"1 号线 + 现成配套"托住了。但这只说明<b>抗跌</b>，不代表会涨。</p>
+
+<h2>五、160 万预算可买房源：能买三房，这是它最大的价值 <span class="num">核心表</span></h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>房源</th><th class="n">面积㎡</th><th>楼层</th><th class="n">挂牌</th><th class="n">单价</th><th>参考价依据</th><th class="n">参考价</th><th class="n">需砍</th><th>判断</th></tr></thead>
+<tbody>
+<tr class="tier"><td colspan="9">A 档 · 报价已在成交位，优先看</td></tr>
+<tr>
+  <td><b>3室2厅1卫 南北 精装 唯一住房</b><br><span class="badge b-green">急售</span> A 组团，挂 10-15</td><td class="n big">102.49</td><td>中/6</td><td class="n big">149 万</td><td class="n ok">14,538</td>
+  <td>A 组团锚 15,400</td><td class="n">145 万</td><td class="n ok">+3%（报价已低于锚）</td>
+  <td><b>首选</b>。全表唯一的<b>三房 + 南北通透 + 中楼层 + 低于锚</b>。落地约 <b>152.5 万</b>，余 7.5 万装修。<b>注意：同面积另有 155 万报价，疑似已降 6 万（−3.9%）</b>。</td>
+</tr>
+<tr>
+  <td>2室2厅 南 有电梯 满五（枫彩园北区）</td><td class="n">101.19</td><td>低楼层</td><td class="n">145 万</td><td class="n ok">14,329</td>
+  <td>枫彩园 15,900 × 低楼层 +2%</td><td class="n">160 万</td><td class="n ok">+9%（明显低于锚）</td>
+  <td>更大更便宜，但是<b>大两房不是三房</b>。低楼层 + 有电梯，适合有老人。落地约 148.5 万，余 11.5 万。</td>
+</tr>
+<tr>
+  <td>2室1厅 南 满五（枫彩园北区）</td><td class="n">90.02</td><td>中楼层</td><td class="n">138 万</td><td class="n ok">15,329</td>
+  <td>枫彩园 15,900</td><td class="n">143 万</td><td class="n ok">+3.5%</td>
+  <td>90㎡ 做两房，房间大但少一间。<b>同样的钱不如买 102.49㎡ 三房。</b></td>
+</tr>
+<tr>
+  <td>3室2厅 <b>带车位</b>（枫彩园南区）</td><td class="n">82.43</td><td>—</td><td class="n ok">118 万</td><td class="n ok">14,315</td>
+  <td>枫彩园 15,900</td><td class="n">131 万</td><td class="n ok">+10%</td>
+  <td>单价低、总价低、还带车位（本小区车位 1:0.4，车位是真稀缺）。<b>82㎡ 三房必然紧凑</b>，一定要现场量房间尺寸。</td>
+</tr>
+<tr class="tier"><td colspan="9">B 档 · 报价偏高，需要谈</td></tr>
+<tr>
+  <td>2室1厅（枫彩园北区）</td><td class="n">64.67</td><td>高楼层</td><td class="n">92 万</td><td class="n ok">14,226</td>
+  <td>—</td><td class="n">103 万</td><td class="n ok">+10%</td>
+  <td>总价低，适合过渡。高楼层无电梯要确认（枫彩园高层有电梯，多层没有）。</td>
+</tr>
+<tr>
+  <td>2室1厅 有电梯（枫彩园北区）</td><td class="n">60.92</td><td>低楼层</td><td class="n">99.8 万</td><td class="n bad">16,382</td>
+  <td>枫彩园 15,900</td><td class="n">97 万</td><td class="n">−3%</td>
+  <td>60㎡ 卖 99.8 万，<b>单价高于 100㎡ 的那两套</b>。小户溢价，不划算。</td>
+</tr>
+<tr>
+  <td>2室1厅（枫彩园南区）</td><td class="n">87.7</td><td>—</td><td class="n bad">156 万</td><td class="n bad">17,788</td>
+  <td>枫彩园 15,900</td><td class="n">139 万</td><td class="n bad">−11%</td>
+  <td>87.7㎡ 挂 156 万，<b>单价 17,788，比锚高 12%</b>。<b>跳过</b>，同样钱能买 102.49㎡ 三房。</td>
+</tr>
+<tr class="tier"><td colspan="9">C 档 · 超预算，仅供参考</td></tr>
+<tr>
+  <td>3室2厅（枫彩园南区）</td><td class="n">107.21</td><td>—</td><td class="n">200 万</td><td class="n bad">18,655</td>
+  <td>枫彩园 15,900</td><td class="n">170 万</td><td class="n bad">−15%</td>
+  <td>107㎡ 挂 200 万，报价比锚高 17%。<b>这套的挂牌价说明同小区业主预期差距极大</b>，谈价前先确认对方是不是真卖。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="note">参考价 = 面积 × 锚（A 组团 15,400 / 枫彩园 15,900），按楼层微调。落地成本另计契税（首套 ≤90㎡ 1%、&gt;90㎡ 1.5%）+ 中介 1–1.5% + 杂费，约 <b>2.5–3%</b>。<b>锚为平台推算值，非实价。</b></p>
+<div class="callout">
+  <b>一句话总结这张表</b>：160 万在这里的选择不是"能不能买三房"，而是<b>"买 102㎡ 三房（149 万）还是 101㎡ 大两房（145 万）"</b>。
+  同样预算放到左邻右里只能买 88㎡ 两房、放到金王府只能买 96㎡ 三房、放到天平公寓只能买 97㎡ 两房 —— <b>南方花园在"面积/总价"这一项上是五个盘里第一</b>。
+</div>
+
+<h2>六、挂龄与调价 <span class="num">2026-11-04</span></h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>房源</th><th class="n">挂牌日</th><th class="n">已挂</th><th class="n">当前报价</th><th>调价线索</th><th>判断</th></tr></thead>
+<tbody>
+<tr><td>102.49㎡ 三房（A 组团）</td><td class="n">2026-10-15</td><td class="n">≈20 天</td><td class="n">149 万</td><td><b>同面积另有 155 万报价并存</b></td><td>若 155→149 是同一套的调价，说明<b>业主 20 天内就让了 6 万（−3.9%）</b>，这是极强的谈判信号，可以直接再压。</td></tr>
+<tr><td>101.19㎡ 两房（枫彩园北区）</td><td class="n">—</td><td class="n">—</td><td class="n">145 万</td><td>标注「有电梯、楼龄新、满五」</td><td>单价 14,329 低于锚 7%，报价本身已经在低位，谈价空间主要来自付款方式。</td></tr>
+<tr><td>90.02㎡ 两房</td><td class="n">—</td><td class="n">—</td><td class="n">138 万</td><td>「楼龄新、满五、近地铁」</td><td>15,329 基本在锚上，属于"正常价"，不用急。</td></tr>
+<tr><td>87.7㎡ 两房（枫彩园南区）</td><td class="n">—</td><td class="n">—</td><td class="n bad">156 万</td><td>标题写"价格便宜还能谈"</td><td><b>标题说便宜、单价 17,788 比锚高 12%</b>，典型的"话术定价"，直接跳过。</td></tr>
+<tr><td>107.21㎡ 三房（枫彩园南区）</td><td class="n">—</td><td class="n">—</td><td class="n bad">200 万</td><td>「居家三房诚心出售」</td><td>18,655，比锚高 17%。跟 149 万那套三房差 51 万，<b>同小区同户型差这么多，说明卖家没做过市场</b>。</td></tr>
+</tbody>
+</table>
+</div>
+<p class="note">本小区挂龄数据平台不给（安居客、幸福里都不显示首次挂牌日），只能靠"同面积多价并存"反推调价。上面第一行是唯一一条有明确调价线索的。</p>
+
+<h2>七、三个必须先排掉的雷 <span class="num">按风险等级</span></h2>
+<ol class="pts">
+  <li><b>学区边界压在双龙大道上。</b>2026 年江宁区划片：<b>岔路学校</b>（东外分校）范围是"双龙大道以东、秦淮河以西、秦淮新河以北"；<b>滨河实验学校</b>（也是东外分校）是"明城大道以西、秦淮新河以北"。南方花园<b>横跨双龙大道两侧</b>（833 号、833-1 号、836 号、838 号、双龙路 100 号），西区在路西、A 组团在路东。<b>若落在路西，可能对口滨河而非岔路</b>。两校差距不是一点：2020 年初一统测均分，滨河 403.5 分排江宁第 8，岔路 343 分排第 24。<b>签约前必须拿具体门牌号去江宁区教育局查当年划片，不能看平台标注。</b></li>
+  <li><b>枫彩园 25 幢的沉降标签。</b>2014 年 5 月 14 日，25 幢（16 层高层、256 户）北侧 10 米处在建<b>拆迁安置房工地开挖基坑</b>，水土流失造成地面不规则沉降、地坪开裂、自来水管断裂，256 户全部撤出、安置到四家宾馆。江苏建设工程检测有限公司鉴定后<b>房屋主体结构安全</b>，居民随后返回，工地回填并维修加固。要点：<b>结构安全，但"这栋楼出过事"会长期影响转手</b>，而且 2014 年 6 月工地复工曾再次引发业主抗议。<b>买枫彩园高层时，直接问清是哪一幢。</b>（注：百度百科主条目写"2025 年 5 月"，但 2014 年搜狐、凤凰、大众网的原始报道与政府通报均为 2014-05-14，本页按 2014 年采信。）</li>
+  <li><b>开发商的案底。</b>江苏经纬房地产有限公司<b>曾涉及非法吸储 1 亿元，老总 2018 年被判 7 年</b>。要核的是：目标楼栋的<b>不动产权证是否已办出、维修资金是否足额缴存、有无在建工程抵押未解</b>。这三项任何一项有问题，都会让过户卡住。要求业主提供房本原件 + 不动产登记查询单。</li>
+</ol>
+
+<h2>八、五个盘放在 160 万预算里比 <span class="num">同预算同口径</span></h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>指标</th><th>南方花园</th><th>左邻右里</th><th>明月港湾</th><th>天平公寓</th><th>金王府</th></tr></thead>
+<tbody>
+<tr><td>成交锚（元/㎡）</td><td>15,400</td><td class="bad">18,000（两房 16,800）</td><td class="ok">11,930（10 条实价）</td><td>15,500–18,000（推断）</td><td>15,960（4 条实价）</td></tr>
+<tr><td><b>160 万买到</b></td><td class="ok"><b>101–103㎡（三房或大两房）</b></td><td class="bad">73–88㎡ 两房</td><td class="ok"><b>100–125㎡ 三房</b>，落地余 25–35 万</td><td>88.9–97.7㎡ 两房</td><td>93–97㎡ 三房</td></tr>
+<tr><td>地铁</td><td class="ok">1 号线 300–800 米，已通车</td><td class="ok">双线 697 / 877 米</td><td>5 号线待通车 511–1,235 米</td><td>1 号线胜太路 550 米</td><td>1 号线河定桥 390 米</td></tr>
+<tr><td>学区</td><td class="bad">岔路学校（江宁第 24），边界存疑</td><td>宏运学校（东外分校，新校）</td><td>佳营小学（五老村分校）</td><td class="ok">百家湖小学对门</td><td>百家湖小学 613 米</td></tr>
+<tr><td>物业</td><td class="ok">7.0（银城）</td><td class="bad">3.5（万园，663 人联名）</td><td>6.0</td><td>5.0（业主自管 0.5 元）</td><td>5.0（友山）</td></tr>
+<tr><td>环境</td><td>6.0（122 栋大盘、绿化 30–40%）</td><td>7.5（容积率 1.5、绿城设计）</td><td class="ok">8.0（绿化 50–56%、水景）</td><td class="bad">5.0（绿化仅 25–30%）</td><td>6.5</td></tr>
+<tr><td>车位</td><td>1:0.4–0.6</td><td>1:0.6</td><td class="bad">1:0.37</td><td class="ok">1:1.9</td><td class="bad">1:0.2–0.37</td></tr>
+<tr><td>月成交</td><td class="ok">3–5 套（7 月 5 套）</td><td class="bad">1.7 套</td><td class="ok">8–10 套</td><td class="bad">极低，近 6 月 0 套</td><td>2–3 套</td></tr>
+<tr><td>在售</td><td>160 套+（A 77 / B 53 / 北区 31）</td><td class="bad">194 套</td><td>145 套</td><td class="ok">8 套</td><td class="bad">347 套</td></tr>
+<tr><td>三年走势</td><td class="ok">横盘微涨（7 月 +1.64%）</td><td class="bad">−33.7%</td><td>−20% 级</td><td>—</td><td>−25% 级</td></tr>
+<tr><td>主要硬伤</td><td>学区弱 + 25 幢沉降 + 开发商案底</td><td>权属六种并存 + 物业崩 + 去化 9 年</td><td>地铁未通 + 车位极紧</td><td>绿化 25% + 无成交记录</td><td>物业差 + 347 套库存</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>九、出手建议 <span class="num">按你 160 万预算</span></h2>
+<ol class="pts">
+  <li><b>第一优先：102.49㎡ / 149 万 三房（A 组团，中/6，南北，精装，唯一住房，急售）。</b>全表唯一"三房 + 中楼层 + 低于成交锚 + 税费干净"的组合，落地 152.5 万，<b>还剩 7.5 万做装修</b>。它 10 月 15 日才挂，同面积另有 155 万报价并存——<b>先问清是不是同一套降了 6 万</b>：是，就直接出 <b>142 万</b>；不是，就出 145 万试。目标成交 <b>145–147 万</b>。</li>
+  <li><b>次选：101.19㎡ / 145 万 大两房（枫彩园北区，低楼层，有电梯）。</b>更适合有老人的家庭，单价 14,329 是全表最实在的一档。代价是少一间房，将来二胎或老人同住会紧。</li>
+  <li><b>只在特别在意车位时才看</b> 82.43㎡ / 118 万带车位那套。本小区车位 1:0.4，产权车位确实是稀缺品，但 82㎡ 做三房要看实际尺寸，别被"三房"两个字骗了。</li>
+  <li><b>跳过</b>：87.7㎡ / 156 万（单价高 12%，标题党）、107.21㎡ / 200 万（比锚高 17%，卖家没做过市场）、60.92㎡ / 99.8 万（小户溢价）、瑞阳居任何房源（商住塔楼，产权年限可能 40 年）。</li>
+  <li><b>如果家里有学龄孩子，这一条比价格更重要</b>：先去江宁区教育局确认目标门牌号到底对口<b>岔路</b>还是<b>滨河</b>。差一所学校，这 149 万的价值判断会完全反过来。学区不确定的情况下，<b>它就不该是你的第一选择</b>——那个位置该给天平公寓（百家湖小学对门）或金王府（百家湖小学 613 米）。</li>
+</ol>
+
+<footer>
+  数据来源：组团与小区事实——百度百科（南方花园、南方花园 A 组团、南方花园枫彩园三条目：122 栋、A 组团 35 栋 1,480 户、枫彩园 23 栋 1,987 户、瑞阳居 4 栋 1,321 户、C 组团 40 栋、容积率 1.55、车位 1:0.4、A 组团仅 34 号楼有电梯）、链家（A 组团 35 栋 1,483 户参考成交 15,371、在售 77 套；B 组团 19 栋 740 户 9 月挂牌 15,598、在售 53 套；枫彩园南区 11 栋 482 户 9 月挂牌 15,932；瑞阳居 4 栋 1,321 户参考成交 15,968）、安居客（西区 1,731 户、18,210 元/㎡、车位 1:0.6）、吉屋（125 栋、7,566 户、21,820 元/㎡ —— 户数与单价均<b>未采信</b>）、365 淘房（A 组团 16,924–17,201、物业费 0.8–1.8）；价格与成交——中指研究院 7 月小区报告（16,656、环比 +1.64%、成交 5 套含面积）、幸福里枫彩园北区周报（8 月 16,148、+2.6%、在售 31 套及 4 套在售明细）、链家各组团成交记录（2026-01-16 / 01-27 / 01-30 / 07-20 / 08-08 / 08-18，价格均"暂无信息"）、百度百科汇总（整体挂牌 16,638、2026-02 在售 101 套 / 在租 286 套）；挂牌——365 淘房（102.49㎡/149 万及 155 万双报价、挂牌日 2026-10-15、唯一住房/急售/地铁房标签）、幸福里（101.19㎡/145 万、90.02㎡/138 万、64.67㎡/92 万、60.92㎡/99.8 万）、链家（87.7㎡/156 万、107.21㎡/200 万、82.43㎡/118 万带车位）；沉降事件——2014-05-14 江宁区政府通报、搜狐、凤凰网、大众网原始报道（25 幢 16 层 256 户、基坑开挖致水土流失、结构鉴定安全、工地回填加固、6 月复工争议）；学区——2026 年江宁区小学招生实施细则与施教区一览（岔路学校、滨河实验学校边界）、岔路学校 2026 年入学公告、2020 年初一期末统测江宁区均分排名（岔路 343 第 24 位、滨河 403.52 第 8 位）；开发商——2018 年公开报道（江苏经纬房地产非法吸储 1 亿元、法定代表人判 7 年）。均为 2026-11-04 检索快照。<br>
+  重要局限：① <b>2026 年 8 条签约记录价格全部未公开</b>，成交锚 15,400 取自链家 A 组团"参考成交均价"，属平台推算值，非实价，误差可能 ±8%；② 中指 7 月报告的两条成交价（83 万 / 90 万）单价仅 8,832 / 9,363 元/㎡，与同期挂牌差 45%，且报告内部"最高=最低=90 万""三居均价 57 万"互相矛盾，<b>判定为数据错乱，已弃用</b>；③ 户数五平台口径 1,731 / 2,200 / 2,700 / 7,566 并存，本文按分组团分别标注，不给单一总数；④ <b>学区存在跨道路的边界风险</b>，平台标注（岔路学校 / 宏运小学 / 雨花外国语小学南站校区）互相冲突，且"雨花外国语小学（南站校区）"属雨花台区学校，与江宁区小区不对口，<b>必须以江宁区教育局当年划片与具体门牌号为准</b>；⑤ 百度百科主条目将沉降事件记为"2025 年 5 月"，与 2014 年原始报道冲突，本文按 2014 年采信，建议向物业与业主二次核实；⑥ 各组团物业切换时点不同，A 组团 2024-09 才换银城，买前确认目标楼栋在管主体。<br>
+  本页为决策参考，不构成价格承诺或投资建议。
+</footer>
+
+</div>
+</body>
+</html>
