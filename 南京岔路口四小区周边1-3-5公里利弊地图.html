@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>南京岔路口四小区周边 1/3/5 公里利弊地图</title>
+    <style>
+        html, body { margin: 0; padding: 0; height: 100%; }
+        #map { width: 100%; height: 100vh; }
+        .panel {
+            position: absolute; left: 12px; top: 12px; z-index: 1000;
+            background: rgba(255,255,255,.97); border: 1px solid #ddd; border-radius: 8px;
+            padding: 10px 12px; font: 12.5px/1.9 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+            color: #1c1c1a; box-shadow: 0 2px 10px rgba(0,0,0,.14); max-width: 320px;
+        }
+        .panel b { font-size: 13px; }
+        .panel .tip { color: #666; font-size: 12px; margin: 2px 0 7px; line-height: 1.6; }
+        .btns { display: flex; flex-wrap: wrap; gap: 6px; }
+        .btns button {
+            font: 12.5px/1 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+            padding: 7px 10px; border-radius: 6px; cursor: pointer;
+            border: 1px solid #c9d6e3; background: #fff; color: #185FA5;
+        }
+        .btns button:hover { background: #F2F7FC; }
+        .btns button.on { background: #185FA5; border-color: #185FA5; color: #fff; font-weight: 600; }
+        .now { margin-top: 8px; font-size: 12.5px; color: #A32D2D; }
+        .legend {
+            position: absolute; right: 12px; top: 12px; z-index: 1000;
+            background: rgba(255,255,255,.96); border: 1px solid #ddd; border-radius: 8px;
+            padding: 10px 14px; font: 12.5px/1.9 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+            color: #1c1c1a; box-shadow: 0 2px 8px rgba(0,0,0,.12);
+        }
+        .legend b { font-size: 13px; }
+        .legend .row { display: flex; align-items: center; gap: 7px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; flex: none; }
+        .sw { width: 22px; height: 12px; border-radius: 3px; display: inline-block; flex: none; }
+        .disc {
+            position: absolute; left: 12px; bottom: 12px; z-index: 1000; max-width: 470px;
+            background: rgba(255,255,255,.95); border: 1px solid #ddd; border-radius: 8px;
+            padding: 8px 12px; font: 11.5px/1.7 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+            color: #666;
+        }
+        .iw { font: 12.5px/1.7 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif; min-width: 210px; max-width: 285px; }
+        .iw h4 { margin: 0 0 4px; font-size: 13.5px; }
+        .iw .tag { display: inline-block; font-size: 11px; padding: 0 6px; border-radius: 3px; margin-left: 6px; vertical-align: 1px; font-weight: 400; }
+        .iw .tag.good { background: #E8F3DD; color: #3B6D11; }
+        .iw .tag.bad { background: #FBE9E9; color: #A32D2D; }
+        .iw .tag.dest { background: #F7EFDD; color: #854F0B; }
+        .iw .tag.home { background: #E3EEF9; color: #185FA5; }
+        .iw p { margin: 2px 0; color: #444; }
+        .iw .dist { color: #185FA5; font-size: 12px; margin-top: 5px; font-weight: 600; }
+        .iw .src { color: #aaa; font-size: 11px; margin-top: 2px; }
+    </style>
+    <!-- 腾讯地图 WorkBuddy 代理模式（key 由本地代理持有，前端不带 key） -->
+    <script type="text/javascript">
+        window._TMapSecurityConfig = {
+            serviceHost: 'http://127.0.0.1:__WB_HTTP_PORT__/_TMapService/_wbt/__WB_TMAP_SECRET__',
+        };
+    </script>
+    <script src="https://map.qq.com/api/gljs?v=1.exp"></script>
+</head>
+<body>
+<div id="map"></div>
+
+<div class="panel">
+    <b>以哪个小区为圆心？</b>
+    <div class="tip">点击下方小区（或直接点地图上的蓝色点位），1 / 3 / 5 公里半径圆会以该小区为圆心重画，所有点位的距离也按该小区重新计算。小区点位均为腾讯地图 POI 精确坐标，缩放不会偏移。</div>
+    <div class="btns" id="btns"></div>
+    <div class="now">当前圆心：<b id="nowName">南方花园</b></div>
+</div>
+
+<div class="legend">
+    <b>图例（GCJ-02 · 腾讯地图 POI 坐标）</b><br>
+    <span class="row"><span class="sw" style="background:rgba(163,45,45,.10);border:1.5px solid #A32D2D"></span>1 公里圈</span>
+    <span class="row"><span class="sw" style="background:rgba(196,143,29,.08);border:1.5px solid #C48F1D"></span>3 公里圈</span>
+    <span class="row"><span class="sw" style="background:rgba(24,95,165,.06);border:1.5px solid #185FA5"></span>5 公里圈</span>
+    <span class="row"><span class="dot" style="background:#185FA5"></span>目标小区（4）</span>
+    <span class="row"><span class="dot" style="background:#0B4C8C"></span>当前圆心小区</span>
+    <span class="row"><span class="dot" style="background:#854F0B"></span>通勤终点 · 复地活力广场</span>
+    <span class="row"><span class="dot" style="background:#3B6D11"></span>利好因素（点击看说明）</span>
+    <span class="row"><span class="dot" style="background:#A32D2D"></span>不利因素（点击看说明）</span>
+</div>
+
+<div class="disc">
+    四小区与各点位的坐标取自腾讯地图 POI 公开数据（GCJ-02 火星坐标系，与底图一致，任意缩放级别不偏移）；污水处理厂坐标按「秦淮路 72 号」门牌沿秦淮路推断（置信度中）。
+    半径圆以当前选中小区为圆心，说明框内距离为按坐标实时计算的直线距离。高铁廊道、绕城高速、双龙大道、外秦淮河走向为示意线。
+    不利因素影响程度（噪音 / 气味 / 粉尘）与风向、楼栋有关，须现场核实。
+</div>
+
+<script>
+    // ---------- 四小区（点击即成为圆心） ----------
+    // 坐标来源：腾讯地图 POI 公开数据（GCJ-02），2026-11-12 查证
+    var homes = [
+        { id: 'c1', name: '左邻右里', position: new TMap.LatLng(31.957587, 118.810962),   // 宏运大道1188号
+          desc: '宏运大道 1188 号。双地铁（3 号线宏运大道站 + 1 号线双龙大道站）；代价：权属六种并存、物业十年维权、三年跌 33.7%', src: '腾讯地图 POI·宏运大道1188号' },
+        { id: 'c2', name: '南方花园', position: new TMap.LatLng(31.9609, 118.820984),     // 双龙大道833号
+          desc: '双龙大道 833 号，双龙大道地铁站步行约 5 分钟。银城物业四家最好、流动性最佳；避开枫彩园 25 幢（沉降史）与瑞阳居（商住）。注意：新苏热电在其正南方约 400 米', src: '腾讯地图 POI·双龙大道833号' },
+        { id: 'c3', name: '明月港湾', position: new TMap.LatLng(31.976744, 118.833119),   // 金盛路988号
+          desc: '金盛路 988 号，东临外秦淮河。成交锚最实（10 条实价）；全步梯无电梯、车位 1:0.37，5 号线未开通。四家里离热电和污水厂最远', src: '腾讯地图 POI·金盛路988号' },
+        { id: 'c4', name: '水月秦淮', position: new TMap.LatLng(31.954235, 118.809491),   // 双龙大道1008号
+          desc: '双龙大道 1008 号，小区东西跨度大（东门在项淮街）。百家湖小学学区（按楼栋号）、双线双站；去化约 100 个月。注意：中心距新苏热电约 1.2km，北距污水处理厂约 0.4km', src: '腾讯地图 POI·双龙大道1008号' }
+    ];
+
+    var current = homes[1];   // 默认圆心：南方花园
+
+    // 地图创建时一次性给定视角，之后才允许移动（避免初始化阶段打断底图加载）
+    var map = new TMap.Map('map', {
+        zoom: 13,
+        center: current.position,
+        viewMode: '2D'
+    });
+
+    function latOffset(lat, meters) { return lat + meters / 111320; }
+
+    // ---------- 半径圆（构造时即带数据） ----------
+    var rings = [
+        { id: 'r1', styleId: 'ring1', center: current.position, radius: 1000 },
+        { id: 'r3', styleId: 'ring3', center: current.position, radius: 3000 },
+        { id: 'r5', styleId: 'ring5', center: current.position, radius: 5000 }
+    ];
+    var circleLayer = new TMap.MultiCircle({
+        map: map,
+        styles: {
+            ring1: new TMap.CircleStyle({ color: 'rgba(163,45,45,0.10)', borderColor: '#A32D2D', borderWidth: 2.5 }),
+            ring3: new TMap.CircleStyle({ color: 'rgba(196,143,29,0.08)', borderColor: '#C48F1D', borderWidth: 2 }),
+            ring5: new TMap.CircleStyle({ color: 'rgba(24,95,165,0.06)', borderColor: '#185FA5', borderWidth: 2 })
+        },
+        geometries: rings
+    });
+
+    var ringLabels = [
+        { id: 'rt1', styleId: 'r1', position: new TMap.LatLng(latOffset(current.position.lat, 1000), current.position.lng), content: '1 km' },
+        { id: 'rt3', styleId: 'r3', position: new TMap.LatLng(latOffset(current.position.lat, 3000), current.position.lng), content: '3 km' },
+        { id: 'rt5', styleId: 'r5', position: new TMap.LatLng(latOffset(current.position.lat, 5000), current.position.lng), content: '5 km' }
+    ];
+    var ringLabelLayer = new TMap.MultiLabel({
+        map: map,
+        styles: {
+            r1: new TMap.LabelStyle({ color: '#A32D2D', size: 14, angle: 0, backgroundColor: 'rgba(255,255,255,0.92)', borderColor: '#A32D2D', borderWidth: 1 }),
+            r3: new TMap.LabelStyle({ color: '#8A650F', size: 14, angle: 0, backgroundColor: 'rgba(255,255,255,0.92)', borderColor: '#C48F1D', borderWidth: 1 }),
+            r5: new TMap.LabelStyle({ color: '#185FA5', size: 14, angle: 0, backgroundColor: 'rgba(255,255,255,0.92)', borderColor: '#185FA5', borderWidth: 1 })
+        },
+        geometries: ringLabels
+    });
+
+    // ---------- 图标 ----------
+    function icon(color, text) {
+        var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="30" height="40">'
+            + '<path d="M15 1C7.8 1 1.5 6.9 1.5 14 1.5 23 15 39 15 39s13.5-16 13.5-25C28.5 6.9 22.2 1 15 1z" fill="'
+            + color + '" stroke="#fff" stroke-width="2"/>'
+            + '<text x="15" y="19" text-anchor="middle" font-size="12" font-family="PingFang SC,sans-serif" fill="#fff" font-weight="bold">'
+            + text + '</text></svg>';
+        return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+    function styleDef(c, t, w, h) {
+        return new TMap.MarkerStyle({ width: w, height: h, anchor: { x: w / 2, y: h }, src: icon(c, t) });
+    }
+
+    // ---------- 利好 / 不利 / 通勤终点（坐标均经腾讯地图 POI 查证） ----------
+    var others = [
+        { id: 'd1', type: 'dest', position: new TMap.LatLng(31.981936, 118.803652), name: '复地活力广场（通勤终点）',
+          desc: '卡子门大街 99 号。四小区到这里的直线距离都在 2.8–3.1 公里，彼此差距不大，通勤差异主要看地铁线路', src: '腾讯地图 POI·卡子门大街99号' },
+        { id: 'a1', type: 'good', position: new TMap.LatLng(31.96873, 118.798171), name: '南京南站',
+          desc: '高铁枢纽 + 3/1/S1/S3/6 五线换乘；也带来北侧与东侧高铁廊道噪音', src: '腾讯地图 POI·玉兰路98号' },
+        { id: 'a2', type: 'good', position: new TMap.LatLng(31.9615, 118.8195), name: '岔路口商圈（示意）',
+          desc: '双龙大道×金盛路一带：菜场、底商、生活配套成熟；南方花园步行可达，明月港湾南门 200 米另有金盛路菜市场', src: '双龙大道站周边·示意点' },
+        { id: 'a3', type: 'good', position: new TMap.LatLng(31.966395, 118.804025), name: '证大喜玛拉雅中心',
+          desc: '南站商业体（民智路 12 号）；商场空置中，兑现存疑，别为它付溢价', src: '腾讯地图 POI·民智路12号' },
+        { id: 'a4', type: 'good', position: new TMap.LatLng(31.963486, 118.825443), name: '江宁区东山医院',
+          desc: '宏运大道 1928 号，综合医院；距左邻右里约 1.5 公里、明月港湾约 1.3 公里。最近三甲为市中医院（大校场院区）', src: '腾讯地图 POI·宏运大道1928号' },
+        { id: 'b1', type: 'bad', position: new TMap.LatLng(31.957535, 118.82203), name: '新苏热电（燃煤）',
+          desc: '双龙大道 965 号，燃煤热电，2025 年报在营。距南方花园约 0.4km、水月秦淮东门约 0.5km、左邻右里约 1.1km、明月港湾约 2.4km——烟囱、粉尘、运煤车，看房第一核实项', src: '腾讯地图 POI·双龙大道965号' },
+        { id: 'b2', type: 'bad', position: new TMap.LatLng(31.9565, 118.8065), name: '开发区污水处理厂',
+          desc: '秦淮路 72 号，8 万吨/日。距左邻右里约 0.4km、水月秦淮约 0.4km、南方花园约 1.5km、明月港湾约 3.4km；夜间曝气机噪音曾有环保督察信访记录', src: '地址实据·坐标按秦淮路推断（置信度中）' },
+        { id: 'b3', type: 'bad', position: new TMap.LatLng(31.977462, 118.806874), name: '绕城高速·双龙街立交',
+          desc: '绕城 / 沪蓉高速走廊与双龙大道在此互通（秦淮区），噪音沿廊道分布', src: '腾讯地图 POI·双龙街立交隧道' },
+        { id: 'b4', type: 'bad', position: new TMap.LatLng(31.9720, 118.7960), name: '机场高速走廊（示意）',
+          desc: '花神庙互通向南延伸的车流噪音廊道，西侧楼栋更近', src: '吉屋不利因素页·走向示意' }
+    ];
+    var pointData = homes.map(function (h) {
+        return { id: h.id, type: 'home', position: h.position, name: h.name, desc: h.desc, src: h.src };
+    }).concat(others);
+
+    var tagClass = { home: 'home', dest: 'dest', good: 'good', bad: 'bad' };
+    var tagText = { home: '目标小区 · 圆心', dest: '通勤终点', good: '利好', bad: '不利' };
+
+    // 初始几何（默认圆心=南方花园，故南方花园用选中样式）
+    var markerGeoms = pointData.map(function (p) {
+        var sid;
+        if (p.type === 'home') sid = (p.id === current.id) ? 'sHomeSel' : 'sHome';
+        else if (p.type === 'dest') sid = 'sDest';
+        else if (p.type === 'good') sid = 'sGood';
+        else sid = 'sBad';
+        return { id: p.id, styleId: sid, position: p.position };
+    });
+
+    var markerLayer = new TMap.MultiMarker({
+        map: map,
+        styles: {
+            sHome: styleDef('#185FA5', '区', 30, 40),
+            sHomeSel: styleDef('#0B4C8C', '心', 36, 48),
+            sDest: styleDef('#854F0B', '职', 30, 40),
+            sGood: styleDef('#3B6D11', '利', 30, 40),
+            sBad: styleDef('#A32D2D', '弊', 30, 40)
+        },
+        geometries: markerGeoms
+    });
+
+    var labelLayer = new TMap.MultiLabel({
+        map: map,
+        styles: {
+            lab: new TMap.LabelStyle({
+                color: '#1c1c1a', size: 12, angle: 0,
+                backgroundColor: 'rgba(255,255,255,0.9)',
+                borderColor: '#bbb', borderWidth: 1, alignment: 'bottomLeft', verticalAlignment: 'middle'
+            })
+        },
+        geometries: pointData.map(function (p) {
+            return { id: 'l' + p.id, styleId: 'lab', position: p.position, content: p.name };
+        })
+    });
+
+    // ---------- 距离（直线，haversine） ----------
+    function distKm(a, b) {
+        var R = 6371, toRad = Math.PI / 180;
+        var dLat = (b.lat - a.lat) * toRad, dLng = (b.lng - a.lng) * toRad;
+        var la1 = a.lat * toRad, la2 = b.lat * toRad;
+        var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(la1) * Math.cos(la2) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        return 2 * R * Math.asin(Math.sqrt(h));
+    }
+    function fmtKm(v) { return v < 1 ? Math.max(50, Math.round(v * 1000 / 10) * 10) + ' m' : v.toFixed(1) + ' km'; }
+
+    // ---------- 切换圆心 ----------
+    function setFocus(home) {
+        current = home;
+        circleLayer.setGeometries([
+            { id: 'r1', styleId: 'ring1', center: home.position, radius: 1000 },
+            { id: 'r3', styleId: 'ring3', center: home.position, radius: 3000 },
+            { id: 'r5', styleId: 'ring5', center: home.position, radius: 5000 }
+        ]);
+        ringLabelLayer.setGeometries([
+            { id: 'rt1', styleId: 'r1', position: new TMap.LatLng(latOffset(home.position.lat, 1000), home.position.lng), content: '1 km' },
+            { id: 'rt3', styleId: 'r3', position: new TMap.LatLng(latOffset(home.position.lat, 3000), home.position.lng), content: '3 km' },
+            { id: 'rt5', styleId: 'r5', position: new TMap.LatLng(latOffset(home.position.lat, 5000), home.position.lng), content: '5 km' }
+        ]);
+        markerLayer.setGeometries(pointData.map(function (p) {
+            var sid;
+            if (p.type === 'home') sid = (p.id === home.id) ? 'sHomeSel' : 'sHome';
+            else if (p.type === 'dest') sid = 'sDest';
+            else if (p.type === 'good') sid = 'sGood';
+            else sid = 'sBad';
+            return { id: p.id, styleId: sid, position: p.position };
+        }));
+        document.getElementById('nowName').textContent = home.name;
+        Array.prototype.forEach.call(document.querySelectorAll('#btns button'), function (b) {
+            b.className = (b.dataset.id === home.id) ? 'on' : '';
+        });
+        if (infoWindow) { infoWindow.close(); infoWindow = null; }
+    }
+
+    // ---------- 说明框 ----------
+    var infoWindow = null;
+    function openInfo(p) {
+        if (infoWindow) infoWindow.close();
+        var head = p.type === 'home'
+            ? p.name + '<span class="tag home">目标小区 · 圆心</span>'
+            : p.name + '<span class="tag ' + tagClass[p.type] + '">' + tagText[p.type] + '</span>';
+        var d = distKm(current.position, p.position);
+        var distLine = (p.type === 'home' && p.id === current.id)
+            ? '<div class="dist">已设为本图圆心</div>'
+            : '<div class="dist">距 ' + current.name + ' 直线 ' + fmtKm(d) + '</div>';
+        var html = '<div class="iw"><h4>' + head + '</h4>'
+            + '<p>' + p.desc + '</p>' + distLine
+            + '<div class="src">来源：' + p.src + '</div></div>';
+        infoWindow = new TMap.InfoWindow({
+            map: map,
+            position: p.position,
+            offset: { x: 0, y: p.type === 'home' ? -50 : -44 },
+            content: html,
+            enableCustom: true
+        });
+    }
+
+    markerLayer.on('click', function (evt) {
+        var p = pointData.filter(function (x) { return x.id === evt.geometry.id; })[0];
+        if (!p) return;
+        if (p.type === 'home') {
+            var h = homes.filter(function (x) { return x.id === p.id; })[0];
+            if (h) setFocus(h);
+        }
+        openInfo(p);
+    });
+
+    // ---------- 切换按钮 ----------
+    var btnBox = document.getElementById('btns');
+    homes.forEach(function (h) {
+        var b = document.createElement('button');
+        b.textContent = h.name;
+        b.dataset.id = h.id;
+        if (h.id === current.id) b.className = 'on';
+        b.onclick = function () { setFocus(h); };
+        btnBox.appendChild(b);
+    });
+
+    // ---------- 走廊示意线（按 2026-11-12 查证的关键锚点校准走向） ----------
+    new TMap.MultiPolyline({
+        map: map,
+        styles: {
+            rail: new TMap.PolylineStyle({ color: 'rgba(163,45,45,0.75)', width: 3, dashArray: [8, 6], lineCap: 'butt' }),
+            road: new TMap.PolylineStyle({ color: 'rgba(133,79,11,0.75)', width: 4, dashArray: [2, 5], lineCap: 'butt' }),
+            river: new TMap.PolylineStyle({ color: 'rgba(24,95,165,0.8)', width: 5, dashArray: [12, 4], lineCap: 'butt' })
+        },
+        geometries: [
+            { id: 'p1', styleId: 'rail', path: [ // 京沪/宁杭高铁经南京南站（示意）
+                new TMap.LatLng(31.9980, 118.8280), new TMap.LatLng(31.9820, 118.8120),
+                new TMap.LatLng(31.96873, 118.798171), new TMap.LatLng(31.9530, 118.7860)] },
+            { id: 'p2', styleId: 'rail', path: [ // 绕城 / 沪蓉高速（经双龙街立交，示意）
+                new TMap.LatLng(31.9785, 118.7900), new TMap.LatLng(31.977462, 118.806874),
+                new TMap.LatLng(31.9730, 118.8250), new TMap.LatLng(31.9680, 118.8420)] },
+            { id: 'p3', styleId: 'road', path: [ // 双龙大道（经双龙街立交—南方花园—河定桥，示意）
+                new TMap.LatLng(31.977462, 118.806874), new TMap.LatLng(31.9680, 118.8130),
+                new TMap.LatLng(31.9609, 118.8205), new TMap.LatLng(31.9530, 118.8215),
+                new TMap.LatLng(31.9400, 118.8250)] },
+            { id: 'p4', styleId: 'road', path: [ // 机场高速（花神庙互通向南，示意）
+                new TMap.LatLng(31.9720, 118.7960), new TMap.LatLng(31.9600, 118.7880),
+                new TMap.LatLng(31.9450, 118.7800)] },
+            { id: 'p5', styleId: 'river', path: [ // 外秦淮河—秦淮新河（明月港湾东临—新苏热电处交汇后西去，示意）
+                new TMap.LatLng(31.9880, 118.8410), new TMap.LatLng(31.9770, 118.8355),
+                new TMap.LatLng(31.9670, 118.8300), new TMap.LatLng(31.9600, 118.8245),
+                new TMap.LatLng(31.9575, 118.8220), new TMap.LatLng(31.9540, 118.8100),
+                new TMap.LatLng(31.9515, 118.7950)] }
+        ]
+    });
+</script>
+</body>
+</html>

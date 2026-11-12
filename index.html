@@ -120,7 +120,7 @@
   <div class="legend">
     <i><span class="sw"></span>二手住宅网签（套）</i>
     <i><span class="sw dash"></span>样本单价中位（元/㎡，右轴）</i>
-    <i><span class="sw ref"></span>第 43 周日均 262 套</i>
+    <i><span class="sw ref"></span>第 45 周日均 258 套</i>
   </div>
   <div class="dims" id="dims" role="tablist" aria-label="时间维度"></div>
   <div class="chartcard"><svg id="trendChart" viewBox="0 0 720 280" role="img" aria-label="南京二手房成交趋势图"></svg></div>
@@ -156,7 +156,7 @@
 <script>
 const TXDAILY = window.TX_DAILY || [];
 const TXDEALS = window.TX_DEALS || [];
-const WEEK_AVG = 262;
+const WEEK_AVG = 258;   // 第45周(11/02-11/08)网签 1,809 套 ÷ 7
 const PAGE_SIZE = 10;
 
 const dayBody = document.getElementById('dayBody');
@@ -292,8 +292,14 @@ function renderChart(rows){
   if(curDim==='day'){
     const yr = yN(WEEK_AVG);
     s += `<line x1="${P.l}" y1="${yr}" x2="${W-P.r}" y2="${yr}" stroke="#8b9098" stroke-width="1.2" stroke-dasharray="2 4"/>`;
-    s += `<text x="${W-P.r-4}" y="${yr-5}" text-anchor="end" font-size="10" fill="#8b9098">周均 262 套</text>`;
+    s += `<rect x="${W-P.r-66}" y="${yr+4}" width="64" height="15" fill="#fff" opacity="0.9"/>`;
+    s += `<text x="${W-P.r-6}" y="${yr+15}" text-anchor="end" font-size="10" fill="#8b9098">周均 258 套</text>`;
   }
+  let lastNetIdx = -1;
+  rows.forEach((d,i)=>{ if(d.net!=null) lastNetIdx = i; });
+  const labelStep = Math.max(1, Math.ceil(rows.length/7));
+  const labelIdx = new Set();
+  for(let i=rows.length-1;i>=0;i-=labelStep) labelIdx.add(i);
   let path='', seg=false;
   rows.forEach((d,i)=>{
     if(d.net==null){ seg=false; return; }
@@ -305,16 +311,17 @@ function renderChart(rows){
     if(d.net!=null){
       const x=xs(i), y=yN(d.net);
       s += `<circle cx="${x}" cy="${y}" r="3.5" fill="${d.partialNet ? '#f3d9d0' : '#fff'}" stroke="#b1503a" stroke-width="2"/>`;
-      s += `<text x="${x}" y="${y-9}" text-anchor="middle" font-size="10.5" font-weight="600" fill="#b1503a">${d.net}</text>`;
+      if(rows.length<=14 || labelIdx.has(i) || i===lastNetIdx) s += `<text x="${x}" y="${y-9}" text-anchor="middle" font-size="10.5" font-weight="600" fill="#b1503a">${d.net}</text>`;
     }
     if(d.unit!=null){
       const x=xs(i), y=yU(d.unit);
       s += `<circle cx="${x}" cy="${y}" r="3.5" fill="#fff" stroke="#5b6168" stroke-width="2"/>`;
-      s += `<text x="${x}" y="${y-9}" text-anchor="middle" font-size="10" fill="#5b6168">${Math.round(d.unit).toLocaleString('zh-CN')}</text>`;
+      if(rows.length<=14) s += `<text x="${x}" y="${y-9}" text-anchor="middle" font-size="10" fill="#5b6168">${Math.round(d.unit).toLocaleString('zh-CN')}</text>`;
     }
   });
   s += `<line x1="${P.l}" y1="${P.t+ih}" x2="${W-P.r}" y2="${P.t+ih}" stroke="#e6e2d9"/>`;
   rows.forEach((d,i)=>{
+    if(!labelIdx.has(i)) return;
     s += `<text x="${xs(i)}" y="${P.t+ih+18}" text-anchor="middle" font-size="10.5" fill="#5b6168">${esc(d.key)}</text>`;
   });
   chartEl.innerHTML = s;
