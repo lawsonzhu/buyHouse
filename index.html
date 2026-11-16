@@ -167,7 +167,7 @@ const chartNote = document.getElementById('chartNote');
 const dimsEl = document.getElementById('dims');
 const pagerEl = document.getElementById('dayPager');
 
-document.getElementById('stamp').textContent = '页面生成于 2026-11-03';
+document.getElementById('stamp').textContent = '页面生成于 2026-11-16';
 
 const fmt = (v,suffix) => v==null ? '<span class="na">未公示</span>' : Number(Math.round(v)).toLocaleString('zh-CN') + (suffix||'');
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
