@@ -21,7 +21,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 INDEX = ROOT / "library.html"
-SKIP = {"index.html", "deals.html", "library.html"}  # index=每日成交 / deals=成交明细 独立页签；library 是资料卡片页
+SKIP = {"index.html", "deals.html", "library.html", "map.html"}  # index=每日成交 / deals=成交明细 / map=利弊地图 独立页签；library 是资料卡片页
 DESC_LIMIT = 64
 
 

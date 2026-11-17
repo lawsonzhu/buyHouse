@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>买房研究 · 利弊地图</title>
+<style>
+  :root{
+    --bg:#f6f4ef; --bg-soft:#fbfaf7; --card:#ffffff;
+    --ink:#1f2328; --ink-2:#5b6168; --ink-3:#8b9098;
+    --line:#e6e2d9; --line-2:#efece4;
+    --accent:#b1503a; --accent-soft:#f6e9e4;
+    --green:#2f6f5e; --green-soft:#e5f0ec;
+    --shadow:0 1px 2px rgba(31,35,40,.04), 0 8px 24px -12px rgba(31,35,40,.14);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  .topnav{
+    position:sticky;top:0;z-index:40;
+    background:rgba(246,244,239,.9);
+    backdrop-filter:saturate(180%) blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{max-width:1080px;margin:0 auto;padding:10px 28px;display:flex;align-items:center;gap:18px}
+  .brand{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;letter-spacing:-.01em}
+  .brand .dot{width:8px;height:8px;border-radius:3px;background:linear-gradient(135deg,var(--accent),#d98b6f)}
+  .tabs{margin-left:auto;display:flex;gap:6px}
+  .tab{
+    padding:7px 16px;border-radius:9px;font-size:13.5px;color:var(--ink-2);
+    border:1px solid transparent;transition:background .15s,border-color .15s,color .15s;
+  }
+  .tab:hover{background:#fff;border-color:var(--line);color:var(--ink)}
+  .tab.on{background:#fff;border-color:var(--line);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(31,35,40,.05)}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, #fdf7f2 0%, rgba(253,247,242,0) 60%),
+      radial-gradient(900px 500px at 100% 0%, #eef4f1 0%, rgba(238,244,231,0) 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.55;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 28px 80px}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;
+    color:var(--accent);background:var(--accent-soft);
+    border:1px solid rgba(177,80,58,.16);padding:5px 12px;border-radius:999px;font-weight:600;
+  }
+  .eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+  h1{font-size:clamp(26px,4vw,38px);line-height:1.15;letter-spacing:-.02em;margin:18px 0 10px;font-weight:700}
+  .lede{color:var(--ink-2);font-size:14.5px;max-width:76ch;margin:0}
+  .lede b{color:var(--ink)}
+  .mapbtn{
+    display:inline-flex;align-items:center;gap:8px;margin:16px 0 4px;
+    background:var(--accent);color:#fff;border-radius:10px;padding:10px 18px;
+    font-size:13.5px;font-weight:600;text-decoration:none;transition:opacity .15s;
+  }
+  .mapbtn:hover{opacity:.88}
+  .mapbtn small{font-weight:400;opacity:.85}
+  .sechead{margin:34px 0 6px;font-size:16px;font-weight:600}
+  .sechead span{font-size:12px;font-weight:400;color:var(--ink-3);margin-left:8px}
+  .tscroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow);margin-top:12px}
+  table.tx{width:100%;border-collapse:collapse;font-size:13px;min-width:900px}
+  table.tx th{
+    text-align:left;font-size:11.5px;font-weight:600;color:var(--ink-3);letter-spacing:.06em;
+    padding:11px 14px;border-bottom:1px solid var(--line);background:var(--bg-soft);
+    white-space:nowrap;position:sticky;top:0;
+  }
+  table.tx td{padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top;white-space:normal}
+  table.tx tr:last-child td{border-bottom:none}
+  table.tx tbody tr{transition:background .12s}
+  table.tx tbody tr:hover{background:#faf7f2}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  td.name{font-weight:600;white-space:nowrap}
+  td .sec{display:block;font-size:11px;color:var(--ink-3);margin-top:1px}
+  .pill{display:inline-block;font-size:11px;padding:1px 8px;border-radius:999px;white-space:nowrap}
+  .p-ok{background:var(--green-soft);color:var(--green)}
+  .p-warn{background:#f7efdd;color:#8a650f}
+  .p-bad{background:var(--accent-soft);color:var(--accent)}
+  .p-off{background:#eef0f2;color:var(--ink-3)}
+  .bad{color:var(--accent);font-weight:600}
+  .tsum{font-size:11.5px;color:var(--ink-3);margin:14px 2px 0;line-height:1.7}
+  .tsum b{color:var(--ink-2);font-weight:600}
+  .foot{margin-top:40px;font-size:12px;color:var(--ink-3);display:flex;gap:16px;flex-wrap:wrap}
+  @media (max-width:640px){ .wrap{padding:36px 16px 60px} }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <div class="nav-inner">
+    <span class="brand"><span class="dot"></span>买房研究</span>
+    <div class="tabs">
+      <a class="tab" href="index.html">每日成交</a>
+      <a class="tab" href="deals.html">成交明细</a>
+      <a class="tab" href="library.html">资料库</a>
+      <a class="tab on" href="map.html">利弊地图</a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+  <span class="eyebrow" style="margin-top:8px"><span class="dot"></span>利弊地图</span>
+  <h1>南京南部十九小区 · 周边利弊速览</h1>
+  <p class="lede">岔路口、百家湖、竹山路、秦淮与南站西侧共 <b>19 个已调研小区</b>。下表按板块汇总每家的成交锚、160 万口径结论与核心利弊；<b>完整交互地图（1/3/5 公里半径圆 + 点位说明框）</b>点上方按钮打开。坐标均为腾讯地图 POI 公开数据（GCJ-02），半径圆可切换以任一小区为圆心。</p>
+  <a class="mapbtn" href="南京岔路口四小区周边1-3-5公里利弊地图.html" target="_blank" rel="noopener">打开交互地图 ↗ <small>十九小区 · 1/3/5 公里半径圆可切换圆心</small></a>
+
+  <div class="sechead">小区速览表<span>口径：成交单价中位（元/㎡）· 160 万预算 / ≥80㎡ · 距离为到复地活力广场直线 · 取数 2026-11-17</span></div>
+  <div class="tscroll">
+    <table class="tx">
+      <thead>
+        <tr>
+          <th>小区</th><th>板块</th><th class="num">成交锚</th><th>160 万口径结论</th><th>核心利好</th><th>核心不利</th><th class="num">距复地</th>
+        </tr>
+      </thead>
+      <tbody id="mapBody"></tbody>
+    </table>
+  </div>
+  <p class="tsum"><b>口径说明：</b>成交锚为各小区体检报告核定的成交单价中位；标「推断」的为平台参考价折算（置信度中低），谈价前须以网签原文校准。「160 万口径结论」按预算内预计成交总价判定，不按挂牌价。距离为直线估算（±300m）。每行数据出处见资料库对应报告。</p>
+
+  <div class="sechead">共享不利因素<span>四家以上受同一因素影响的列此；影响程度与风向、楼栋有关，须现场核实</span></div>
+  <div class="tscroll">
+    <table class="tx">
+      <thead>
+        <tr><th>不利因素</th><th>位置 / 性质</th><th>受影响小区（1–2km）</th><th>几乎不受影响</th><th>置信度</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="name">新苏热电</td><td>双龙大道 965 号 · 燃煤热电（2025 年报在营）</td><td><span class="bad">南方花园 0.4km</span> · 水月秦淮东门 0.5km · 金王府 0.9km · 左邻右里 1.0km</td><td>怡水嘉园 / 育宏西苑 / 晨光新苑 / 育仁雅居（5km+）· 翡翠公园 / 金域蓝湾（4km+）</td><td>高（年报地址+POI）</td></tr>
+        <tr><td class="name">开发区污水处理厂</td><td>秦淮路 72 号 · 8 万吨/日</td><td><span class="bad">左邻右里 0.4km</span> · <span class="bad">水月秦淮 0.4km</span> · 碧水湾西园 1.0km · 万科新都荟 / 临淮铂悦府约 1.3–1.8km</td><td>明月港湾 3.4km · 怡水嘉园等秦淮四家（5km+）</td><td>高（环评报告表；坐标中）</td></tr>
+        <tr><td class="name">绕城/沪蓉高速·双龙街立交</td><td>秦淮区 · 货车通行走廊</td><td>明月港湾 / 左邻右里北侧 1–2km</td><td>百家湖、九龙湖各盘（3km+）</td><td>中</td></tr>
+        <tr><td class="name">高铁廊道（南京南站）</td><td>南站东北—西南走向</td><td>万科新都荟 / 临淮铂悦府（南站西）· 左邻右里北侧</td><td>竹山路各盘</td><td>中</td></tr>
+        <tr><td class="name">机场高速走廊</td><td>花神庙互通向南</td><td>万科新都荟西侧楼栋</td><td>其余各盘</td><td>低（示意）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tsum"><b>这张表说明什么：</b>岔路口四家共享热电与污水厂两个近距离不利因素，而秦淮四家（怡水嘉园等）与九龙湖两家彻底跳出 1–2km 圈——「外部环境干净」这一项上，南边与东边的盘整体占优。</p>
+
+  <div class="foot">
+    <span>交互地图：南京岔路口四小区周边1-3-5公里利弊地图.html（同目录）</span>
+    <span>逐小区明细：见「资料库」页对应报告</span>
+  </div>
+</main>
+
+<script>
+const HOMES = [
+  {n:'左邻右里',sec:'岔路口',anchor:'18,000（推断）',con:'只够 73–88㎡ 两房',verdict:'warn',good:'双地铁 3/1 号线 697/877m',bad:'权属六种并存、物业十年维权、三年 −33.7%',d:2.8},
+  {n:'南方花园',sec:'岔路口',anchor:'15,400（推断）',con:'102.49㎡ 三房 149 万（首选）',verdict:'ok',good:'银城物业、月成交 5 套+ 最活跃',bad:'距新苏热电 0.4km；枫彩园 25 幢沉降史',d:2.9},
+  {n:'明月港湾',sec:'岔路口',anchor:'11,930（高置信）',con:'100–104㎡ 三房 127–132 万，余 30 万',verdict:'ok',good:'成交锚最实（10 条实价）、离不利因素最远',bad:'全步梯无电梯、车位 1:0.37',d:2.8},
+  {n:'水月秦淮',sec:'岔路口',anchor:'13,900（中）',con:'115.68㎡ 三房谈到 158–162 万贴线',verdict:'warn',good:'百家湖小学点名楼栋、双线双站',bad:'去化约 100 个月；距污水厂 0.4km',d:3.1},
+  {n:'碧水湾西园',sec:'百家湖',anchor:'17,500–19,000（中低）',con:'92.81㎡ 150–155 万 / 95.79㎡ 158–165 万',verdict:'ok',good:'3 号线 4 站直达卡子门；初小同界',bad:'房龄 25 年无电梯；权属四类并存',d:3.8},
+  {n:'金王府',sec:'百家湖',anchor:'15,960（步梯）',con:'96㎡ 三房 148–153 万',verdict:'ok',good:'河定桥 390m + 百家湖小学名单内，三项全过',bad:'在售 347 套去化 2 年+；车位 1:0.2–0.37',d:4.1},
+  {n:'太平花苑南区',sec:'百家湖',anchor:'11,443（中）',con:'95㎡ 三房 105–120 万，余 50 万',verdict:'ok',good:'翠屏山小学 600m；总价最低档',bad:'近 6 个月仅 1 套成交——流动性折价',d:5.0},
+  {n:'百家湖国际花园',sec:'百家湖',anchor:'12,895（中）',con:'89.96㎡ 两房 116 万，余 44 万',verdict:'warn',good:'胜太西路 601m；两房总价低',bad:'容积率 3.8、三梯八户、187 套踩踏',d:5.4},
+  {n:'文化名园',sec:'百家湖',anchor:'16,753（中）',con:'85.36㎡ 两房按 140 万谈',verdict:'ok',good:'容积率 1.05、绿化 52%、万科物业、地铁 389m',bad:'三房 277 万超预算 73%；学区边界压线',d:5.8},
+  {n:'天平公寓',sec:'百家湖',anchor:'挂牌 1.75–1.88 万',con:'97.73㎡ 挂 170–188 万，差一点',verdict:'warn',good:'胜太路站 558m、百家湖小学学区内',bad:'204 户小盘无电梯、业主自管',d:4.8},
+  {n:'武夷绿洲',sec:'竹山路/九龙湖',anchor:'14,400（高）',con:'观竹苑 96.52㎡ 按 133 万谈；品茗苑 111.83㎡ 按 152 万谈',verdict:'ok',good:'竹山路站 585m + 竹山小学；160 万买 96–110㎡',bad:'11,862 户大盘、车位 1:0.2',d:7.0},
+  {n:'金域蓝湾',sec:'竹山路/九龙湖',anchor:'21,159（高，近 3 月 29 套）',con:'79㎡ 两房 158–167 万；88㎡ 约 188 万',verdict:'warn',good:'年成交 153 套、去化 6.7 月——最好卖',bad:'距复地 7.3km 最远；13 年房龄',d:7.3},
+  {n:'翡翠公园',sec:'竹山路/九龙湖',anchor:'22,390（中）',con:'88㎡ 成交 198 万，超预算',verdict:'bad',good:'九龙湖站 729m 直达卡子门 35 分钟',bad:'在售 125–175 套对月成交 1–2 套',d:7.2},
+  {n:'怡水嘉园',sec:'秦淮',anchor:'21,400（推断）',con:'78.23㎡ 挂 170 万——差 1.8㎡ 才够 80㎡',verdict:'warn',good:'5 号线七桥瓮 300m；鑫园小学点名',bad:'月成交仅 1 套；最小户型卡面积下限',d:3.7},
+  {n:'育宏西苑',sec:'秦淮',anchor:'28,400（中）',con:'最低 64.95㎡ / 178 万，超 11%',verdict:'bad',good:'2022–23 次新电梯洋房；市中医院 930m',bad:'保障房权属四类混存；超预算',d:2.4},
+  {n:'晨光新苑',sec:'秦淮',anchor:'19,500（推断）',con:'81.01㎡ 两房 145–155 万——唯一预算+80㎡ 双达标',verdict:'ok',good:'距复地 2.3km 最近；秦淮实验小学名单内',bad:'13 栋步梯；2024 年仍在修屋面防水',d:2.3},
+  {n:'育仁雅居',sec:'秦淮',anchor:'约 19,000（推断，0 实价）',con:'83.5㎡ 两房 155–165 万（推算）',verdict:'warn',good:'秦淮实验小学原文点名；市中医院 712m',bad:'全步梯；2026 年 0 条公开成交价',d:2.1},
+  {n:'万科新都荟',sec:'南站西',anchor:'22,600（中）',con:'90㎡ 成交 205 万，超预算',verdict:'bad',good:'驾车 13 分钟最快档；万科物业 9 年房龄',bad:'同比 −12.2% 仍在补跌；实质不算地铁房',d:2.6},
+  {n:'临淮铂悦府',sec:'南站西',anchor:'≥32,400（低）',con:'最低挂牌 328 万，超 64%——出局',verdict:'off',good:'2018 年次新、永升物业、5 幢低密',bad:'预算一票否决；成交价未披露',d:2.8},
+];
+const V = {ok:'预算内成立',warn:'贴线 / 卡面积',bad:'超预算',off:'一票否决'};
+document.getElementById('mapBody').innerHTML = HOMES.map(h=>`
+  <tr>
+    <td class="name">${h.n}</td>
+    <td style="white-space:nowrap">${h.sec}</td>
+    <td class="num">${h.anchor}</td>
+    <td style="min-width:200px"><span class="pill p-${h.verdict}">${V[h.verdict]}</span><br>${h.con}</td>
+    <td style="min-width:190px">${h.good}</td>
+    <td style="min-width:190px">${h.bad}</td>
+    <td class="num">${h.d.toFixed(1)} km</td>
+  </tr>`).join('');
+</script>
+</body>
+</html>
